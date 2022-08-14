@@ -1,0 +1,19 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.totem.idle": {
+			"loop": true,
+			"bones": {
+				"totem": {
+					"rotation": {
+						"0.0": {
+							"post": [0, "query.anim_time * 90", 0],
+							"lerp_mode": "catmullrom"
+						}
+					},
+					"position": [0, "math.cos(query.anim_time * 50 )", 0]
+				}
+			}
+		}
+	}
+}

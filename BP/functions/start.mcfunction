@@ -1,13 +1,18 @@
 scoreboard objectives add killCount dummy
+scoreboard objectives add money dummy Money
+scoreboard objectives setdisplay sidebar money
+
 scoreboard objectives setdisplay belowname money
 
 execute as @a run titleraw @s actionbar {"rawtext":[{"text": "Kill Count: "},{"score":{"name":"@s","objective":"killCount"}}]}
 
 scoreboard players set @a[tag=!joined] money 250
+scoreboard players set @a[tag=!joined] killCount 0
+xp -100l @a[tag=!joined]
 gamemode adventure @a[tag=!joined]
-give @a[tag=!joined] wooden_sword
-give @a[tag=!joined] bow
-give @a[tag=!joined] arrow 32
+loot give @a[tag=!joined] loot start
+tag @a[tag=!joined] remove speedforu
+tag @a[tag=!joined] remove healthforu
 tag @a[tag=!joined] add joined
 
 effect @a saturation 1 1 true
