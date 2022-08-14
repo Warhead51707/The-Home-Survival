@@ -23,7 +23,10 @@ world.events.beforeChat.subscribe(data => {
 })
 
 function startWave(dimension, round) {
+    const total_zombies = 6 * round
+
     dimension.runCommand(`title @a title §4Round ${round}`)
+    dimension.runCommand(`tellraw @a {"rawtext":[{"text":"Zombies this round: §c${total_zombies}"}]}`)
 
     let spawnLocationsObject = JSON.parse(world.getDynamicProperty("SpawnLocationData"))
 
@@ -42,7 +45,6 @@ function startWave(dimension, round) {
         }
     }
 
-    let total_zombies = 6 * round
     let ticksPassed = 0
     let spawnsFinished = 0
     let endTicks = 0
