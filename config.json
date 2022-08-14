@@ -1,0 +1,45 @@
+{
+	"type": "minecraftBedrock",
+	"name": "§bThe Home §4Zombies",
+	"namespace": "home",
+	"authors": [
+		"Warhead"
+	],
+	"targetVersion": "1.19.20",
+	"description": "Made by The Home",
+	"experimentalGameplay": {
+		"holidayCreatorFeatures": true,
+		"creationOfCustomBiomes": false,
+		"upcomingCreatorFeatures": false,
+		"enableGameTestFramework": true,
+		"experimentalMolangFeatures": true,
+		"educationEdition": false
+	},
+	"bdsProject": false,
+	"packs": {
+		"behaviorPack": "./BP",
+		"resourcePack": "./RP"
+	},
+	"worlds": [
+		"./worlds/*"
+	],
+	"compiler": {
+		"plugins": [
+			"generatorScripts",
+			"typeScript",
+			"entityIdentifierAlias",
+			"customEntityComponents",
+			"customItemComponents",
+			"customBlockComponents",
+			"customCommands",
+			"moLang",
+			"formatVersionCorrection",
+			[
+				"simpleRewrite",
+				{
+					"packName": "§bThe Home §4Zombies"
+				}
+			]
+		]
+	}
+}
