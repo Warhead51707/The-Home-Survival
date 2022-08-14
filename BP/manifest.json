@@ -66,6 +66,15 @@
 				1,
 				0
 			]
+		},
+		{
+			// mojang-minecraft-ui
+			"uuid": "2bd50a27-ab5f-4f40-a596-3641627c635e",
+			"version": [
+				0,
+				1,
+				0
+			]
 		}
 	]
 }

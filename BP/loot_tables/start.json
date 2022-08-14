@@ -1,0 +1,51 @@
+{
+	"pools": [
+		{
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "item",
+					"name": "stone_sword",
+					"functions": [
+						{
+							"function": "specific_enchants",
+							"enchants": [
+								{
+									"id": "unbreaking",
+									"level": 3
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "item",
+					"name": "bow"
+				}
+			]
+		},
+		{
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "item",
+					"name": "arrow",
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 32,
+								"max": 32
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}
