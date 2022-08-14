@@ -1,12 +1,15 @@
 {
 	"type": "minecraftBedrock",
-	"name": "§bThe Home §4Zombies",
+	"name": "The Home: Survival",
 	"namespace": "home",
 	"authors": [
+		"Chikorita Lover",
+		"KekeCreations",
+		"Outer Cloud Studio",
 		"Warhead"
 	],
 	"targetVersion": "1.19.20",
-	"description": "Made by The Home",
+	"description": "A multiplayer survival map by The Home where players defend themselves from incoming monsters, while upgrading and unlocking new weapons and machines!",
 	"experimentalGameplay": {
 		"holidayCreatorFeatures": true,
 		"creationOfCustomBiomes": false,

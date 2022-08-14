@@ -2,6 +2,9 @@
 	"format_version": 2,
 	"metadata": {
 		"authors": [
+			"Chikorita Lover",
+			"KekeCreations",
+			"Outer Cloud Studio",
 			"Warhead"
 		],
 		"generated_with": {
@@ -14,8 +17,8 @@
 		}
 	},
 	"header": {
-		"name": "§bThe Home §4Zombies",
-		"description": "Made by The Home",
+		"name": "The Home: Survival Resource Pack",
+		"description": "A multiplayer survival map by The Home where players defend themselves from incoming monsters, while upgrading and unlocking new weapons and machines!",
 		"min_engine_version": [
 			1,
 			19,
