@@ -1,5 +1,5 @@
 import { world, BlockLocation, EntityQueryOptions, Location } from "mojang-minecraft"
-
+import { randomInt } from './Utilities.js'
 
 world.events.beforeChat.subscribe(data => {
     const message = data.message
@@ -145,7 +145,7 @@ function startWave(dimension, round) {
                     dimension.spawnEntity("zombie", spawnLocationZ)
 
                     spawnLocation.remaining_zombies--
-                    spawnLocation.spawn_rate = rand(3, 9)
+                    spawnLocation.spawn_rate = randomInt(3, 9)
                 }
             }
         }
@@ -175,10 +175,4 @@ function startWave(dimension, round) {
     }
 
     world.events.tick.subscribe(() => spawnZombs())
-
-
-}
-
-function rand(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min)
 }
