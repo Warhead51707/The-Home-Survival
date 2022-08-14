@@ -66,18 +66,7 @@ function startWave(dimension, round) {
         }
     }
 
-    for (let spawnLocation in spawnLocations) {
-        spawnLocation = spawnLocations[spawnLocation]
-        spawnLocation.remaining_zombies = 0
-    }
-
     let total_zombies = 6 * round
-
-    for (let spawnLocation in spawnLocations) {
-        spawnLocation = spawnLocations[spawnLocation]
-        spawnLocation.remaining_zombies = total_zombies / 6
-    }
-
     let ticksPassed = 0
     let spawnsFinished = 0
     let endTicks = 0
@@ -86,6 +75,12 @@ function startWave(dimension, round) {
     let roundEndA = false
     let roundEndB = false
     let ended = false
+
+    for (let spawnLocation in spawnLocations) {
+        spawnLocation = spawnLocations[spawnLocation]
+        spawnLocation.remaining_zombies = 0
+        spawnLocation.remaining_zombies = total_zombies / 6
+    }
 
     function spawnZombs() {
         if (!roundEndA) {
