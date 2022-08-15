@@ -1,6 +1,7 @@
 {
 	"values": [
 		"start",
-		"powerups"
+		"powerups",
+		"dead"
 	]
 }

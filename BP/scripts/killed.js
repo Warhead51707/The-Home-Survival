@@ -1,4 +1,4 @@
-import { world } from 'mojang-minecraft'
+import { world, Location } from 'mojang-minecraft'
 
 world.events.entityHurt.subscribe(hurt => {
     const entity = hurt.hurtEntity
@@ -26,11 +26,15 @@ world.events.tick.subscribe(death => {
 
     for (let player of players) {
         const dimension = world.getDimension(player.dimension.id)
-        const currentLocation = player.location
+        const currentLocation = new Location(player.location.x, player.location.y + 1, player.location.z)
         const currentHeath = player.getComponent("health").current
 
-        if (currentHeath > 0) return
+        if (currentHeath > 0 || player.hasTag("dead")) return
 
+        player.addTag("dead")
 
+        const totem = dimension.spawnEntity("home:totem", currentLocation)
+        totem.addTag(player.name)
+        totem.nameTag = player.name
     }
 })

@@ -8,6 +8,7 @@ execute as @a run titleraw @s actionbar {"rawtext":[{"text": "Kill Count: "},{"s
 
 scoreboard players set @a[tag=!joined] money 250
 scoreboard players set @a[tag=!joined] killCount 0
+tp @a[tag=!joined] -168 -60 37
 xp -100l @a[tag=!joined]
 gamemode adventure @a[tag=!joined]
 loot give @a[tag=!joined] loot start

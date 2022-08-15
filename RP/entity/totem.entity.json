@@ -1,0 +1,29 @@
+{
+	"format_version": "1.19.0",
+	"minecraft:client_entity": {
+		"description": {
+			"identifier": "home:totem",
+			"materials": {
+				"default": "entity_alphatest"
+			},
+			"textures": {
+				"default": "textures/items/totem"
+			},
+			"geometry": {
+				"default": "geometry.totem"
+			},
+			"animations": {
+				"idle": "animation.totem.idle"
+			},
+			"scripts": {
+				"animate": [
+					"idle"
+				]
+			},
+			"render_controllers": [
+				"controller.render.default"
+			],
+			"spawn_egg": {}
+		}
+	}
+}

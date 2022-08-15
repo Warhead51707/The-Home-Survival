@@ -1,0 +1,71 @@
+{
+	"format_version": "1.19.0",
+	"minecraft:entity": {
+		"description": {
+			"identifier": "home:totem",
+			"is_summonable": true
+		},
+		"component_groups": {
+			"home:despawn": {
+				"minecraft:instant_despawn": {}
+			}
+		},
+		"components": {
+			"minecraft:physics": {
+				"has_gravity": false,
+				"has_collision": false
+			},
+			"minecraft:collision_box": {
+				"height": 0.7,
+				"width": 0.7
+			},
+			"minecraft:damage_sensor": {
+				"triggers": {
+					"cause": "all",
+					"deals_damage": false
+				}
+			},
+			"minecraft:timer": {
+				"looping": false,
+				"time": 30,
+				"time_down_event": {
+					"event": "home:expired",
+					"target": "self"
+				}
+			},
+			"minecraft:interact": {
+				"interactions": {
+					"on_interact": {
+						"event": "home:collected",
+						"target": "self"
+					},
+					"swing": true
+				}
+			}
+		},
+		"events": {
+			"home:despawn": {
+				"add": {
+					"component_groups": [
+						"home:despawn"
+					]
+				}
+			},
+			"home:expired": {
+				"run_command": {
+					"command": [
+						"tag @s add expired"
+					]
+				},
+				"trigger": "home:despawn"
+			},
+			"home:collected": {
+				"run_command": {
+					"command": [
+						"tag @s add interacted"
+					]
+				}
+			}
+		}
+	}
+}
