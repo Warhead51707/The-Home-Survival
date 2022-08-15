@@ -10,6 +10,8 @@ world.events.entityHurt.subscribe(hurt => {
             case "minecraft:zombie":
                 const player = hurt.damagingEntity
 
+                if (player == undefined) return;
+
                 player.runCommand(`scoreboard players add @s killCount 1`)
                 player.runCommand(`scoreboard players add @s money 45`)
                 break
