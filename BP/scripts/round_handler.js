@@ -1,5 +1,5 @@
 import { world, BlockLocation } from "mojang-minecraft"
-import { randomInt } from './utilities.js'
+import { randomInt } from './utility.js'
 
 world.events.beforeChat.subscribe(data => {
     const message = data.message

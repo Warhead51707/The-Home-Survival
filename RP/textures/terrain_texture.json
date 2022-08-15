@@ -1,7 +1,7 @@
 {
 	"num_mip_levels": 4,
 	"padding": 8,
-	"resource_pack_name": "§bThe Home §4Zombies",
+	"resource_pack_name": "The Home: Survival",
 	"texture_name": "atlas.terrain",
 	"texture_data": {}
 }
