@@ -2,6 +2,7 @@
 	"values": [
 		"apply_powerups",
 		"dead",
-		"start"
+		"start",
+		"death"
 	]
 }

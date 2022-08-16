@@ -21,20 +21,61 @@ world.events.entityHurt.subscribe(hurt => {
     }
 })
 
+let lastPosition = []
+let totemPlaced = []
+
 world.events.tick.subscribe(death => {
     const players = world.getPlayers()
 
     for (let player of players) {
-        const dimension = world.getDimension(player.dimension.id)
-        const currentLocation = new Location(player.location.x, player.location.y + 1, player.location.z)
-        const currentHeath = player.getComponent("health").current
+        if (!player.hasTag("died") && totemPlaced.includes(player.name)) {
+            const index = totemPlaced.indexOf(player.name)
 
-        if (currentHeath > 0 || player.hasTag("dead")) return
+            totemPlaced.splice(index, 1)
+        }
 
-        player.addTag("dead")
+        if (player.hasTag("died")) {
 
-        const totem = dimension.spawnEntity("home:totem", currentLocation)
-        totem.addTag(player.name)
-        totem.nameTag = player.name
+            if (totemPlaced.includes(player.name)) return
+
+            console.warn(lastPosition.length)
+
+            const position = lastPosition.find(p => p.name === player.name).position
+
+            const dimension = world.getDimension(player.dimension.id)
+            const currentLocation = new Location(position.x, position.y + 1, position.z)
+
+            player.addTag("dead")
+
+            const totem = dimension.spawnEntity("home:totem", currentLocation)
+            totem.addTag(player.name)
+            totem.nameTag = player.name
+
+            totemPlaced.push(player.name)
+        }
     }
+
+    for (let player of players) {
+        if (player.hasTag("died")) continue
+
+        if (lastPosition.find(p => p.name === player.name) === undefined) {
+            lastPosition.push(
+                {
+                    name: player.name,
+                    position: player.location
+                }
+            )
+
+            continue
+        }
+
+        const index = lastPosition.findIndex(p => p.name === player.name)
+
+        lastPosition.splice(index, 1, {
+            name: player.name,
+            position: player.location
+        })
+
+    }
+
 })
