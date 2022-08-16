@@ -1,10 +1,10 @@
 {
-	"format_version": "1.19.0",
+	"format_version": "1.10.0",
 	"minecraft:client_entity": {
 		"description": {
 			"identifier": "home:totem",
 			"materials": {
-				"default": "entity_alphatest"
+				"default": "entity"
 			},
 			"textures": {
 				"default": "textures/items/totem"
@@ -21,9 +21,8 @@
 				]
 			},
 			"render_controllers": [
-				"controller.render.default"
-			],
-			"spawn_egg": {}
+				"controller.render.totem"
+			]
 		}
 	}
 }

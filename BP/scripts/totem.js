@@ -1,4 +1,4 @@
-import { world, EntityQueryOptions } from "mojang-minecraft"
+import { world, MolangVariableMap, EntityQueryOptions } from "mojang-minecraft"
 
 world.events.tick.subscribe(() => {
     const dimension = world.getDimension('overworld')
@@ -34,9 +34,11 @@ world.events.tick.subscribe(() => {
             player.removeTag("dead")
             dimension.runCommand(`gamemode a ${playerName}`)
             dimension.runCommand(`tp ${playerName} ${totemLocation.x} ${totemLocation.y} ${totemLocation.z}`)
+
+            dimension.spawnParticle("minecraft:totem_particle", totem.location, new MolangVariableMap())
+            player.playSound("random.totem")
         }
 
         totem.triggerEvent("home:despawn")
     }
-
 })
