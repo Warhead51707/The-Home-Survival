@@ -1,1 +1,4 @@
 entity.home:totem.name=Totem
+
+item.spawn_egg.entity.home:land_mine.name=Spawn Land Mine
+entity.home:land_mine.name=Land Mine
