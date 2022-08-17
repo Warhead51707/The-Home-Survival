@@ -1,42 +1,41 @@
-import { world, EntityQueryOptions } from "mojang-minecraft"
+import { world, MolangVariableMap } from "mojang-minecraft"
 
-world.events.tick.subscribe(() => {
-    const dimension = world.getDimension('overworld')
+world.events.dataDrivenEntityTriggerEvent.subscribe(entityTriggerEvent => {
+    const totem = entityTriggerEvent.entity
 
-    const totemQuery = new EntityQueryOptions()
-    totemQuery.type = 'home:totem'
-
-    for (let totem of dimension.getEntities(totemQuery)) {
-        let playerName = null
+    if (entityTriggerEvent.id == "home:totem_expired") {
+        let playerName
 
         for (let tag of totem.getTags()) {
-            if (tag === "interacted" || tag === "expired") continue
-
             playerName = tag
         }
 
-        if (totem.hasTag("expired")) {
-            for (let player of world.getPlayers()) {
-                if (player.name !== playerName) return
-
-                player.addTag("expired")
-            }
-        }
-
-        if (!totem.hasTag("interacted")) return
-
-        const totemLocation = totem.location
-
-
         for (let player of world.getPlayers()) {
-            if (player.name !== playerName) continue
+            if (player.name != playerName) return
 
-            player.removeTag("dead")
-            dimension.runCommand(`gamemode a ${playerName}`)
-            dimension.runCommand(`tp ${playerName} ${totemLocation.x} ${totemLocation.y} ${totemLocation.z}`)
+            player.addTag("expired")
         }
-
-        totem.triggerEvent("home:despawn")
     }
 
+    if (entityTriggerEvent.id == "home:respawn_player") {
+        const dimension = world.getDimension('overworld')
+        let playerName
+
+        for (let tag of totem.getTags()) {
+            playerName = tag
+        }
+
+        for (let player of world.getPlayers()) {
+            if (player.name != playerName) continue
+
+            player.removeTag("dead")
+            player.runCommand('gamemode adventure')
+            player.runCommand(`tp ${totem.location.x} ${totem.location.y} ${totem.location.z}`)
+
+            dimension.spawnParticle("minecraft:totem_particle", totem.location, new MolangVariableMap())
+            player.playSound("random.totem")
+        }
+
+        totem.triggerEvent("home:instant_despawn")
+    }
 })

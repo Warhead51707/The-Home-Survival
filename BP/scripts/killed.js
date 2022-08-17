@@ -35,10 +35,7 @@ world.events.tick.subscribe(death => {
         }
 
         if (player.hasTag("died")) {
-
             if (totemPlaced.includes(player.name)) return
-
-            console.warn(lastPosition.length)
 
             const position = lastPosition.find(p => p.name === player.name).position
 
