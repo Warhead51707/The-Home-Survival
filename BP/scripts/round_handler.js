@@ -7,6 +7,7 @@ world.events.beforeChat.subscribe(data => {
 
     switch (message) {
         case '!start':
+            dimension.runCommand(`tag @a remove joined`)
             startWave(dimension, 1)
             break
         case '!removeProperties':
@@ -25,6 +26,7 @@ world.events.beforeChat.subscribe(data => {
 function startWave(dimension, round) {
     const total_zombies = 6 * round
 
+    dimension.runCommand(`function expired`)
     dimension.runCommand(`title @a title §4Round ${round}`)
     dimension.runCommand(`tellraw @a {"rawtext":[{"text":"Zombies this round: §c${total_zombies}"}]}`)
 

@@ -3,7 +3,7 @@ import { world, MolangVariableMap } from "mojang-minecraft"
 world.events.dataDrivenEntityTriggerEvent.subscribe(entityTriggerEvent => {
     const totem = entityTriggerEvent.entity
 
-    if (entityTriggerEvent.id == "home:totem_expired") {
+    if (entityTriggerEvent.id === "home:totem_expired") {
         let playerName
 
         for (let tag of totem.getTags()) {
@@ -11,13 +11,16 @@ world.events.dataDrivenEntityTriggerEvent.subscribe(entityTriggerEvent => {
         }
 
         for (let player of world.getPlayers()) {
-            if (player.name != playerName) return
+            if (player.name !== playerName) return
+
 
             player.addTag("expired")
         }
+
+        totem.triggerEvent("home:instant_despawn")
     }
 
-    if (entityTriggerEvent.id == "home:respawn_player") {
+    if (entityTriggerEvent.id === "home:respawn_player") {
         const dimension = world.getDimension('overworld')
         let playerName
 
@@ -26,7 +29,7 @@ world.events.dataDrivenEntityTriggerEvent.subscribe(entityTriggerEvent => {
         }
 
         for (let player of world.getPlayers()) {
-            if (player.name != playerName) continue
+            if (player.name !== playerName) continue
 
             player.removeTag("dead")
             player.runCommand('gamemode adventure')

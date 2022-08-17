@@ -71,6 +71,29 @@ world.events.tick.subscribe(tick => {
                 }
             })
         }
+
+        if (player.hasTag("weaponbuy")) {
+            player.removeTag("weaponbuy")
+
+            const weaponForm = new ActionFormData()
+
+                .title("Weapons For U")
+
+                .body("Fighting ain't nothin without a good weapon. Get some Weapons For U!")
+
+                .button("Buy Weapon ($850)")
+                .button("Not Now")
+
+            weaponForm.show(player).then(formData => {
+                if (formData.selection === 0) {
+                    const purchaseOptions = {
+                        particleColor: [252, 111, 10]
+                    }
+
+                    purchasePowerup(player, 850, 'Weapon For U', purchaseOptions)
+                }
+            })
+        }
     }
 })
 

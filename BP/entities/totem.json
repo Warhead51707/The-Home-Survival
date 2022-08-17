@@ -56,8 +56,7 @@
 					"command": [
 						"tag @s add expired"
 					]
-				},
-				"trigger": "home:instant_despawn"
+				}
 			},
 			"home:respawn_player": {}
 		}

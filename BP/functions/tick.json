@@ -1,8 +1,8 @@
 {
 	"values": [
 		"apply_powerups",
-		"dead",
 		"start",
-		"death"
+		"death",
+		"dead"
 	]
 }
