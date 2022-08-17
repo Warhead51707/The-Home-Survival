@@ -1,0 +1,24 @@
+{
+	"format_version": "1.10.0",
+	"minecraft:client_entity": {
+		"description": {
+			"identifier": "home:land_mine",
+			"materials": {
+				"default": "entity_alphatest"
+			},
+			"textures": {
+				"default": "textures/entity/land_mine"
+			},
+			"geometry": {
+				"default": "geometry.land_mine"
+			},
+			"render_controllers": [
+				"controller.render.land_mine"
+			],
+			"spawn_egg": {
+				"texture": "home_land_mine_egg",
+				"texture_index": 0
+			}
+		}
+	}
+}

@@ -13,7 +13,7 @@
 	"experimentalGameplay": {
 		"holidayCreatorFeatures": true,
 		"creationOfCustomBiomes": false,
-		"upcomingCreatorFeatures": false,
+		"upcomingCreatorFeatures": true,
 		"enableGameTestFramework": true,
 		"experimentalMolangFeatures": true,
 		"educationEdition": false
