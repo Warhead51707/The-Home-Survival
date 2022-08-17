@@ -6,7 +6,7 @@
 			"is_summonable": true
 		},
 		"component_groups": {
-			"home:despawn": {
+			"home:instant_despawn": {
 				"minecraft:instant_despawn": {}
 			}
 		},
@@ -29,14 +29,14 @@
 				"looping": false,
 				"time": 30,
 				"time_down_event": {
-					"event": "home:expired",
+					"event": "home:totem_expired",
 					"target": "self"
 				}
 			},
 			"minecraft:interact": {
 				"interactions": {
 					"on_interact": {
-						"event": "home:collected",
+						"event": "home:respawn_player",
 						"target": "self"
 					},
 					"swing": true
@@ -44,28 +44,22 @@
 			}
 		},
 		"events": {
-			"home:despawn": {
+			"home:instant_despawn": {
 				"add": {
 					"component_groups": [
-						"home:despawn"
+						"home:instant_despawn"
 					]
 				}
 			},
-			"home:expired": {
+			"home:totem_expired": {
 				"run_command": {
 					"command": [
 						"tag @s add expired"
 					]
 				},
-				"trigger": "home:despawn"
+				"trigger": "home:instant_despawn"
 			},
-			"home:collected": {
-				"run_command": {
-					"command": [
-						"tag @s add interacted"
-					]
-				}
-			}
+			"home:respawn_player": {}
 		}
 	}
 }
