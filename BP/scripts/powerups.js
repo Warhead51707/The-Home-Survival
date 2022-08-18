@@ -1,4 +1,4 @@
-import { world, SoundOptions, MolangVariableMap, Color } from 'mojang-minecraft'
+import { world, SoundOptions, MolangVariableMap, EntityQueryOptions, Color } from 'mojang-minecraft'
 import { ActionFormData } from 'mojang-minecraft-ui'
 
 world.events.tick.subscribe(tick => {
@@ -11,9 +11,9 @@ world.events.tick.subscribe(tick => {
             const speedForm = new ActionFormData()
 
                 .title("Speed For U")
-                .body("Get quick! Buy some Speed For U!")
+                .body("Get quick! Buy some Speed For U and increase your speed by 60 percent!")
 
-                .button("Buy ($2500)")
+                .button("Upgrade Speed ($2500)", "textures/ui/speed_effect")
                 .button("Not Now")
 
             speedForm.show(player).then(formData => {
@@ -27,39 +27,69 @@ world.events.tick.subscribe(tick => {
             })
         }
 
-        //900 heal, 1800 if health upgrade
-        //3500 health upgrade
-
         if (player.hasTag("healthbuy")) {
             player.removeTag("healthbuy")
 
-            const cost = player.hasTag('healthforu') ? 1800 : 900
+            let formOptions = ["upgrade_health"]
             const health = player.getComponent('minecraft:health')
+            let healthForm
+            const money = world.scoreboard.getObjective("money").getScore(player.scoreboard)
+            let teammateQuery = new EntityQueryOptions()
+            teammateQuery.excludeNames = [player.name]
+            const teammates = world.getPlayers(teammateQuery)
 
-            const healthForm = new ActionFormData()
+            let healthToHeal = Math.min(getMissingHealth(player), Math.floor(money / 50))
 
-                .title("Health For U")
+            let teammatesHealth = 0
+            if (Array.from(teammates).length > 0) teammatesHealth = getMissingHealth(teammates, true)
 
-                .body("Stay up against those monsters! Buy some Health For U!")
+            if (healthToHeal > 0) formOptions.unshift("heal")
+            if (teammatesHealth > 0) formOptions.push("heal_teammates")
 
-                .button(`Heal (\$${cost})`)
-                .button("Upgrade ($3500)")
-                .button("Not Now")
+            if (!formOptions.includes("heal") && !formOptions.includes("heal_teammates")) {
+                healthForm = new ActionFormData()
+
+                    .title("Health For U")
+
+                    .body("Stay up against those monsters! Buy some Health For U and double your maximum health!")
+
+                    .button("Upgrade Health ($3500)", "textures/ui/health_boost_effect")
+                    .button("Not Now")
+            } else if (formOptions.includes("heal") && !formOptions.includes("heal_teammates")) {
+                healthForm = new ActionFormData()
+
+                    .title("Health For U")
+
+                    .body("Stay up against those monsters! Buy some Health For U!")
+
+                    .button(`Heal ${healthToHeal} (\$${healthToHeal * 50})`, "textures/ui/regeneration_effect")
+                    .button("Upgrade ($3500)", "textures/ui/health_boost_effect")
+                    .button("Not Now")
+            } else if (!formOptions.includes("heal") && formOptions.includes("heal_teammates")) {
+                healthForm = new ActionFormData()
+
+                    .title("Health For U")
+
+                    .body("Stay up against those monsters! Buy some Health For U!")
+
+                    .button("Upgrade ($3500)", "textures/ui/health_boost_effect")
+                    .button(`Heal Teammates (\$${teammatesHealth * 25})`, "textures/ui/absorption_effect")
+                    .button("Not Now")
+            } else if (formOptions.includes("heal") && formOptions.includes("heal_teammates")) {
+                healthForm = new ActionFormData()
+
+                    .title("Health For U")
+
+                    .body("Stay up against those monsters! Buy some Health For U!")
+
+                    .button(`Heal ${healthToHeal} (\$${healthToHeal * 50})`, "textures/ui/regeneration_effect")
+                    .button("Upgrade ($3500)", "textures/ui/health_boost_effect")
+                    .button(`Heal Teammates (\$${teammatesHealth * 25})`, "textures/ui/absorption_effect")
+                    .button("Not Now")
+            }
 
             healthForm.show(player).then(formData => {
-                if (formData.selection === 0) {
-                    const purchaseOptions = {
-                        assignTag: false,
-                        duplicateCondition: (Math.ceil(health.current) >= health.value + player.hasTag("healthforu") * 20),
-                        duplicateMessage: 'You already have maximum health!',
-                        particleColor: [248, 36, 35]
-                    }
-                    const purchaseSuccess = purchasePowerup(player, cost, 'Health For U', purchaseOptions)
-
-                    if (purchaseSuccess) {
-                        health.resetToMaxValue()
-                    }
-                } else if (formData.selection === 1) {
+                if (formOptions[formData.selection] === "upgrade_health") {
                     const purchaseOptions = {
                         particleColor: [248, 125, 35]
                     }
@@ -67,6 +97,37 @@ world.events.tick.subscribe(tick => {
 
                     if (purchaseSuccess) {
                         health.setCurrent(40)
+                    }
+                } else if (formOptions[formData.selection] === "heal") {
+                    healthToHeal = Math.min(getMissingHealth(player), Math.floor(money / 50))
+                    const purchaseOptions = {
+                        assignTag: false,
+                        duplicateCondition: (healthToHeal <= 0),
+                        duplicateMessage: 'You already have maximum health!',
+                        particleColor: [248, 36, 35]
+                    }
+                    const purchaseSuccess = purchasePowerup(player, healthToHeal * 50, 'Health For U', purchaseOptions)
+
+                    if (purchaseSuccess) {
+                        health.setCurrent(health.current + healthToHeal)
+                    }
+                } else if (formOptions[formData.selection] === "heal_teammates") {
+                    console.warn("Hello world!")
+
+                    teammatesHealth = getMissingHealth(teammates, true)
+                    const purchaseOptions = {
+                        assignTag: false,
+                        duplicateCondition: (teammatesHealth <= 0),
+                        duplicateMessage: 'Your teammates already have maximum health!'
+                    }
+                    const purchaseSuccess = purchasePowerup(player, teammatesHealth * 25, 'Health For U', purchaseOptions)
+
+                    if (purchaseSuccess) {
+                        for (let teammate of teammates) {
+                            teammate.getComponent('minecraft:health').resetToMaxValue()
+
+                            mobSpellParticle(teammate, [248, 36, 35])
+                        }
                     }
                 }
             })
@@ -79,15 +140,15 @@ world.events.tick.subscribe(tick => {
 
                 .title("Weapons For U")
 
-                .body("Fighting ain't nothin without a good weapon. Get some Weapons For U!")
+                .body("Fighting ain't nothin' without a good weapon. Get some Weapons For U!")
 
-                .button("Buy Weapon ($850)")
+                .button("Buy Weapon ($850)", "textures/ui/strength_effect")
                 .button("Not Now")
 
             weaponForm.show(player).then(formData => {
                 if (formData.selection === 0) {
                     const purchaseOptions = {
-                        particleColor: [252, 111, 10]
+                        particleColor: [147, 36, 35]
                     }
 
                     purchasePowerup(player, 850, 'Weapon For U', purchaseOptions)
@@ -104,11 +165,10 @@ world.events.tick.subscribe(tick => {
 * @param {object} purchaseOptions
 */
 function purchasePowerup(player, cost, powerup, purchaseOptions = {}) {
-    const dimension = player.dimension
     const duplicateMessage = (purchaseOptions.duplicateMessage == undefined) ? 'You already have this!' : purchaseOptions.duplicateMessage
     const identifier = powerup.replace(/ /g, '')
     const ignoreTag = !(purchaseOptions.assignTag || purchaseOptions.assignTag == undefined)
-    const money = world.scoreboard.getObjective('money').getScore(player.scoreboard)
+    const money = world.scoreboard.getObjective("money").getScore(player.scoreboard)
     let soundOptions = new SoundOptions()
     soundOptions.location = player.location
 
@@ -125,19 +185,44 @@ function purchasePowerup(player, cost, powerup, purchaseOptions = {}) {
     player.runCommand(`tellraw @s {"rawtext":[{"text":"[${identifier}] You successfully bought §6${powerup}§r!"}]}`)
     player.runCommand(`scoreboard players remove @s money ${cost}`)
 
-    player.playSound("beacon.power", soundOptions)
+    world.playSound("beacon.power", soundOptions)
 
     if (!ignoreTag) {
         player.addTag(identifier.toLocaleLowerCase())
     }
 
-    if (purchaseOptions.particleColor != undefined) {
-        const particleColor = new Color(purchaseOptions.particleColor[0] / 255, purchaseOptions.particleColor[1] / 255, purchaseOptions.particleColor[2] / 255, 1)
-        let particleVariableMap = new MolangVariableMap()
-        particleVariableMap.setColorRGBA("variable.color", particleColor)
-
-        dimension.spawnParticle("home:powerup_particle", player.location, particleVariableMap)
+    if (purchaseOptions.particleColor !== undefined) {
+        mobSpellParticle(player, purchaseOptions.particleColor)
     }
 
     return true
+}
+
+function getMissingHealth(iterator, isIterator = false) {
+    let missingHealth = 0
+
+    if (isIterator) {
+        for (let player of iterator) {
+            const maxHealth = player.getComponent('minecraft:health').value + player.hasTag("healthforu") * 20
+            missingHealth += maxHealth - Math.ceil(player.getComponent('minecraft:health').current)
+        }
+    } else {
+        const maxHealth = iterator.getComponent('minecraft:health').value + iterator.hasTag("healthforu") * 20
+        missingHealth = maxHealth - Math.ceil(iterator.getComponent('minecraft:health').current)
+    }
+
+    return missingHealth
+}
+
+/**
+* @param {Entity} entity
+* @param {number[]} particleColors
+*/
+function mobSpellParticle(entity, particleColors) {
+    const dimension = entity.dimension
+    const particleColor = new Color(particleColors[0] / 255, particleColors[1] / 255, particleColors[2] / 255, 1)
+    let particleVariableMap = new MolangVariableMap()
+    particleVariableMap.setColorRGBA("variable.color", particleColor)
+
+    dimension.spawnParticle("home:powerup_particle", entity.location, particleVariableMap)
 }
