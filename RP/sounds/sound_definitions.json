@@ -1,4 +1,39 @@
 {
 	"format_version": "1.14.0",
-	"sound_definitions": {}
+	"sound_definitions": {
+		"mob.player.attack.sweep": {
+			"category": "player",
+			"sounds": [
+				{
+					"load_on_low_memory": true,
+					"name": "sounds/mob/player/attack/sweep1",
+					"volume": 0.2
+				},
+				{
+					"name": "sounds/mob/player/attack/sweep2",
+					"volume": 0.2
+				},
+				{
+					"name": "sounds/mob/player/attack/sweep3",
+					"volume": 0.2
+				},
+				{
+					"name": "sounds/mob/player/attack/sweep4",
+					"volume": 0.2
+				},
+				{
+					"name": "sounds/mob/player/attack/sweep5",
+					"volume": 0.2
+				},
+				{
+					"name": "sounds/mob/player/attack/sweep6",
+					"volume": 0.2
+				},
+				{
+					"name": "sounds/mob/player/attack/sweep7",
+					"volume": 0.2
+				}
+			]
+		}
+	}
 }

@@ -1,0 +1,40 @@
+{
+	"format_version": "1.16.100",
+	"minecraft:item": {
+		"description": {
+			"identifier": "home:katana",
+			"category": "equipment"
+		},
+		"components": {
+			"minecraft:can_destroy_in_creative": false,
+			"minecraft:creative_category": {
+				"parent": "itemGroup.name.sword"
+			},
+			"minecraft:damage": 6,
+			"minecraft:durability": {
+				"max_durability": 251
+			},
+			"minecraft:enchantable": {
+				"value": 10,
+				"slot": "sword"
+			},
+			"minecraft:hand_equipped": true,
+			"minecraft:icon": {
+				"texture": "katana"
+			},
+			"minecraft:max_stack_size": 1,
+			"minecraft:repairable": {
+				"repair_items": [
+					{
+						"items": [
+							"home:katana"
+						],
+						"repair_amount": "context.other->query.remaining_durability + 0.12 * context.other->query.max_durability"
+					}
+				]
+			},
+			"minecraft:weapon": {},
+			"tag:minecraft:is_sword": {}
+		}
+	}
+}

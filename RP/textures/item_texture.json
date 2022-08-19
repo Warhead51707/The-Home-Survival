@@ -4,6 +4,9 @@
 	"texture_data": {
 		"home_land_mine_egg": {
 			"textures": "textures/items/land_mine"
+		},
+		"katana": {
+			"textures": "textures/items/katana"
 		}
 	}
 }
