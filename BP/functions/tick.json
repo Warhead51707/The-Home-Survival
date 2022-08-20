@@ -1,6 +1,7 @@
 {
 	"values": [
 		"apply_powerups",
+		"assign_tags",
 		"start",
 		"death",
 		"dead"
