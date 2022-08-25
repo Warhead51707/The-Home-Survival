@@ -1,5 +1,5 @@
 import { world, BlockLocation } from "mojang-minecraft"
-import { randomInt } from './utility.js'
+import { randomInt, getPlayers } from './utility.js'
 
 world.events.beforeChat.subscribe(data => {
     const message = data.message
@@ -63,6 +63,20 @@ function startWave(dimension, round) {
     }
 
     function spawnZombs() {
+        const alivePlayers = getPlayers(false)
+
+        if ((alivePlayers <= 0 || alivePlayers === undefined) && !ended) {
+            dimension.runCommand(`tellraw @a {"rawtext":[{"text":"Game Over! You lasted ${round} rounds."}]}`)
+            dimension.runCommand(`function fail`)
+
+            world.events.tick.unsubscribe(spawnZombs)
+
+            ended = true
+            spawnEnd = true
+            roundEndA = true
+            roundEndB = true
+        }
+
         if (!roundEndA) {
             checkZombs()
         }
@@ -150,4 +164,5 @@ function startWave(dimension, round) {
     }
 
     world.events.tick.subscribe(() => spawnZombs())
+
 }
