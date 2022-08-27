@@ -70,7 +70,8 @@
 								"max": 64
 							}
 						}
-					]
+					],
+					"weight": 10
 				},
 				{
 					"type": "item",
@@ -81,7 +82,7 @@
 							"treasure": true
 						}
 					],
-					"weight": 10
+					"weight": 5
 				},
 				{
 					"type": "item",
@@ -92,7 +93,7 @@
 							"enchants": [
 								{
 									"id": "knockback",
-									"level": 10
+									"level": 2
 								},
 								{
 									"id": "unbreaking",
@@ -119,10 +120,10 @@
 				},
 				{
 					"type": "item",
-					"name": "iron_chestplate",
+					"name": "diamond_axe",
 					"functions": [
 						{
-							"function": "enchant_random_gear",
+							"function": "enchant_randomly",
 							"treasure": true
 						}
 					],
@@ -130,26 +131,11 @@
 				},
 				{
 					"type": "item",
-					"name": "diamond_axe",
+					"name": "home:katana",
 					"functions": [
 						{
 							"function": "enchant_randomly",
 							"treasure": true
-						}
-					]
-				},
-				{
-					"type": "item",
-					"name": "leather_leggings",
-					"functions": [
-						{
-							"function": "specific_enchants",
-							"enchants": [
-								{
-									"id": "mending",
-									"level": 1
-								}
-							]
 						}
 					],
 					"weight": 10
