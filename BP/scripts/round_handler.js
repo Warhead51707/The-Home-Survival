@@ -1,5 +1,6 @@
-import { world, MolangVariableMap, Location, EntityQueryOptions, BlockLocation } from "mojang-minecraft"
+import { world, MolangVariableMap, EntityQueryOptions, BlockLocation } from "mojang-minecraft"
 import { randomInt, getPlayers } from './utility.js'
+import { spawnPool } from "./spawn_pool.js"
 
 world.events.beforeChat.subscribe(data => {
     const message = data.message
@@ -24,11 +25,11 @@ world.events.beforeChat.subscribe(data => {
 })
 
 function startWave(dimension, round) {
-    const total_zombies = 6 * round
+    const totalMonsters = round * 3 + 3
 
     dimension.runCommand(`function expired`)
     dimension.runCommand(`title @a title §4Round ${round}`)
-    dimension.runCommand(`tellraw @a {"rawtext":[{"text":"Zombies this round: §c${total_zombies}"}]}`)
+    dimension.runCommand(`tellraw @a {"rawtext":[{"text":"Zombies this round: §c${totalMonsters}"}]}`)
 
     let spawnLocationsObject = JSON.parse(world.getDynamicProperty("SpawnLocationData"))
 
@@ -56,10 +57,16 @@ function startWave(dimension, round) {
     let roundEndB = false
     let ended = false
 
+    let remainingSpawnLocations = 6
+    let remainingTotalMonsters = totalMonsters
+
     for (let spawnLocation in spawnLocations) {
         spawnLocation = spawnLocations[spawnLocation]
         spawnLocation.remaining_zombies = 0
-        spawnLocation.remaining_zombies = total_zombies / 6
+        spawnLocation.remaining_zombies = weightedRound(remainingTotalMonsters / remainingSpawnLocations)
+
+        remainingSpawnLocations--
+        remainingTotalMonsters -= spawnLocation.remaining_zombies
     }
 
     function spawnZombs() {
@@ -117,6 +124,8 @@ function startWave(dimension, round) {
                 if (spawnLocation.current_second >= spawnLocation.spawn_rate) {
                     spawnLocation.current_second = 0
 
+                    if (spawnLocation.remaining_zombies > 0) console.warn(spawnLocation.remaining_zombies)
+
                     if (spawnLocation.remaining_zombies <= 0) {
                         spawnsFinished++
 
@@ -127,8 +136,9 @@ function startWave(dimension, round) {
                         let spawnLocationZ = new BlockLocation(spawnLocation.x, spawnLocation.y, spawnLocation.z)
                         spawnLocationZ = randomLocationOffset(spawnLocationZ, 3, 1, 3)
 
-                        const zombie = dimension.spawnEntity("minecraft:zombie", spawnLocationZ)
-                        dimension.spawnParticle("home:spawn_explosion_particle", zombie.location, new MolangVariableMap())
+                        const identifier = randomMonster()
+                        const monster = dimension.spawnEntity(identifier, spawnLocationZ)
+                        dimension.spawnParticle("home:spawn_explosion_particle", monster.location, new MolangVariableMap())
 
                         spawnLocation.remaining_zombies--
                         spawnLocation.spawn_rate = randomInt(3, 9)
@@ -136,6 +146,18 @@ function startWave(dimension, round) {
                 }
             }
         }
+    }
+
+    function weightedRound(x) {
+        let result = x
+
+        if (x - Math.floor(x) < Math.random()) {
+            result = Math.floor(result)
+        } else {
+            result = Math.ceil(result)
+        }
+
+        return result
     }
 
     function checkZombs() {
@@ -171,6 +193,18 @@ function startWave(dimension, round) {
         }
 
         return newLocation
+    }
+
+    function randomMonster() {
+        let spawnGroup = []
+
+        for (let i = 0; i < spawnPool.length; i++) {
+            if (round < spawnPool[i].min || round > spawnPool[i].max) continue
+
+            for (let j = 0; j < spawnPool[i].weight; j++) spawnGroup.push(spawnPool[i].identifier)
+        }
+
+        return spawnGroup[randomInt(0, spawnGroup.length - 1)]
     }
 
     world.events.tick.subscribe(() => spawnZombs())
