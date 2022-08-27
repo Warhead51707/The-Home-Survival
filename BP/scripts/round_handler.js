@@ -1,4 +1,4 @@
-import { world, BlockLocation } from "mojang-minecraft"
+import { world, MolangVariableMap, Location, EntityQueryOptions, BlockLocation } from "mojang-minecraft"
 import { randomInt, getPlayers } from './utility.js'
 
 world.events.beforeChat.subscribe(data => {
@@ -97,8 +97,6 @@ function startWave(dimension, round) {
             return
         }
 
-
-
         if (!spawnEnd) {
 
             if (ticksPassed > 20) {
@@ -125,36 +123,30 @@ function startWave(dimension, round) {
                         if (spawnsFinished >= 6) {
                             spawnEnd = true
                         }
+                    } else {
+                        let spawnLocationZ = new BlockLocation(spawnLocation.x, spawnLocation.y, spawnLocation.z)
+                        spawnLocationZ = randomLocationOffset(spawnLocationZ, 3, 1, 3)
 
-                        continue
+                        const zombie = dimension.spawnEntity("minecraft:zombie", spawnLocationZ)
+                        dimension.spawnParticle("home:spawn_explosion_particle", zombie.location, new MolangVariableMap())
+
+                        spawnLocation.remaining_zombies--
+                        spawnLocation.spawn_rate = randomInt(3, 9)
                     }
-
-                    const spawnLocationZ = new BlockLocation(spawnLocation.x, spawnLocation.y, spawnLocation.z)
-
-                    dimension.spawnEntity("zombie", spawnLocationZ)
-
-                    spawnLocation.remaining_zombies--
-                    spawnLocation.spawn_rate = randomInt(3, 9)
                 }
             }
         }
     }
 
     function checkZombs() {
-
         if (spawnEnd) {
-            try {
-                const zombies = dimension.runCommand('testfor @e[type=zombie]')
+            let monsterQuery = new EntityQueryOptions()
+            monsterQuery.families = ['monster']
 
-                if (zombies.victim.length === 0) {
-                    throw "EEEE"
-                }
-            } catch (err) {
+            if (Array.from(dimension.getEntities(monsterQuery)).length === 0) {
                 endRound()
             }
         }
-
-
     }
 
     function endRound() {
@@ -163,6 +155,23 @@ function startWave(dimension, round) {
         roundEndA = true
     }
 
-    world.events.tick.subscribe(() => spawnZombs())
+    /**
+    * @param {BlockLocation} location
+    * @param {number} offsetX
+    * @param {number} offsetY
+    * @param {number} offsetZ
+    */
+    function randomLocationOffset(location, offsetX, offsetY, offsetZ) {
+        let newLocation = new BlockLocation(location.x, location.y, location.z)
 
+        while (dimension.getBlock(newLocation).id !== "minecraft:air") {
+            newLocation.x = location.x + Math.floor(Math.random() * (offsetX * 2 + 1) - offsetX)
+            newLocation.y = location.y + Math.floor(Math.random() * (offsetY * 2 + 1) - offsetY)
+            newLocation.z = location.z + Math.floor(Math.random() * (offsetZ * 2 + 1) - offsetZ)
+        }
+
+        return newLocation
+    }
+
+    world.events.tick.subscribe(() => spawnZombs())
 }
