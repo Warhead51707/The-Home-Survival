@@ -395,9 +395,6 @@
           "event": "minecraft:start_transforming"
         }
       },
-      "minecraft:despawn": {
-        "despawn_from_distance": {}
-      },
       // Zombie Behaviors
       "minecraft:behavior.equip_item": {
         "priority": 2

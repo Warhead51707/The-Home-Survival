@@ -12,7 +12,7 @@ world.events.beforeItemUseOn.subscribe(use => {
 
     const locationData = {
         x: location.x,
-        y: location.y + 2,
+        y: location.y,
         z: location.z
     }
 
@@ -28,5 +28,4 @@ world.events.beforeItemUseOn.subscribe(use => {
 
     locationObject[`spawn${Object.keys(locationObject).length + 1}`] = locationData
     world.setDynamicProperty("SpawnLocationData", JSON.stringify(locationObject))
-
 })

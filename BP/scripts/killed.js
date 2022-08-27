@@ -2,22 +2,16 @@ import { world, Location } from 'mojang-minecraft'
 
 world.events.entityHurt.subscribe(hurt => {
     const entity = hurt.hurtEntity
-    const entityHealth = entity.getComponent('minecraft:health')
-    const dimension = world.getDimension(entity.dimension.id)
 
-    if (entityHealth.current <= 0) {
-        switch (entity.id) {
-            case "minecraft:zombie":
-                const player = hurt.damagingEntity
+    if (entity.getComponent('minecraft:health').current <= 0) {
+        if (!entity.hasTag("monster")) return
 
-                if (player == undefined) return;
+        const player = hurt.damagingEntity
 
-                player.runCommand(`scoreboard players add @s killCount 1`)
-                player.runCommand(`scoreboard players add @s money 45`)
-                break
-            default:
-                break
-        }
+        if (player == undefined) return
+
+        player.runCommand(`scoreboard players add @s killCount 1`)
+        player.runCommand(`scoreboard players add @s money 45`)
     }
 })
 
