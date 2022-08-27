@@ -165,6 +165,18 @@
           }
         ]
       },
+      "minecraft:damage_sensor": {
+        "triggers": {
+          "on_damage": {
+            "filters": {
+              "test": "is_family",
+              "subject": "other",
+              "value": "monster"
+            }
+          },
+          "deals_damage": false
+        }
+      },
       "minecraft:breathable": {
         "total_supply": 15,
         "suffocate_time": 0,
