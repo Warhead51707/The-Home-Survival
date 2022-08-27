@@ -1,4 +1,4 @@
-import './spawn_locations.js'
+import './properties.js'
 import './round_handler.js'
 import './set_location_item.js'
 import './killed.js'

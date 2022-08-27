@@ -1,82 +1,81 @@
 {
-	"format_version": 2,
-	"metadata": {
-		"authors": [
-			"Chikorita Lover",
-			"KekeCreations",
-			"Outer Cloud Studio",
-			"Warhead"
-		],
-		"generated_with": {
-			"bridge": [
-				"2.3.2"
-			],
-			"dash": [
-				"0.9.28"
-			]
-		}
-	},
-	"header": {
-		"name": "The Home: Survival Behavior Pack",
-		"description": "A multiplayer survival map by The Home where players defend themselves from incoming monsters, while upgrading and unlocking new weapons and machines!",
-		"min_engine_version": [
-			1,
-			19,
-			20
-		],
-		"uuid": "c0607fa4-d3b2-4d93-8cd9-cc3df78364cf",
-		"version": [
-			1,
-			0,
-			0
-		]
-	},
-	"modules": [
-		{
-			"type": "data",
-			"uuid": "94419bb3-c1d5-4c81-9503-77f8eb869754",
-			"version": [
-				1,
-				0,
-				0
-			]
-		},
-		{
-			"type": "script",
-			"language": "javascript",
-			"uuid": "73e92721-a86e-4d7e-9473-aff1ddc453ab",
-			"entry": "scripts/main.js",
-			"version": [
-				1,
-				0,
-				0
-			]
-		}
-	],
-	"dependencies": [
-		{
-			"uuid": "dcef0752-2f84-4737-99e7-e86a0621cef0",
-			"version": [
-				1,
-				0,
-				0
-			]
-		},
-		{
-			"module_name": "mojang-minecraft",
-			"version": [
-				0,
-				1,
-				0
-			]
-		},
-		{
-			"module_name": "mojang-minecraft-ui",
-			"version": [
-				0,
-				1,
-				0
-			]
-		}
-	]
+    "format_version": 2,
+    "metadata": {
+        "authors": [
+            "Chikorita Lover",
+            "KekeCreations",
+            "Outer Cloud Studio",
+            "Warhead"
+        ],
+        "generated_with": {
+            "bridge": [
+                "2.3.2"
+
+            ],
+            "dash": [
+                "0.9.28"
+            ]
+        }
+    },
+    "header": {
+        "name": "The Home: Survival Behavior Pack",
+        "description": "A multiplayer survival map by The Home where players defend themselves from incoming monsters, while upgrading and unlocking new weapons and machines!",
+        "min_engine_version": [
+            1,
+            19,
+            20
+        ],
+        "uuid": "c0607fa4-d3b2-4d93-8cd9-cc3df78364cf",
+        "version": [
+            1,
+            0,
+            0
+        ]
+    },
+    "modules": [{
+            "type": "data",
+            "uuid": "94419bb3-c1d5-4c81-9503-77f8eb869754",
+            "version": [
+                1,
+                0,
+                0
+            ]
+        },
+        {
+            "type": "script",
+            "language": "javascript",
+            "uuid": "73e92721-a86e-4d7e-9473-aff1ddc453ab",
+            "entry": "scripts/main.js",
+            "version": [
+                1,
+                0,
+                0
+            ]
+        }
+    ],
+    "dependencies": [{
+            "uuid": "dcef0752-2f84-4737-99e7-e86a0621cef0",
+            "version": [
+                1,
+                0,
+                0
+            ]
+        },
+        {
+            "module_name": "mojang-minecraft",
+            "version": [
+                0,
+                1,
+                0
+            ]
+        },
+        {
+            "module_name": "mojang-minecraft-ui",
+            "version": [
+                0,
+                1,
+                0
+            ]
+        }
+    ]
 }

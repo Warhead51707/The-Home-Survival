@@ -1,0 +1,23 @@
+{
+	"format_version": "1.12",
+	"minecraft:recipe_shaped": {
+		"description": {
+			"identifier": "home:rotten_flesh_to_leather"
+		},
+		"tags": [
+			"crafting_table"
+		],
+		"pattern": [
+			"AA",
+			"AA"
+		],
+		"key": {
+			"A": {
+				"item": "minecraft:rotten_flesh"
+			}
+		},
+		"result": {
+			"item": "minecraft:leather"
+		}
+	}
+}
