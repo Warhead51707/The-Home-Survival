@@ -124,8 +124,6 @@ function startWave(dimension, round) {
                 if (spawnLocation.current_second >= spawnLocation.spawn_rate) {
                     spawnLocation.current_second = 0
 
-                    if (spawnLocation.remaining_zombies > 0) console.warn(spawnLocation.remaining_zombies)
-
                     if (spawnLocation.remaining_zombies <= 0) {
                         spawnsFinished++
 
