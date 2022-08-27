@@ -1,16 +1,22 @@
 import { world, SoundOptions, MolangVariableMap, EntityQueryOptions, Color } from 'mojang-minecraft'
 import { ActionFormData } from 'mojang-minecraft-ui'
 
-world.events.tick.subscribe(tick => {
-    const players = world.getPlayers()
+let customers = new EntityQueryOptions()
+customers.tags = ['beacon_purchase']
 
-    for (let player of players) {
-        if (player.hasTag("speedbuy")) {
-            player.removeTag("speedbuy")
+world.events.dataDrivenEntityTriggerEvent.subscribe(entityTriggerEvent => {
+    if (entityTriggerEvent.id !== "home:purchase_powerup") return
 
+    const vendor = entityTriggerEvent.entity
+    const vendorName = vendor.nameTag === "" ? `entity.${vendor.id}.name` : vendor.nameTag
+
+    for (let player of world.getPlayers(customers)) {
+        player.removeTag("beacon_purchase")
+
+        if (vendor.id === "home:speed_beacon") {
             const speedForm = new ActionFormData()
 
-                .title("Speed For U")
+                .title(vendorName)
                 .body("Get quick! Buy some Speed For U and increase your speed by 60 percent!")
 
                 .button("Upgrade Speed ($2500)", "textures/ui/speed_effect")
@@ -22,14 +28,12 @@ world.events.tick.subscribe(tick => {
                         particleColor: [124, 175, 198]
                     }
 
-                    purchasePowerup(player, 2500, 'Speed For U', purchaseOptions)
+                    purchasePowerup(player, vendor, 2500, 'Speed For U', purchaseOptions)
                 }
             })
         }
 
-        if (player.hasTag("healthbuy")) {
-            player.removeTag("healthbuy")
-
+        if (vendor.id === "home:health_beacon") {
             let formOptions = ["upgrade_health"]
             const health = player.getComponent('minecraft:health')
             let healthForm
@@ -49,7 +53,7 @@ world.events.tick.subscribe(tick => {
             if (!formOptions.includes("heal") && !formOptions.includes("heal_teammates")) {
                 healthForm = new ActionFormData()
 
-                    .title("Health For U")
+                    .title(vendorName)
 
                     .body("Stay up against those monsters! Buy some Health For U and double your maximum health!")
 
@@ -58,7 +62,7 @@ world.events.tick.subscribe(tick => {
             } else if (formOptions.includes("heal") && !formOptions.includes("heal_teammates")) {
                 healthForm = new ActionFormData()
 
-                    .title("Health For U")
+                    .title(vendorName)
 
                     .body("Stay up against those monsters! Buy some Health For U!")
 
@@ -68,7 +72,7 @@ world.events.tick.subscribe(tick => {
             } else if (!formOptions.includes("heal") && formOptions.includes("heal_teammates")) {
                 healthForm = new ActionFormData()
 
-                    .title("Health For U")
+                    .title(vendorName)
 
                     .body("Stay up against those monsters! Buy some Health For U!")
 
@@ -78,7 +82,7 @@ world.events.tick.subscribe(tick => {
             } else if (formOptions.includes("heal") && formOptions.includes("heal_teammates")) {
                 healthForm = new ActionFormData()
 
-                    .title("Health For U")
+                    .title(vendorName)
 
                     .body("Stay up against those monsters! Buy some Health For U!")
 
@@ -93,7 +97,7 @@ world.events.tick.subscribe(tick => {
                     const purchaseOptions = {
                         particleColor: [248, 125, 35]
                     }
-                    const purchaseSuccess = purchasePowerup(player, 3500, 'Health For U', purchaseOptions)
+                    const purchaseSuccess = purchasePowerup(player, vendor, 3500, 'Health For U', purchaseOptions)
 
                     if (purchaseSuccess) {
                         health.setCurrent(40)
@@ -106,7 +110,7 @@ world.events.tick.subscribe(tick => {
                         duplicateMessage: 'You already have maximum health!',
                         particleColor: [248, 36, 35]
                     }
-                    const purchaseSuccess = purchasePowerup(player, healthToHeal * 50, 'Health For U', purchaseOptions)
+                    const purchaseSuccess = purchasePowerup(player, vendor, healthToHeal * 50, 'Health For U', purchaseOptions)
 
                     if (purchaseSuccess) {
                         health.setCurrent(health.current + healthToHeal)
@@ -120,7 +124,7 @@ world.events.tick.subscribe(tick => {
                         duplicateCondition: (teammatesHealth <= 0),
                         duplicateMessage: 'Your teammates already have maximum health!'
                     }
-                    const purchaseSuccess = purchasePowerup(player, teammatesHealth * 25, 'Health For U', purchaseOptions)
+                    const purchaseSuccess = purchasePowerup(player, vendor, teammatesHealth * 25, 'Health For U', purchaseOptions)
 
                     if (purchaseSuccess) {
                         for (let teammate of teammates) {
@@ -133,12 +137,10 @@ world.events.tick.subscribe(tick => {
             })
         }
 
-        if (player.hasTag("weaponbuy")) {
-            player.removeTag("weaponbuy")
-
+        if (vendor.id === "home:weapons_for_u") {
             const weaponForm = new ActionFormData()
 
-                .title("Weapons For U")
+                .title(vendorName)
 
                 .body("Fighting ain't nothin' without a good weapon. Get some Weapons For U!")
 
@@ -151,7 +153,7 @@ world.events.tick.subscribe(tick => {
                         particleColor: [147, 36, 35]
                     }
 
-                    purchasePowerup(player, 850, 'Weapon For U', purchaseOptions)
+                    purchasePowerup(player, vendor, 850, 'Weapon For U', purchaseOptions)
                 }
             })
         }
@@ -160,29 +162,31 @@ world.events.tick.subscribe(tick => {
 
 /**
 * @param {Player} player
+* @param {Entity} vendor
 * @param {number} cost
 * @param {string} powerup
 * @param {object} purchaseOptions
 */
-function purchasePowerup(player, cost, powerup, purchaseOptions = {}) {
+function purchasePowerup(player, vendor, cost, powerup, purchaseOptions = {}) {
     const duplicateMessage = (purchaseOptions.duplicateMessage == undefined) ? 'You already have this!' : purchaseOptions.duplicateMessage
     const identifier = powerup.replace(/ /g, '')
     const ignoreTag = !(purchaseOptions.assignTag || purchaseOptions.assignTag == undefined)
     const money = world.scoreboard.getObjective("money").getScore(player.scoreboard)
+    const vendorName = vendor.nameTag === "" ? `entity.${vendor.id}.name` : vendor.nameTag
     let soundOptions = new SoundOptions()
-    soundOptions.location = player.location
+    soundOptions.location = vendor.location
 
     if (money < cost) {
-        player.runCommand(`tellraw @s {"rawtext":[{"text":"[${identifier}] You don\'t have enough for this!"}]}`)
+        player.runCommand(`tellraw @s {"rawtext":[{"text":"["},{"translate":"${vendorName}"},{"text":"] You don\'t have enough for this!"}]}`)
 
         return false
     } else if ((player.hasTag(identifier.toLocaleLowerCase()) && !ignoreTag) || purchaseOptions.duplicateCondition) {
-        player.runCommand(`tellraw @s {"rawtext":[{"text":"[${identifier}] ${duplicateMessage}"}]}`)
+        player.runCommand(`tellraw @s {"rawtext":[{"text":"["},{"translate":"${vendorName}"},{"text":"] ${duplicateMessage}"}]}`)
 
         return false
     }
 
-    player.runCommand(`tellraw @s {"rawtext":[{"text":"[${identifier}] You successfully bought §6${powerup}§r!"}]}`)
+    player.runCommand(`tellraw @s {"rawtext":[{"text":"["},{"translate":"${vendorName}"},{"text":"] You successfully bought §6${powerup}§r!"}]}`)
     player.runCommand(`scoreboard players remove @s money ${cost}`)
 
     world.playSound("beacon.power", soundOptions)
