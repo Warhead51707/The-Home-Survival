@@ -1,0 +1,47 @@
+{
+	"format_version": "1.16.0",
+	"minecraft:entity": {
+		"description": {
+			"identifier": "home:round_progress",
+			"is_spawnable": false,
+			"is_summonable": true,
+			"is_experimental": false
+		},
+		"component_groups": {
+			"home:instant_despawn": {
+				"minecraft:instant_despawn": {}
+			}
+		},
+		"components": {
+			"minecraft:boss": {
+				"hud_range": 55
+			},
+			"minecraft:collision_box": {
+				"height": 0,
+				"width": 0
+			},
+			"minecraft:damage_sensor": {
+				"triggers": {
+					"cause": "all",
+					"deals_damage": false
+				}
+			},
+			"minecraft:health": {
+				"value": 500,
+				"max": 500
+			},
+			"minecraft:nameable": {
+				"allow_name_tag_renaming": false
+			}
+		},
+		"events": {
+			"home:instant_despawn": {
+				"add": {
+					"component_groups": [
+						"home:instant_despawn"
+					]
+				}
+			}
+		}
+	}
+}

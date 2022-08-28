@@ -1,5 +1,6 @@
 entity.home:health_beacon.name=Healing Beacon
 entity.home:land_mine.name=Land Mine
+entity.home:round_progress.name=Round Progress
 entity.home:speed_beacon.name=Swiftness Beacon
 entity.home:totem.name=Totem
 entity.home:weapons_for_u.name=Weapons For U
