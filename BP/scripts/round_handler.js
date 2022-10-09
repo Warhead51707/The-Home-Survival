@@ -1,5 +1,5 @@
 import { world, MolangVariableMap, EntityQueryOptions, BlockLocation } from "mojang-minecraft"
-import { randomInt, getPlayers } from './utility.js'
+import { randomInt, randomFloat, getPlayers } from './utility.js'
 import { spawnPool } from "./spawn_pool.js"
 
 let progressQuery = new EntityQueryOptions()
@@ -29,6 +29,10 @@ world.events.beforeChat.subscribe(data => {
 
 })
 
+function calculateSpawnDelay(round) {
+    return 1 / (((round - 1) / 9) + 1)
+}
+
 function startWave(dimension, round) {
     const totalMonsters = round * 3 + 3
     remainingMonsters = totalMonsters
@@ -54,11 +58,12 @@ function startWave(dimension, round) {
             z: foundData.z,
             remaining_zombies: 0,
             current_second: 0,
-            spawn_rate: randomInt(4, 9)
+            spawn_rate: randomFloat(4 * calculateSpawnDelay(round), 9 * calculateSpawnDelay(round))
         }
     }
 
-    let ticksPassed = 0
+    console.warn(calculateSpawnDelay(round))
+
     let spawnsFinished = 0
     let endTicks = 0
 
@@ -112,21 +117,10 @@ function startWave(dimension, round) {
         }
 
         if (!spawnEnd) {
-
-            if (ticksPassed > 20) {
-
-                for (let spawnLocation in spawnLocations) {
-                    spawnLocation = spawnLocations[spawnLocation]
-                    spawnLocation.current_second++
-                }
-
-                ticksPassed = 0
-            }
-
-            ticksPassed++
-
             for (let spawnLocation in spawnLocations) {
                 spawnLocation = spawnLocations[spawnLocation]
+
+                spawnLocation.current_second += 1 / 20
 
                 if (spawnLocation.current_second >= spawnLocation.spawn_rate) {
                     spawnLocation.current_second = 0
@@ -146,7 +140,7 @@ function startWave(dimension, round) {
                         dimension.spawnParticle("home:spawn_explosion_particle", monster.location, new MolangVariableMap())
 
                         spawnLocation.remaining_zombies--
-                        spawnLocation.spawn_rate = randomInt(3, 9)
+                        spawnLocation.spawn_rate = randomFloat(4 * calculateSpawnDelay(round), 9 * calculateSpawnDelay(round))
                     }
                 }
             }
@@ -287,7 +281,7 @@ function startWave(dimension, round) {
         }
     }
 
-    world.events.tick.subscribe(() => spawnZombs())
+    world.events.tick.subscribe(spawnZombs)
 }
 
 world.events.entityHurt.subscribe(entityHurt => {
