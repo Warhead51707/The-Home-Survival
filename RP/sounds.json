@@ -1,1 +1,13 @@
-{}
+{
+    "entity_sounds": {
+        "entities": {
+            "home:turret": {
+                "volume": 1.0,
+                "pitch": [ 0.9, 1.1 ],
+                "events": {
+                    "shoot": "random.bow"
+                }
+            }
+        }
+    }
+}

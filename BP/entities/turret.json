@@ -1,0 +1,126 @@
+{
+	"format_version": "1.19.20",
+	"minecraft:entity": {
+		"description": {
+			"identifier": "home:turret",
+			"is_summonable": true,
+			"is_spawnable": true,
+			"animations": {
+				"turret": "controller.animation.turret"
+			},
+			"scripts": {
+				"animate": [
+					"turret"
+				]
+			}
+		},
+		"component_groups": {
+			"shooter": {
+				"minecraft:shooter": {
+					"def": "minecraft:arrow"
+				},
+				"minecraft:behavior.ranged_attack": {
+					"priority": 0,
+					"attack_interval": 1,
+					"y_max_head_rotation": 360,
+					"attack_radius": 16.0,
+					"swing": true
+				},
+				"minecraft:behavior.nearest_attackable_target": {
+					"priority": 0,
+					"reselect_targets": true,
+					"scan_interval": 10,
+					"entity_types": [
+						{
+							"filters": {
+								"test": "is_family",
+								"subject": "other",
+								"value": "monster"
+							},
+							"max_dist": 64
+						}
+					],
+					"must_see": true
+				}
+			}
+		},
+		"components": {
+			"minecraft:health": {
+				"value": 20,
+				"max": 20
+			},
+			"minecraft:movement": {
+				"value": 0.0
+			},
+			"minecraft:type_family": {
+				"family": [ "turret" ]
+			},
+			"minecraft:collision_box": {
+				"height": 1.4,
+				"width": 0.7
+			},
+			"minecraft:movement.basic": {},
+			"minecraft:navigation.generic": {},
+			"minecraft:physics": {},
+			"minecraft:pushable": {
+				"is_pushable": false,
+				"is_pushable_by_piston": false
+			},
+			"minecraft:knockback_resistance": {
+				"value": 1
+			},
+			"minecraft:damage_sensor": {
+				"triggers": [
+					{
+						"on_damage": {
+							"filters": {
+								"test": "is_family",
+								"subject": "other",
+								"value": "turret"
+							}
+						},
+						"deals_damage": false
+					},
+					{
+						"on_damage": {
+							"filters": {
+								"test": "is_family",
+								"subject": "other",
+								"operator": "!=",
+								"value": "player"
+							}
+						},
+						"cause": "entity_attack",
+						"damage_modifier": -3
+					},
+					{
+						"cause": "projectile",
+						"damage_modifier": -3
+					}
+				]
+			},
+			"minecraft:inventory": {
+				"inventory_size": 5,
+				"can_be_siphoned_from": false,
+				"container_type": "hopper"
+			}
+		},
+		"events": {
+			"add_shooter": {
+				"add": {
+					"component_groups": [
+						"shooter"
+					]
+				}
+			},
+			"remove_shooter": {
+				"remove": {
+					"component_groups": [
+						"shooter"
+					]
+				}
+			},
+			"on_shoot": {}
+		}
+	}
+}

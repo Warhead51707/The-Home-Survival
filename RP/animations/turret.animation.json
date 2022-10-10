@@ -1,0 +1,140 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.turret.build": {
+			"animation_length": 0.74,
+			"loop": "hold_on_last_frame",
+			"bones": {
+				"head": {
+					"rotation": {
+						"0.0": {
+							"post": [10, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.24": {
+							"post": [20, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.36": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.56": {
+							"post": [-20, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.76": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"leg0": {
+					"rotation": {
+						"0.0": {
+							"post": [-67.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.76": {
+							"post": [-22.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"leg1": {
+					"rotation": {
+						"0.0": {
+							"post": [67.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.76": {
+							"post": [22.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"leg2": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, -67.5],
+							"lerp_mode": "catmullrom"
+						},
+						"0.76": {
+							"post": [0, 0, -22.5],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"leg3": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 67.5],
+							"lerp_mode": "catmullrom"
+						},
+						"0.76": {
+							"post": [0, 0, 22.5],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"root": {
+					"position": {
+						"0.0": {
+							"post": [0, -8, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.76": {
+							"post": [0, -1, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				}
+			}
+		},
+		"animation.turret.setup": {
+			"loop": true,
+			"bones": {
+				"leg0": {
+					"rotation": [-22.5, 0, 0]
+				},
+				"leg1": {
+					"rotation": [22.5, 0, 0]
+				},
+				"leg2": {
+					"rotation": [0, 0, -22.5]
+				},
+				"leg3": {
+					"rotation": [0, 0, 22.5]
+				},
+				"root": {
+					"position": [0, -1, 0]
+				}
+			}
+		},
+		"animation.turret.shoot": {
+			"animation_length": 0.12,
+			"loop": false,
+			"bones": {
+				"head": {
+					"position": {
+						"0.0": [
+							0,
+							0,
+							0
+						],
+						"0.04": [
+							0,
+							0,
+							1
+						],
+						"0.08": [
+							0,
+							0,
+							0
+						]
+					}
+				}
+			}
+		}
+	}
+}

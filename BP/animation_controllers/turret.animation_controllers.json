@@ -1,0 +1,27 @@
+{
+	"format_version": "1.10.0",
+	"animation_controllers": {
+		"controller.animation.turret": {
+			"initial_state": "default",
+			"states": {
+				"default": {
+					"transitions": [
+						{
+							"attacking": "variable.attack_time > 0.0"
+						}
+					]
+				},
+				"attacking": {
+					"on_entry": [
+						"@s on_shoot"
+					],
+					"transitions": [
+						{
+							"default": "variable.attack_time <= 0.0"
+						}
+					]
+				}
+			}
+		}
+	}
+}
