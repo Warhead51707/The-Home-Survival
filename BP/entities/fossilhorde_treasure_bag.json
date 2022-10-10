@@ -1,0 +1,57 @@
+{
+	"format_version": "1.19.0",
+	"minecraft:entity": {
+		"description": {
+			"identifier": "home:fossilhorde_treasure_bag",
+			"is_summonable": true
+		},
+		"component_groups": {
+			"home:instant_despawn": {
+				"minecraft:instant_despawn": {}
+			}
+		},
+		"components": {
+			"minecraft:physics": {
+				"has_gravity": false,
+				"has_collision": false
+			},
+			"minecraft:collision_box": {
+				"height": 0.7,
+				"width": 0.7
+			},
+			"minecraft:damage_sensor": {
+				"triggers": {
+					"cause": "all",
+					"deals_damage": false
+				}
+			},
+			"minecraft:interact": {
+				"interactions": {
+					"on_interact": {
+						"event": "home:get_bag",
+						"target": "self"
+					},
+					"swing": true
+				}
+			}
+		},
+		"events": {
+			"home:instant_despawn": {
+				"add": {
+					"component_groups": [
+						"home:instant_despawn"
+					]
+				}
+			},
+			"home:get_bag": {
+				"run_command": {
+					"command": [
+						"give @a home:fossilhorde_treasure_bag"
+					]
+				},
+				"trigger": "home:instant_despawn"
+			},
+			"home:respawn_player": {}
+		}
+	}
+}

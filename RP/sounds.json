@@ -1,1 +1,22 @@
-{}
+{
+    "entity_sounds": {
+        "entities": {
+            "home:fossilhorde": {
+                "events": {
+                    "ambient": "mob.fossilhorde.ambient",
+                    "hurt": "mob.fossilhorde.hurt",
+                    "death": "mob.fossilhorde.death",
+                    "roar": "mob.fossilhorde.roar",
+                    "step": "mob.fossilhorde.step",
+                    "spawn": "mob.fossilhorde.spawn",
+                    "cast.spell": "mob.fossilhorde.cast_spell"
+                },
+                "pitch": [
+                    0.80,
+                    1.20
+                ],
+                "volume": 2.0
+            }
+        }
+    }
+}

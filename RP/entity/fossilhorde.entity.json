@@ -1,0 +1,20 @@
+{
+	"format_version": "1.10.0",
+	"minecraft:client_entity": {
+		"description": {
+			"identifier": "home:fossilhorde",
+			"materials": {
+				"default": "entity"
+			},
+			"textures": {
+				"default": "textures/entity/fossilhorde"
+			},
+			"geometry": {
+				"default": "geometry.fossilhorde"
+			},
+			"render_controllers": [
+				"controller.render.default"
+			]
+		}
+	}
+}

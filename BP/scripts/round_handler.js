@@ -2,7 +2,7 @@ import { world, MolangVariableMap, EntityQueryOptions, BlockLocation } from "moj
 import { randomInt, randomFloat, getPlayers } from './utility.js'
 import { spawnPool } from "./spawn_pool.js"
 
-let progressQuery = new EntityQueryOptions()
+let progressQuery = {}
 progressQuery.type = 'home:round_progress'
 
 let remainingMonsters = 0
@@ -23,10 +23,11 @@ world.events.beforeChat.subscribe(data => {
         case '!properties':
             dimension.runCommand(`say ${world.getDynamicProperty("SpawnLocationData")}`)
             break
+        case '!end':
+            startWave(dimension, 1, true)
         default:
             break
     }
-
 })
 
 function calculateSpawnDelay(round) {
@@ -140,7 +141,7 @@ function startWave(dimension, round) {
                         dimension.spawnParticle("home:spawn_explosion_particle", monster.location, new MolangVariableMap())
 
                         spawnLocation.remaining_zombies--
-                        spawnLocation.spawn_rate = randomFloat(4 * calculateSpawnDelay(round), 9 * calculateSpawnDelay(round))
+                            spawnLocation.spawn_rate = randomFloat(4 * calculateSpawnDelay(round), 9 * calculateSpawnDelay(round))
                     }
                 }
             }
@@ -163,7 +164,7 @@ function startWave(dimension, round) {
         setRoundProgress(remainingMonsters, totalMonsters, false, "monsters")
 
         if (spawnEnd) {
-            let monsterQuery = new EntityQueryOptions()
+            let monsterQuery = {}
             monsterQuery.families = ['monster']
             const monsters = dimension.getEntities(monsterQuery)
 
@@ -174,10 +175,10 @@ function startWave(dimension, round) {
     }
 
     /**
-    * @remarks Ends the current round.
-    * @param {boolean} victory If true, the players won the round.
-    * @throws This function can throw errors.
-    */
+     * @remarks Ends the current round.
+     * @param {boolean} victory If true, the players won the round.
+     * @throws This function can throw errors.
+     */
     function endRound(victory) {
         clearRoundProgress()
 
@@ -198,10 +199,10 @@ function startWave(dimension, round) {
     }
 
     /**
-    * @remarks Kills all round progress entities that don't share the specified name tag.
-    * @param {string} nameTag Optional name tag that will be checked.
-    * @returns {boolean} Returns true if any entities were killed.
-    */
+     * @remarks Kills all round progress entities that don't share the specified name tag.
+     * @param {string} nameTag Optional name tag that will be checked.
+     * @returns {boolean} Returns true if any entities were killed.
+     */
     function clearRoundProgress(nameTag = "") {
         let result = false
 
@@ -216,11 +217,11 @@ function startWave(dimension, round) {
     }
 
     /**
-    * @param {BlockLocation} location
-    * @param {number} offsetX
-    * @param {number} offsetY
-    * @param {number} offsetZ
-    */
+     * @param {BlockLocation} location
+     * @param {number} offsetX
+     * @param {number} offsetY
+     * @param {number} offsetZ
+     */
     function randomLocationOffset(location, offsetX, offsetY, offsetZ) {
         let newLocation = new BlockLocation(location.x, location.y, location.z)
 
@@ -246,13 +247,13 @@ function startWave(dimension, round) {
     }
 
     /**
-    * @remarks Summons a new round progress entity, then sets its health and name tag accordingly.
-    * @param {number} value The number of monsters or time remaining.
-    * @param {number} max The maximum number of monsters or time that may remain.
-    * @param {boolean} override If true, a new entity will be summoned and older entities will be despawned regardless of other conditions.
-    * @param {string} mode Optional parameter that sets hardcoded properties for the round progress.
-    * @throws This function can throw errors.
-    */
+     * @remarks Summons a new round progress entity, then sets its health and name tag accordingly.
+     * @param {number} value The number of monsters or time remaining.
+     * @param {number} max The maximum number of monsters or time that may remain.
+     * @param {boolean} override If true, a new entity will be summoned and older entities will be despawned regardless of other conditions.
+     * @param {string} mode Optional parameter that sets hardcoded properties for the round progress.
+     * @throws This function can throw errors.
+     */
     function setRoundProgress(value, max, override = false, mode = "monsters") {
         let progressTitle = "Round " + (round + (mode === "timer" ? 1 : 0))
 

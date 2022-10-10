@@ -1,7 +1,7 @@
 import { world, SoundOptions, MolangVariableMap, EntityQueryOptions, Color } from 'mojang-minecraft'
 import { ActionFormData } from 'mojang-minecraft-ui'
 
-let customers = new EntityQueryOptions()
+let customers = {}
 customers.tags = ['beacon_purchase']
 
 world.events.dataDrivenEntityTriggerEvent.subscribe(entityTriggerEvent => {
@@ -38,7 +38,7 @@ world.events.dataDrivenEntityTriggerEvent.subscribe(entityTriggerEvent => {
             const health = player.getComponent('minecraft:health')
             let healthForm
             const money = world.scoreboard.getObjective("money").getScore(player.scoreboard)
-            let teammateQuery = new EntityQueryOptions()
+            let teammateQuery = {}
             teammateQuery.excludeNames = [player.name]
             const teammates = world.getPlayers(teammateQuery)
 
