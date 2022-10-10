@@ -16,7 +16,7 @@ world.events.dataDrivenEntityTriggerEvent.subscribe(entityTriggerEvent => {
 
             player.addTag("expired")
         }
-
+        totem.dimension.spawnParticle("minecraft:egg_destroy_emitter", totem.location, new MolangVariableMap())
         totem.triggerEvent("home:instant_despawn")
     }
 

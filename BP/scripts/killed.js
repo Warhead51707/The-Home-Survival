@@ -22,8 +22,8 @@ world.events.entityHurt.subscribe(hurt => {
 
         if (damagingEntity.id != 'minecraft:player') return
 
-        player.runCommand(`scoreboard players add @s killCount 1`)
-        player.runCommand(`scoreboard players add @s money 45`)
+        damagingEntity.runCommand(`scoreboard players add @s killCount 1`)
+        damagingEntity.runCommand(`scoreboard players add @s money 45`)
     }
 })
 

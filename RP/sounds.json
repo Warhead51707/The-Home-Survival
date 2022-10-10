@@ -1,13 +1,9 @@
 {
     "entity_sounds": {
         "entities": {
-            "home:turret": {
-                "volume": 1.0,
-                "pitch": [ 0.9, 1.1 ],
-                "events": {
-                    "shoot": "random.bow"
-                },
             "home:fossilhorde": {
+                "volume": 2.0,
+                "pitch": [0.8, 1.2],
                 "events": {
                     "ambient": "mob.fossilhorde.ambient",
                     "hurt": "mob.fossilhorde.hurt",
@@ -16,12 +12,14 @@
                     "step": "mob.fossilhorde.step",
                     "spawn": "mob.fossilhorde.spawn",
                     "cast.spell": "mob.fossilhorde.cast_spell"
-                },
-                "pitch": [
-                    0.80,
-                    1.20
-                ],
-                "volume": 2.0
+                }
+            },
+            "home:turret": {
+                "volume": 1.0,
+                "pitch": [ 0.9, 1.1 ],
+                "events": {
+                    "shoot": "random.bow"
+                }
             }
         }
     }
