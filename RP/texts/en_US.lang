@@ -4,6 +4,7 @@ entity.home:round_progress.name=Round Progress
 entity.home:speed_beacon.name=Swiftness Beacon
 entity.home:totem.name=Totem
 entity.home:weapons_for_u.name=Weapons For U
+entity.home:turret=Turret
 
 item.banner_pattern.flower=Speed Charge
 item.banner_pattern.skull=Heart
@@ -13,6 +14,7 @@ item.spawn_egg.entity.home:health_beacon.name=Healing Beacon
 item.spawn_egg.entity.home:land_mine.name=Spawn Land Mine
 item.spawn_egg.entity.home:speed_beacon.name=Swiftness Beacon
 item.spawn_egg.entity.home:weapons_for_u.name=Weapons For U
+item.spawn_egg.entity.home:turret.name=Turret
 
 item.banner.flower.black=Black Speed Charge
 item.banner.flower.blue=Blue Speed Charge

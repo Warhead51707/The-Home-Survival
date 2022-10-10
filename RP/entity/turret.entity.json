@@ -1,0 +1,43 @@
+{
+	"format_version": "1.10.0",
+	"minecraft:client_entity": {
+		"description": {
+			"identifier": "home:turret",
+			"materials": {
+				"default": "entity_alphatest"
+			},
+			"textures": {
+				"default": "textures/entity/turret"
+			},
+			"geometry": {
+				"default": "geometry.turret"
+			},
+			"animations": {
+				"controller": "controller.animation.turret",
+				"attack_controller": "controller.animation.turret.attack",
+				"shooting_controller": "controller.animation.turret.shooting",
+				"build": "animation.turret.build",
+				"shoot": "animation.turret.shoot",
+				"setup": "animation.turret.setup"
+			},
+			"scripts": {
+				"animate": [
+					"controller",
+					"attack_controller",
+					"shooting_controller"
+				]
+			},
+			"particle_effects": {
+				"smoke": "home:turret_smoke"
+			},
+			"render_controllers": [
+				"controller.render.default"
+			],
+			"spawn_egg": {
+				"texture": "spawn_egg",
+				"base_color": "#FFFFFF",
+				"overlay_color": "#FFFFFF"
+			}
+		}
+	}
+}

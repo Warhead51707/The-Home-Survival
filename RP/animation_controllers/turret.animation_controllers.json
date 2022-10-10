@@ -1,0 +1,72 @@
+{
+	"format_version": "1.10.0",
+	"animation_controllers": {
+		"controller.animation.turret": {
+			"initial_state": "build",
+			"states": {
+				"build": {
+					"animations": [
+						"build"
+					],
+					"transitions": [
+						{
+							"default": "query.any_animation_finished"
+						}
+					]
+				},
+				"default": {
+					"animations": [
+						"setup"
+					]
+				}
+			}
+		},
+		"controller.animation.turret.attack": {
+			"initial_state": "not_attacking",
+			"states": {
+				"not_attacking": {
+					"transitions": [
+						{
+							"attacking": "variable.attack_time > 0.0"
+						}
+					]
+				},
+				"attacking": {
+					"animations": [
+						"shoot"
+					],
+					"transitions": [
+						{
+							"not_attacking": "variable.attack_time <= 0.0"
+						}
+					]
+				}
+			}
+		},
+		"controller.animation.turret.shooting": {
+			"initial_state": "default",
+			"states": {
+				"default": {
+					"transitions": [
+						{
+							"ranged": "query.facing_target_to_range_attack"
+						}
+					],
+					"particle_effects": [
+						{
+							"effect": "smoke",
+							"locator": "smoke_emitter"
+						}
+					]
+				},
+				"ranged": {
+					"transitions": [
+						{
+							"default": "!query.facing_target_to_range_attack"
+						}
+					]
+				}
+			}
+		}
+	}
+}

@@ -6,3 +6,5 @@ import './powerups.js'
 import './weapon_durability.js'
 import './totem.js'
 import './katana.js'
+import './turret.js'
+
