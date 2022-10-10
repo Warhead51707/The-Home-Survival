@@ -1,0 +1,60 @@
+{
+	"format_version": "1.19.30",
+	"minecraft:block": {
+		"description": {
+			"identifier": "home:trash_can"
+		},
+		"components": {
+			"minecraft:destructible_by_mining": false,
+			"minecraft:destructible_by_explosion": false,
+			"minecraft:collision_box": {
+				"origin": [ -6, 0, -6 ],
+				"size": [ 12, 13, 12 ]
+			},
+			"minecraft:selection_box": {
+				"origin": [ -6, 0, -6 ],
+				"size": [ 12, 13, 12 ]
+			},
+			"minecraft:block_light_filter": 0,
+			"minecraft:geometry": "geometry.trash_can",
+			"minecraft:material_instances": {
+				"north": {
+					"texture": "trash_can",
+					"render_method": "alpha_test"
+				},
+				"east": {
+					"texture": "trash_can",
+					"render_method": "alpha_test"
+				},
+				"south": {
+					"texture": "trash_can",
+					"render_method": "alpha_test"
+				},
+				"west": {
+					"texture": "trash_can",
+					"render_method": "alpha_test"
+				},
+				"up": {
+					"texture": "trash_can_top",
+					"render_method": "alpha_test"
+				},
+				"down": {
+					"texture": "trash_can_top",
+					"render_method": "alpha_test"
+				}
+			},
+			"minecraft:on_interact": {
+				"event": "home:trash_item",
+				"target": "self"
+			}
+		},
+		"events": {
+			"home:trash_item": {
+				"swing": {},
+				"decrement_stack": {
+					"ignore_game_mode": true
+				}
+			}
+		}
+	}
+}

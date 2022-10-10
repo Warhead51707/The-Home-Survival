@@ -16,6 +16,8 @@ item.spawn_egg.entity.home:speed_beacon.name=Swiftness Beacon
 item.spawn_egg.entity.home:weapons_for_u.name=Weapons For U
 item.spawn_egg.entity.home:turret.name=Turret
 
+tile.home:trash_can.name=Trash Can
+
 item.banner.flower.black=Black Speed Charge
 item.banner.flower.blue=Blue Speed Charge
 item.banner.flower.brown=Brown Speed Charge

@@ -3,5 +3,8 @@
 		1,
 		1,
 		0
-	]
+	],
+	"home:trash_can": {
+		"sound": "netherite"
+	}
 }
