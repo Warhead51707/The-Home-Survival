@@ -2,12 +2,12 @@
 	"format_version": "1.10.0",
 	"minecraft:client_entity": {
 		"description": {
-			"identifier": "home:totem",
+			"identifier": "home:fossilhorde_treasure_bag",
 			"materials": {
 				"default": "entity"
 			},
 			"textures": {
-				"default": "textures/items/totem"
+				"default": "textures/items/fossilhorde_treasure_bag"
 			},
 			"geometry": {
 				"default": "geometry.item_mesh"

@@ -34,6 +34,58 @@
 					"volume": 0.2
 				}
 			]
+		},
+		"mob.fossilhorde.ambient": {
+			"category": "ambient",
+			"sounds": [
+				"sounds/mob/fossilhorde/ambient/fossilhorde_idle",
+				"sounds/mob/fossilhorde/ambient/fossilhorde_idle_2"
+			]
+		},
+		"mob.fossilhorde.death": {
+			"category": "hostile",
+			"sounds": [
+				"sounds/mob/fossilhorde/death/fossilhorde_death"
+			]
+		},
+		"mob.fossilhorde.hurt": {
+			"category": "hostile",
+			"sounds": [
+				"sounds/mob/fossilhorde/hurt/fossilhorde_hurt",
+				"sounds/mob/fossilhorde/hurt/fossilhorde_hurt_2"
+			]
+		},
+		"mob.fossilhorde.phase": {
+			"category": "hostile",
+			"sounds": [
+				"sounds/mob/fossilhorde/phase/fossilhorde_phase_2"
+			]
+		},
+		"mob.fossilhorde.spawn": {
+			"category": "hostile",
+			"sounds": [
+				"sounds/mob/fossilhorde/spawn/fossilhorde_spawn"
+			]
+		},
+		"mob.fossilhorde.step": {
+			"category": "hostile",
+			"sounds": [
+				"sounds/mob/fossilhorde/step/fossilhorde_step",
+				"sounds/mob/fossilhorde/step/fossilhorde_step_2"
+			]
+		},
+		"mob.fossilhorde.cast_spell": {
+			"category": "hostile",
+			"sounds": [
+				"sounds/mob/fossilhorde/cast_spell/fossilhorde_cast",
+				"sounds/mob/fossilhorde/cast_spell/fossilhorde_cast_2"
+			]
+		},
+		"mob.fossilhorde.roar": {
+			"category": "hostile",
+			"sounds": [
+				"sounds/mob/fossilhorde/roar/fossilhorde_roar"
+			]
 		}
 	}
 }

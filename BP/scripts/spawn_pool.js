@@ -6,7 +6,7 @@ export const spawnPool = [
     },
     {
         "identifier": "minecraft:skeleton",
-        "min": 3,
+        "min": 10,
         "weight": 1
     }
 ]

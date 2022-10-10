@@ -2,13 +2,25 @@ import { world, Location } from 'mojang-minecraft'
 
 world.events.entityHurt.subscribe(hurt => {
     const entity = hurt.hurtEntity
+    const dimension = world.getDimension(entity.dimension.id)
+
+    let phase2 = false
+
+    if (entity.id === 'home:fossilhorde' && entity.getComponent('minecraft:health').current <= 300 && !phase2) {
+        entity.triggerEvent('phase_2')
+        phase2 = true
+    }
 
     if (entity.getComponent('minecraft:health').current <= 0) {
         if (!entity.hasTag("monster")) return
 
-        const player = hurt.damagingEntity
+        if (entity.id === 'home:fossilhorde') {
+            dimension.spawnEntity('home:fossilhorde_treasure_bag', entity.location)
+        }
 
-        if (player == undefined) return
+        const damagingEntity = hurt.damagingEntity
+
+        if (damagingEntity.id != 'minecraft:player') return
 
         player.runCommand(`scoreboard players add @s killCount 1`)
         player.runCommand(`scoreboard players add @s money 45`)

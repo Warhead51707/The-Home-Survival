@@ -4,9 +4,17 @@
 		"animation.totem.idle": {
 			"loop": true,
 			"bones": {
-				"totem": {
-					"rotation": [0, "query.anim_time * 90.0", 0],
-					"position": [0, "math.cos(query.anim_time * 50.0)", 0]
+				"mesh": {
+					"rotation": [
+						0,
+						"query.anim_time * 90.0",
+						0
+					],
+					"position": [
+						0,
+						"math.cos(query.anim_time * 50.0)",
+						0
+					]
 				}
 			}
 		}
