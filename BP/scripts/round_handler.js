@@ -35,7 +35,13 @@ function calculateSpawnDelay(round) {
 }
 
 function startWave(dimension, round) {
-    const totalMonsters = round * 3 + 3
+    const playerCount = 0
+
+    for (const player of world.getPlayers()) {
+        playerCount++
+    }
+
+    const totalMonsters = playerCount * round + 3
     remainingMonsters = totalMonsters
 
     clearRoundProgress()
