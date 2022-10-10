@@ -6,7 +6,7 @@
 				"identifier": "geometry.fossilhorde",
 				"texture_width": 128,
 				"texture_height": 128,
-				"visible_bounds_width": 3,
+				"visible_bounds_width": 4,
 				"visible_bounds_height": 3.5,
 				"visible_bounds_offset": [0, 1.25, 0]
 			},
@@ -20,53 +20,37 @@
 					"parent": "root",
 					"pivot": [0, 6, 0],
 					"cubes": [
-						{"origin": [-9, 12, -6], "size": [18, 12, 12], "uv": [0, 0]},
-						{"origin": [-6, 6, -3], "size": [12, 6, 6], "uv": [42, 29]},
-						{"origin": [-7, 9, -4], "size": [14, 3, 8], "uv": [0, 24]}
+						{"origin": [-8, 10, -5], "size": [16, 12, 10], "uv": [0, 0]},
+						{"origin": [-8, 10, -5], "size": [16, 12, 10], "inflate": 0.25, "uv": [0, 58]},
+						{"origin": [-5, 6, -3], "size": [10, 4, 6], "uv": [42, 0]}
 					]
 				},
 				{
 					"name": "head",
 					"parent": "body",
-					"pivot": [0, 22, -6],
+					"pivot": [0, 16, -5],
 					"cubes": [
-						{"origin": [-4, 17, -12], "size": [8, 12, 6], "uv": [48, 41]}
-					]
-				},
-				{
-					"name": "horn0",
-					"parent": "head",
-					"pivot": [-3, 28.75, -8],
-					"rotation": [55, 0, 0],
-					"cubes": [
-						{"origin": [-3, 26.75, -9], "size": [0, 3, 12], "uv": [0, 101]}
-					]
-				},
-				{
-					"name": "horn1",
-					"parent": "head",
-					"pivot": [3, 28.75, -8],
-					"rotation": [55, 0, 0],
-					"cubes": [
-						{"origin": [3, 26.75, -9], "size": [0, 3, 12], "uv": [0, 101]}
+						{"origin": [-3, 12, -10], "size": [6, 12, 5], "uv": [43, 43]},
+						{"origin": [-7, 22, -8], "size": [4, 2, 2], "uv": [42, 22]},
+						{"origin": [3, 22, -8], "size": [4, 2, 2], "uv": [42, 22], "mirror": true},
+						{"origin": [5, 24, -8], "size": [2, 4, 2], "uv": [48, 26], "mirror": true},
+						{"origin": [-7, 24, -8], "size": [2, 4, 2], "uv": [48, 26]}
 					]
 				},
 				{
 					"name": "leftArm",
 					"parent": "body",
-					"pivot": [-9, 22, 0],
+					"pivot": [-10, 18, 0],
 					"cubes": [
-						{"origin": [-15, 18, -3], "size": [6, 6, 6], "inflate": 0.4, "uv": [0, 116]},
-						{"origin": [-15, 4, -3], "size": [6, 20, 6], "uv": [0, 35]}
+						{"origin": [-14, 0, -3], "size": [6, 20, 6], "uv": [0, 22]}
 					]
 				},
 				{
 					"name": "rightArm",
 					"parent": "body",
-					"pivot": [9, 22, 0],
+					"pivot": [10, 18, 0],
 					"cubes": [
-						{"origin": [9, 18, -3], "size": [6, 6, 6], "inflate": 0.4, "uv": [0, 116], "mirror": true},
-						{"origin": [9, 4, -3], "size": [6, 20, 6], "uv": [24, 35]}
+						{"origin": [8, 0, -3], "size": [6, 20, 6], "uv": [0, 22], "mirror": true}
 					]
 				},
 				{
@@ -74,7 +58,7 @@
 					"parent": "root",
 					"pivot": [-3, 7, 0],
 					"cubes": [
-						{"origin": [-5, 0, -2], "size": [4, 6, 4], "uv": [44, 59]}
+						{"origin": [-5, 0, -2], "size": [4, 6, 4], "uv": [16, 48]}
 					]
 				},
 				{
@@ -82,7 +66,7 @@
 					"parent": "root",
 					"pivot": [3, 7, 0],
 					"cubes": [
-						{"origin": [1, 0, -2], "size": [4, 6, 4], "uv": [48, 0]}
+						{"origin": [1, 0, -2], "size": [4, 6, 4], "uv": [16, 48], "mirror": true}
 					]
 				}
 			]

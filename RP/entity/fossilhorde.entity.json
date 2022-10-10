@@ -4,13 +4,26 @@
 		"description": {
 			"identifier": "home:fossilhorde",
 			"materials": {
-				"default": "entity"
+				"default": "entity_alphatest"
 			},
 			"textures": {
 				"default": "textures/entity/fossilhorde"
 			},
 			"geometry": {
 				"default": "geometry.fossilhorde"
+			},
+			"animations": {
+				"move.arms": "animation.player.move.arms",
+				"move.legs": "animation.player.move.legs"
+			},
+			"scripts": {
+				"pre_animation": [
+					"variable.tcos0 = (math.cos(query.modified_distance_moved * 38.17) * query.modified_move_speed / variable.gliding_speed_value) * 57.3;",
+				],
+				"animate": [
+					"move.arms",
+					"move.legs"
+				]
 			},
 			"render_controllers": [
 				"controller.render.default"

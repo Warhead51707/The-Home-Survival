@@ -8,41 +8,21 @@
 			"is_experimental": false
 		},
 		"component_groups": {
-			"minecraft:add_bad_omen": {
-				"minecraft:spell_effects": {
-					"add_effects": [
-						{
-							"effect": "bad_omen",
-							"duration": 6000,
-							"visible": false,
-							"display_on_screen_animation": true
-						}
-					]
-				},
-				"minecraft:timer": {
-					"time": [
-						0,
-						0
-					],
-					"looping": false,
-					"time_down_event": {
-						"event": "minecraft:clear_add_bad_omen",
-						"target": "self"
-					}
+			"home:speed_for_u": {
+				"minecraft:movement": {
+					"value": 0.12
 				}
 			},
-			"minecraft:clear_bad_omen_spell_effect": {
-				"minecraft:spell_effects": {}
+			"home:health_for_u": {
+				"minecraft:health": {
+					"value": 40,
+					"max": 40
+				}
 			},
-			"minecraft:raid_trigger": {
-				"minecraft:raid_trigger": {
-					"triggered_event": {
-						"event": "minecraft:remove_raid_trigger",
-						"target": "self"
-					}
-				},
-				"minecraft:spell_effects": {
-					"remove_effects": "bad_omen"
+			"home:default_stats": {
+				"minecraft:health": {
+					"value": 20,
+					"max": 20
 				}
 			}
 		},
@@ -80,6 +60,10 @@
 						"damage_per_tick": 4
 					}
 				]
+			},
+			"minecraft:health": {
+				"value": 20,
+				"max": 20
 			},
 			"minecraft:attack": {
 				"damage": 1
@@ -146,59 +130,68 @@
 					}
 				]
 			},
-			"minecraft:conditional_bandwidth_optimization": {},
-			"minecraft:block_climber": {},
 			"minecraft:environment_sensor": {
-				"triggers": {
-					"filters": {
-						"all_of": [
-							{
-								"test": "has_mob_effect",
-								"subject": "self",
-								"value": "bad_omen"
-							},
-							{
-								"test": "is_in_village",
-								"subject": "self",
-								"value": true
-							}
-						]
+				"triggers": [
+					{
+						"event": "home:add_health_for_u",
+						"target":"self",
+						"filters": {
+							"test": "has_tag",
+							"operator": "==",
+							"value": "healthforu"
+						}
 					},
-					"event": "minecraft:trigger_raid"
-				}
-			}
+					{
+						"event": "home:remove_health_for_u",
+						"target":"self",
+						"filters": {
+							"test": "has_tag",
+							"operator": "!=",
+							"value": "healthforu"
+						}
+					},
+					{
+						"event": "home:speed_for_u",
+						"target": "self",
+						"filters": {
+							"test": "has_tag",
+							"value": "speedforu"
+						}
+					}
+				]
+			},
+			"minecraft:conditional_bandwidth_optimization": {},
+			"minecraft:block_climber": {}
 		},
 		"events": {
-			"minecraft:gain_bad_omen": {
+			"home:speed_for_u": {
 				"add": {
 					"component_groups": [
-						"minecraft:add_bad_omen"
+						"home:speed_for_u"
 					]
 				}
 			},
-			"minecraft:clear_add_bad_omen": {
-				"remove": {
+			"home:add_health_for_u": {
+				"add": {
 					"component_groups": [
-						"minecraft:add_bad_omen"
+						"home:health_for_u"
 					]
 				},
-				"add": {
-					"component_groups": [
-						"minecraft:clear_bad_omen_spell_effect"
-					]
-				}
-			},
-			"minecraft:trigger_raid": {
-				"add": {
-					"component_groups": [
-						"minecraft:raid_trigger"
-					]
-				}
-			},
-			"minecraft:remove_raid_trigger": {
 				"remove": {
 					"component_groups": [
-						"minecraft:raid_trigger"
+						"home:default_stats"
+					]
+				}
+			},
+			"home:remove_health_for_u": {
+				"add": {
+					"component_groups": [
+						"home:default_stats"
+					]
+				},
+				"remove": {
+					"component_groups": [
+						"home:health_for_u"
 					]
 				}
 			}

@@ -17,6 +17,14 @@
 					]
 				}
 			}
+		},
+		"animation.totem.scale_down": {
+			"loop": true,
+			"bones": {
+				"mesh": {
+					"scale": [ "Math.clamp(1 - (query.anim_time * 0.033), 0, 1)", "Math.clamp(1 - (query.anim_time * 0.033), 0, 1)", "Math.clamp(1 - (query.anim_time * 0.033), 0, 1)"]
+				}
+			}
 		}
 	}
 }

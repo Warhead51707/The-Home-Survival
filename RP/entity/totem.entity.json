@@ -13,11 +13,13 @@
 				"default": "geometry.item_mesh"
 			},
 			"animations": {
-				"idle": "animation.totem.idle"
+				"idle": "animation.totem.idle",
+				"scale_down": "animation.totem.scale_down"
 			},
 			"scripts": {
 				"animate": [
-					"idle"
+					"idle",
+					"scale_down"
 				]
 			},
 			"render_controllers": [
