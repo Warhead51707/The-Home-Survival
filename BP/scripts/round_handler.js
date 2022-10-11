@@ -111,8 +111,6 @@ function startWave(dimension, round, end) {
         }
     }
 
-    console.warn(calculateSpawnDelay(round))
-
     let spawnsFinished = 0
     let endTicks = 0
 
@@ -182,7 +180,7 @@ function startWave(dimension, round, end) {
                         }
                     } else {
                         let spawnLocationZ = new BlockLocation(spawnLocation.x, spawnLocation.y, spawnLocation.z)
-                        spawnLocationZ = randomLocationOffset(spawnLocationZ, 3, 1, 3)
+                        spawnLocationZ = randomLocationOffset(spawnLocationZ, 2, 1, 2)
 
                         const identifier = randomMonster()
                         const monster = dimension.spawnEntity(identifier, spawnLocationZ)
