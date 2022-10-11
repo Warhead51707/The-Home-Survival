@@ -18,17 +18,42 @@ world.events.beforeChat.subscribe(data => {
 
     switch (message) {
         case '!start':
+            data.cancel = true
+            if (source.hasTag('debug')) {
+                dimension.runCommand('say Debug mode must be enabled for this.')
+                break
+            }
+
             startWave(dimension, 1)
             break
         case '!removeProperties':
+            data.cancel = true
+            if (source.hasTag('debug')) {
+                dimension.runCommand('say Debug mode must be enabled for this.')
+                break
+            }
+
             world.setDynamicProperty("SpawnLocationData", "false")
             dimension.runCommand('say Removed Properties')
             break
         case '!properties':
+            data.cancel = true
+            if (source.hasTag('debug')) {
+                dimension.runCommand('say Debug mode must be enabled for this.')
+                break
+            }
+
             dimension.runCommand(`say ${world.getDynamicProperty("SpawnLocationData")}`)
             break
         case '!end':
+            data.cancel = true
+            if (source.hasTag('debug')) {
+                dimension.runCommand('say Debug mode must be enabled for this.')
+                break
+            }
+
             startWave(dimension, 1, true)
+            break
         case '!ready':
             data.cancel = true
 
@@ -58,6 +83,13 @@ world.events.beforeChat.subscribe(data => {
             }
 
             break
+        case '!debug':
+            data.cancel = true
+            dimension.runCommand('say Debug mode enabled.')
+            source.removeTag('lobby')
+            source.addTag('debug')
+            source.runCommand('function remove_lobby')
+            break
 
         default:
             break
@@ -76,6 +108,10 @@ function calculateSpawnDelay(round) {
  * @param {boolean} boolean Should it be an automatic end?
  * */
 function startWave(dimension, round, end) {
+    let spawnEnd = false
+    let roundEndA = false
+    let roundEndB = false
+    let ended = false
 
     if (end) {
         endRound(false)
@@ -113,11 +149,6 @@ function startWave(dimension, round, end) {
 
     let spawnsFinished = 0
     let endTicks = 0
-
-    let spawnEnd = false
-    let roundEndA = false
-    let roundEndB = false
-    let ended = false
 
     let remainingSpawnLocations = 6
     let remainingTotalMonsters = totalMonsters
@@ -262,24 +293,6 @@ function startWave(dimension, round, end) {
         }
 
         return result
-    }
-
-    /**
-     * @param {BlockLocation} location
-     * @param {number} offsetX
-     * @param {number} offsetY
-     * @param {number} offsetZ
-     */
-    function randomLocationOffset(location, offsetX, offsetY, offsetZ) {
-        let newLocation = new BlockLocation(location.x, location.y, location.z)
-
-        while (dimension.getBlock(newLocation).id !== "minecraft:air") {
-            newLocation.x = location.x + Math.floor(Math.random() * (offsetX * 2 + 1) - offsetX)
-            newLocation.y = location.y + Math.floor(Math.random() * (offsetY * 2 + 1) - offsetY)
-            newLocation.z = location.z + Math.floor(Math.random() * (offsetZ * 2 + 1) - offsetZ)
-        }
-
-        return newLocation
     }
 
     function randomMonster() {

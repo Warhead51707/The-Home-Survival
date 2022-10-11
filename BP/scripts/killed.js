@@ -34,6 +34,10 @@ world.events.tick.subscribe(death => {
     const players = world.getPlayers()
 
     for (let player of players) {
+        if (player.hasTag("died") && player.hasTag("debug")) {
+            continue
+        }
+
         if (!player.hasTag("died") && totemPlaced.includes(player.name)) {
             const index = totemPlaced.indexOf(player.name)
 

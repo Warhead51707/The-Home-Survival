@@ -1,4 +1,4 @@
-tag @a add died
+tag @a[tag=!debug] add died
 
 tag @e[type=player] remove died
 

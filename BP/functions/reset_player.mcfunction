@@ -2,7 +2,8 @@ clear @s
 tag @s remove dead
 effect @s clear
 function clear_powerups
-gamemode adventure
+gamemode adventure @s[tag=!debug]
+gamemode creative @s[tag=debug]
 loot give @s loot start
 scoreboard players set @s killCount 0
 scoreboard players set @s money 250
