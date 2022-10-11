@@ -4,7 +4,7 @@ scoreboard objectives setdisplay belowname money
 scoreboard objectives setdisplay list killCount
 scoreboard objectives setdisplay sidebar money
 
-execute as @a[tag=!joined] run function reset_player
+execute as @a[tag=!joined] run tag @s add lobby
 tag @a[tag=!joined] add joined
 
 effect @a saturation 1 1 true

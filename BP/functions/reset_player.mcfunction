@@ -1,5 +1,6 @@
 clear @s
 tag @s remove dead
+effect @s clear
 function clear_powerups
 gamemode adventure
 loot give @s loot start

@@ -1,19 +1,23 @@
 import { world, MolangVariableMap, EntityQueryOptions, BlockLocation } from "mojang-minecraft"
 import { randomInt, randomFloat, getPlayers } from './utility.js'
 import { spawnPool } from "./spawn_pool.js"
+import { restartLobby } from "./lobby.js"
 
 let progressQuery = {}
 progressQuery.type = 'home:round_progress'
 
 let remainingMonsters = 0
+let playersReady = 0
 
+
+//Commands
 world.events.beforeChat.subscribe(data => {
     const message = data.message
+    const source = data.sender
     const dimension = world.getDimension(data.sender.dimension.id)
 
     switch (message) {
         case '!start':
-            dimension.runCommand(`tag @a remove joined`)
             startWave(dimension, 1)
             break
         case '!removeProperties':
@@ -25,6 +29,36 @@ world.events.beforeChat.subscribe(data => {
             break
         case '!end':
             startWave(dimension, 1, true)
+        case '!ready':
+            data.cancel = true
+
+            if (!source.hasTag('lobby')) {
+                dimension.runCommand('say The game has already begun!')
+                break
+            }
+
+            if (source.hasTag('ready')) {
+                dimension.runCommand('say You are already ready!')
+                break
+            }
+
+            playersReady++
+
+            source.addTag('ready')
+
+            dimension.runCommand(`tellraw @a {"rawtext":[{"text":"§a${source.name} is Ready!"}]}`)
+
+            if (playersReady === getPlayers(false)) {
+                dimension.runCommand(`tellraw @a {"rawtext":[{"text":"§dEveryone is ready, game start!"}]}`)
+
+                dimension.runCommand(`function remove_lobby`)
+                playersReady = 0
+
+                startWave(dimension, 1)
+            }
+
+            break
+
         default:
             break
     }
@@ -34,12 +68,20 @@ function calculateSpawnDelay(round) {
     return 1 / (((round - 1) / 9) + 1)
 }
 
-function startWave(dimension, round) {
-    const playerCount = 0
 
-    for (const player of world.getPlayers()) {
-        playerCount++
+/**
+ * @remarks Starts a new round.
+ * @param {dimension} dimension.
+ * @param {round} integer The start round
+ * @param {boolean} boolean Should it be an automatic end?
+ * */
+function startWave(dimension, round, end) {
+
+    if (end) {
+        endRound(false)
+        return
     }
+
 
     const totalMonsters = playerCount * round + 3
     remainingMonsters = totalMonsters
@@ -147,7 +189,7 @@ function startWave(dimension, round) {
                         dimension.spawnParticle("home:spawn_explosion_particle", monster.location, new MolangVariableMap())
 
                         spawnLocation.remaining_zombies--
-                            spawnLocation.spawn_rate = randomFloat(4 * calculateSpawnDelay(round), 9 * calculateSpawnDelay(round))
+                        spawnLocation.spawn_rate = randomFloat(4 * calculateSpawnDelay(round), 9 * calculateSpawnDelay(round))
                     }
                 }
             }
@@ -194,6 +236,9 @@ function startWave(dimension, round) {
             dimension.runCommand("title @a title §eRound End")
         } else {
             dimension.runCommand(`tellraw @a {"rawtext":[{"text":"Game Over! You lasted ${round - 1} ${round === 2 ? "round" : "rounds"}."}]}`)
+
+            restartLobby()
+
             dimension.runCommand("function fail")
 
             world.events.tick.unsubscribe(spawnZombs)

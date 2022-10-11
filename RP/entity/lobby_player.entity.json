@@ -1,0 +1,31 @@
+{
+	"format_version": "1.10.0",
+	"minecraft:client_entity": {
+		"description": {
+			"identifier": "home:lobby_player",
+			"materials": {
+				"default": "entity_alphatest",
+				"animated": "player_animated"
+			},
+			"textures": {
+				"default": "textures/entity/steve",
+				"cape": "textures/entity/cape_invisible"
+			},
+			"geometry": {
+				"default": "geometry.humanoid.custom",
+				"cape": "geometry.cape"
+			},
+			"render_controllers": [
+				"controller.render.default"
+			],
+			"animations": {
+				"idle": "animation.player.bob"
+			},
+			"scripts": {
+				"animate": [
+					"idle"
+				]
+			}
+		}
+	}
+}
