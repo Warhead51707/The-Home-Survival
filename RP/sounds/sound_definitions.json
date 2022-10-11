@@ -86,6 +86,12 @@
 			"sounds": [
 				"sounds/mob/fossilhorde/roar/fossilhorde_roar"
 			]
+		},
+		"random.trash_item": {
+			"category": "player",
+			"sounds": [
+				"sounds/random/trash_item"
+			]
 		}
 	}
 }
