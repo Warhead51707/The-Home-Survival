@@ -180,7 +180,6 @@ function startWave(dimension, round, end) {
                         }
                     } else {
                         let spawnLocationZ = new BlockLocation(spawnLocation.x, spawnLocation.y, spawnLocation.z)
-                        spawnLocationZ = randomLocationOffset(spawnLocationZ, 2, 1, 2)
 
                         const identifier = randomMonster()
                         const monster = dimension.spawnEntity(identifier, spawnLocationZ)
