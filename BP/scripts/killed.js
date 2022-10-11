@@ -20,6 +20,7 @@ world.events.entityHurt.subscribe(hurt => {
 
         const damagingEntity = hurt.damagingEntity
 
+        if (damagingEntity == undefined) return
         if (damagingEntity.id != 'minecraft:player') return
 
         damagingEntity.runCommand(`scoreboard players add @s killCount 1`)

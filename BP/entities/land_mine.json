@@ -3,35 +3,38 @@
 	"minecraft:entity": {
 		"description": {
 			"identifier": "home:land_mine",
-			"is_spawnable": true,
+			"is_spawnable": false,
 			"is_summonable": true,
 			"is_experimental": false
 		},
 		"component_groups": {
-			"explode": {
+			"home:explode": {
 				"minecraft:explode": {
 					"breaks_blocks": false,
+					"power": 2,
 					"causes_fire": false,
-					"fuse_length": 0,
-					"fuse_lit": true,
-					"power": 3
+					"fuse_lit": true
 				}
 			}
 		},
 		"components": {
-			"minecraft:timer": {
-				"looping": true,
-				"time": 0.1,
-				"time_down_event": {
-					"event": "activate"
-				}
+			"minecraft:entity_sensor": {
+				"event": "home:explode",
+				"event_filters": {
+					"test": "is_family",
+					"subject": "other",
+					"value": "monster"
+				},
+				"minimum_count": 1,
+				"sensor_range": 1,
+				"require_all": false
 			},
 			"minecraft:physics": {
 				"has_collision": true,
 				"has_gravity": true
 			},
 			"minecraft:collision_box": {
-				"height": 0.5,
+				"height": 0.2,
 				"width": 0.5
 			},
 			"minecraft:damage_sensor": {
@@ -39,7 +42,17 @@
 					{
 						"cause": "entity_explosion",
 						"deals_damage": false
+					},
+					{
+						"cause": "entity_attack",
+						"deals_damage": false
 					}
+				]
+			},
+			"minecraft:type_family": {
+				"family": [
+					"land_mine",
+					"monsters_cannot_attack"
 				]
 			},
 			"minecraft:health": {
@@ -48,15 +61,10 @@
 			}
 		},
 		"events": {
-			"activate": {
-				"run_command": {
-					"command": "/execute as @e[type=zombie, r=1] run event entity  @e[type=home:land_mine, r=1] explode"
-				}
-			},
-			"explode": {
+			"home:explode": {
 				"add": {
 					"component_groups": [
-						"explode"
+						"home:explode"
 					]
 				}
 			}

@@ -1,0 +1,22 @@
+{
+	"format_version": "1.16.100",
+	"minecraft:item": {
+		"description": {
+			"identifier": "home:land_mine"
+		},
+		"components": {
+			"minecraft:icon": {
+				"texture": "land_mine"
+			},
+			"minecraft:display_name": {
+				"value": "Land Mine"
+			},
+			"minecraft:entity_placer": {
+				"entity": "home:land_mine"
+			},
+			"minecraft:max_stack_size": 4,
+			"minecraft:ignores_permission": true
+		},
+		"events": {}
+	}
+}

@@ -1,4 +1,4 @@
-import { world, SoundOptions, MinecraftItemTypes, MinecraftEnchantmentTypes, ItemStack } from 'mojang-minecraft'
+import { world, SoundOptions, Items, MinecraftEnchantmentTypes, ItemStack } from 'mojang-minecraft'
 
 const durabilityItems = ['katana']
 
@@ -16,7 +16,7 @@ world.events.entityHit.subscribe(entityHit => {
                 }
 
                 if (weapon.getComponent("minecraft:durability").damage >= weapon.getComponent("minecraft:durability").maxDurability) {
-                    const air = new ItemStack(MinecraftItemTypes.air)
+                    const air = new ItemStack(Items.get("minecraft:paper"), 0, 0)
                     let breakOptions = new SoundOptions()
                     breakOptions.location = player.location
 

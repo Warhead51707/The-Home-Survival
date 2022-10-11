@@ -1,0 +1,27 @@
+{
+	"format_version": "1.12",
+	"minecraft:recipe_shaped": {
+		"description": {
+			"identifier": "home:turret"
+		},
+		"tags": [
+			"crafting_table"
+		],
+		"key": {
+			"X": {
+				"item": "iron_block"
+			},
+			"Y": {
+				"item": "stick"
+			}
+		},
+		"pattern": [
+			" X ",
+			"Y Y"
+		],
+		"result": {
+			"item": "home:turret",
+			"count": 1
+		}
+	}
+}

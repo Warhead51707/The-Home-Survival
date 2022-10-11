@@ -16,8 +16,8 @@
 				"controller.render.land_mine"
 			],
 			"spawn_egg": {
-				"texture": "home_land_mine_egg",
-				"texture_index": 0
+				"base_color": "#FFFFFF",
+				"overlay_color": "#FFFFFF"
 			}
 		}
 	}
