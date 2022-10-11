@@ -1,4 +1,5 @@
 import { world, SoundOptions, Location } from 'mojang-minecraft'
+import { randomFloat } from './utility.js'
 
 world.events.itemUseOn.subscribe(event => {
     
@@ -10,13 +11,9 @@ world.events.itemUseOn.subscribe(event => {
 
         let soundOptions = new SoundOptions()
         soundOptions.location = new Location(block.location.x, block.location.y, block.location.z)
-        soundOptions.pitch = randomNextInt(0.9, 1.1)
+        soundOptions.pitch = randomFloat(0.9, 1.2)
         soundOptions.volume = 1.0
 
         world.playSound("random.trash_item", soundOptions)
-    }
-
-    function randomNextInt(min, max) {
-        return Math.random() * (max - min) + min;
     }
 })

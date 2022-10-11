@@ -2,11 +2,14 @@
 	"resource_pack_name": "The Home: Survival",
 	"texture_name": "atlas.items",
 	"texture_data": {
-		"home_land_mine_egg": {
+		"land_mine": {
 			"textures": "textures/items/land_mine"
 		},
 		"katana": {
 			"textures": "textures/items/katana"
+		},
+		"turret": {
+			"textures": "textures/items/turret"
 		},
 		"fossilhorde_treasure_bag": {
 			"textures": "textures/items/fossilhorde_treasure_bag"

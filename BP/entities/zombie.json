@@ -8,60 +8,8 @@
       "is_experimental": false
     },
     "component_groups": {
-      "minecraft:look_to_start_drowned_transformation": {
-        "minecraft:environment_sensor": {
-          "triggers": {
-            "filters": {
-              "test": "is_underwater",
-              "subject": "self",
-              "operator": "==",
-              "value": true
-            },
-            "event": "minecraft:start_transforming"
-          }
-        }
-      },
-      "minecraft:start_drowned_transformation": {
-        "minecraft:environment_sensor": {
-          "triggers": {
-            "filters": {
-              "test": "is_underwater",
-              "subject": "self",
-              "operator": "==",
-              "value": false
-            },
-            "event": "minecraft:stop_transforming"
-          }
-        },
-        "minecraft:timer": {
-          "looping": false,
-          "time": 30,
-          "time_down_event": {
-            "event": "minecraft:convert_to_drowned"
-          }
-        }
-      },
-      "minecraft:convert_to_drowned": {
-        "minecraft:transformation": {
-          "into": "minecraft:drowned<minecraft:as_adult>",
-          "transformation_sound": "convert_to_drowned",
-          "drop_equipment": true,
-          "delay": {
-            "value": 15
-          }
-        },
-        "minecraft:is_shaking": {}
-      },
-      "minecraft:convert_to_baby_drowned": {
-        "minecraft:transformation": {
-          "into": "minecraft:drowned<minecraft:as_baby>",
-          "transformation_sound": "convert_to_drowned",
-          "drop_equipment": true,
-          "delay": {
-            "value": 15
-          }
-        },
-        "minecraft:is_shaking": {}
+      "home:instant_despawn": {
+        "minecraft:instant_despawn": {}
       },
       "minecraft:zombie_baby": {
         "minecraft:experience_reward": {
@@ -115,15 +63,11 @@
         "minecraft:equipment": {
           "table": "loot_tables/entities/zombie_equipment.json"
         }
-      },
-      "minecraft:can_break_doors": {
-        "minecraft:annotation.break_door": {}
       }
     },
     "components": {
       "minecraft:is_hidden_when_invisible": {},
       "minecraft:nameable": {},
-      // Zombie Components
       "minecraft:type_family": {
         "family": [
           "zombie",
@@ -195,225 +139,6 @@
       "minecraft:loot": {
         "table": "loot_tables/entities/zombie.json"
       },
-      "minecraft:shareables": {
-        "items": [
-          {
-            "item": "minecraft:netherite_sword",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 0
-          },
-          {
-            "item": "minecraft:diamond_sword",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 1
-          },
-          {
-            "item": "minecraft:iron_sword",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 2
-          },
-          {
-            "item": "minecraft:stone_sword",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 3
-          },
-          {
-            "item": "minecraft:golden_sword",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 4
-          },
-          {
-            "item": "minecraft:wooden_sword",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 5
-          },
-          {
-            "item": "minecraft:netherite_helmet",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 0
-          },
-          {
-            "item": "minecraft:diamond_helmet",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 1
-          },
-          {
-            "item": "minecraft:iron_helmet",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 2
-          },
-          {
-            "item": "minecraft:chainmail_helmet",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 3
-          },
-          {
-            "item": "minecraft:golden_helmet",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 4
-          },
-          {
-            "item": "minecraft:leather_helmet",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 5
-          },
-          {
-            "item": "minecraft:turtle_helmet",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 6
-          },
-          {
-            "item": "minecraft:skull:0",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 7
-          },
-          {
-            "item": "minecraft:skull:1",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 7
-          },
-          {
-            "item": "minecraft:carved_pumpkin",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 7
-          },
-          {
-            "item": "minecraft:netherite_chestplate",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 0
-          },
-          {
-            "item": "minecraft:diamond_chestplate",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 1
-          },
-          {
-            "item": "minecraft:iron_chestplate",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 2
-          },
-          {
-            "item": "minecraft:chainmail_chestplate",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 3
-          },
-          {
-            "item": "minecraft:golden_chestplate",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 4
-          },
-          {
-            "item": "minecraft:leather_chestplate",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 5
-          },
-          {
-            "item": "minecraft:netherite_leggings",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 0
-          },
-          {
-            "item": "minecraft:diamond_leggings",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 1
-          },
-          {
-            "item": "minecraft:iron_leggings",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 2
-          },
-          {
-            "item": "minecraft:chainmail_leggings",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 3
-          },
-          {
-            "item": "minecraft:golden_leggings",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 4
-          },
-          {
-            "item": "minecraft:leather_leggings",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 5
-          },
-          {
-            "item": "minecraft:netherite_boots",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 0
-          },
-          {
-            "item": "minecraft:diamond_boots",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 1
-          },
-          {
-            "item": "minecraft:iron_boots",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 2
-          },
-          {
-            "item": "minecraft:chainmail_boots",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 3
-          },
-          {
-            "item": "minecraft:golden_boots",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 4
-          },
-          {
-            "item": "minecraft:leather_boots",
-            "want_amount": 1,
-            "surplus_amount": 1,
-            "priority": 5
-          }
-        ]
-      },
-      "minecraft:environment_sensor": {
-        "triggers": {
-          "filters": {
-            "test": "is_underwater",
-            "operator": "==",
-            "value": true
-          },
-          "event": "minecraft:start_transforming"
-        }
-      },
-      // Zombie Behaviors
       "minecraft:behavior.equip_item": {
         "priority": 2
       },
@@ -452,7 +177,15 @@
         "priority": 9
       },
       "minecraft:behavior.hurt_by_target": {
-        "priority": 1
+        "priority": 1,
+        "entity_types": {
+          "filters": {
+            "test": "is_family",
+            "subject": "other",
+            "operator": "not",
+            "value": "monsters_cannot_attack"
+          }
+        }
       },
       "minecraft:behavior.nearest_attackable_target": {
         "priority": 1,
@@ -530,56 +263,34 @@
     },
     "events": {
       "minecraft:entity_spawned": {
-        "sequence": [
+        "randomize": [
           {
-            "randomize": [
-              {
-                "weight": 380,
-                "remove": {},
-                "add": {
-                  "component_groups": [
-                    "minecraft:zombie_adult",
-                    "minecraft:can_have_equipment"
-                  ]
-                }
-              },
-              {
-                "weight": 17,
-                "remove": {},
-                "add": {
-                  "component_groups": [
-                    "minecraft:zombie_baby",
-                    "minecraft:can_have_equipment"
-                  ]
-                }
-              },
-              {
-                "weight": 3,
-                "remove": {},
-                "add": {
-                  "component_groups": [
-                    "minecraft:zombie_baby",
-                    "minecraft:zombie_jockey",
-                    "minecraft:can_have_equipment"
-                  ]
-                }
-              }
-            ]
+            "weight": 380,
+            "add": {
+              "component_groups": [
+                "minecraft:zombie_adult",
+                "minecraft:can_have_equipment"
+              ]
+            }
           },
           {
-            "randomize": [
-              {
-                "weight": 10,
-                "add": {
-                  "component_groups": [
-                    "minecraft:can_break_doors"
-                  ]
-                }
-              },
-              {
-                "weight": 90
-              }
-            ]
+            "weight": 17,
+            "add": {
+              "component_groups": [
+                "minecraft:zombie_baby",
+                "minecraft:can_have_equipment"
+              ]
+            }
+          },
+          {
+            "weight": 3,
+            "add": {
+              "component_groups": [
+                "minecraft:zombie_jockey",
+                "minecraft:zombie_baby",
+                "minecraft:can_have_equipment"
+              ]
+            }
           }
         ]
       },
@@ -597,66 +308,10 @@
           ]
         }
       },
-      "minecraft:start_transforming": {
+      "home:instant_despawn": {
         "add": {
-          "component_groups": [
-            "minecraft:start_drowned_transformation"
-          ]
-        },
-        "remove": {
-          "component_groups": [
-            "minecraft:look_to_start_drowned_transformation"
-          ]
+          "component_groups": [ "home:instant_despawn" ]
         }
-      },
-      "minecraft:stop_transforming": {
-        "add": {
-          "component_groups": [
-            "minecraft:look_to_start_drowned_transformation"
-          ]
-        },
-        "remove": {
-          "component_groups": [
-            "minecraft:start_drowned_transformation"
-          ]
-        }
-      },
-      "minecraft:convert_to_drowned": {
-        "sequence": [
-          {
-            "filters": {
-              "test": "has_component",
-              "operator": "!=",
-              "value": "minecraft:is_baby"
-            },
-            "add": {
-              "component_groups": [
-                "minecraft:convert_to_drowned"
-              ]
-            },
-            "remove": {
-              "component_groups": [
-                "minecraft:start_drowned_transformation"
-              ]
-            }
-          },
-          {
-            "filters": {
-              "test": "has_component",
-              "value": "minecraft:is_baby"
-            },
-            "add": {
-              "component_groups": [
-                "minecraft:convert_to_baby_drowned"
-              ]
-            },
-            "remove": {
-              "component_groups": [
-                "minecraft:start_drowned_transformation"
-              ]
-            }
-          }
-        ]
       }
     }
   }

@@ -1,0 +1,22 @@
+{
+	"format_version": "1.16.100",
+	"minecraft:item": {
+		"description": {
+			"identifier": "home:turret"
+		},
+		"components": {
+			"minecraft:icon": {
+				"texture": "turret"
+			},
+			"minecraft:display_name": {
+				"value": "Turret"
+			},
+			"minecraft:entity_placer": {
+				"entity": "home:turret"
+			},
+			"minecraft:max_stack_size": 1,
+			"minecraft:ignores_permission": true
+		},
+		"events": {}
+	}
+}

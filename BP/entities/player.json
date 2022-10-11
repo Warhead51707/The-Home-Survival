@@ -101,6 +101,32 @@
 			"minecraft:insomnia": {
 				"days_until_insomnia": 3
 			},
+			"minecraft:damage_sensor": {
+				"triggers": [
+					{
+						"cause": "entity_explosion",
+						"on_damage": {
+							"filters": {
+								"test": "is_family",
+								"subject": "other",
+								"value": "land_mine"
+							}
+						},
+						"deals_damage": false
+					},
+					{
+						"cause": "all",
+						"on_damage": {
+							"filters": {
+								"test": "is_family",
+								"subject": "other",
+								"value": "turret"
+							}
+						},
+						"deals_damage": false
+					}
+				]
+			},
 			"minecraft:rideable": {
 				"seat_count": 2,
 				"family_types": [

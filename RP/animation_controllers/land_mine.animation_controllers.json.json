@@ -1,0 +1,17 @@
+{
+	"format_version": "1.10.0",
+	"animation_controllers": {
+		"controller.animation.land_mine": {
+			"initial_state": "default",
+			"states": {
+				"default": {
+					"sound_effects": [
+						{
+							"effect": "place"
+						}
+					]
+				}
+			}
+		}
+	}
+}

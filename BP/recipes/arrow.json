@@ -1,0 +1,28 @@
+{
+	"format_version": "1.12",
+	"minecraft:recipe_shaped": {
+		"description": {
+			"identifier": "home:arrow"
+		},
+		"tags": [
+			"crafting_table"
+		],
+		"key": {
+			"I": {
+				"item": "iron_ingot"
+			},
+			"S": {
+				"item": "stick"
+			}
+		},
+		"pattern": [
+			"  I",
+			" S ",
+			"S  "
+		],
+		"result": {
+			"count": 4,
+			"item": "arrow"
+		}
+	}
+}

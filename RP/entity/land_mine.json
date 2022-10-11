@@ -15,9 +15,20 @@
 			"render_controllers": [
 				"controller.render.land_mine"
 			],
+			"animations": {
+				"controller": "controller.animation.land_mine"
+			},
+			"scripts": {
+				"animate": [
+					"controller"
+				]
+			},
+			"sound_effects": {
+				"place": "step.stone"
+			},
 			"spawn_egg": {
-				"texture": "home_land_mine_egg",
-				"texture_index": 0
+				"base_color": "#FFFFFF",
+				"overlay_color": "#FFFFFF"
 			}
 		}
 	}

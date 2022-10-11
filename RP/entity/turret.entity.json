@@ -7,7 +7,9 @@
 				"default": "entity_alphatest"
 			},
 			"textures": {
-				"default": "textures/entity/turret"
+				"default": "textures/entity/turret/turret",
+				"rusting": "textures/entity/turret/rusting_turret",
+				"rusted": "textures/entity/turret/rusted_turret"
 			},
 			"geometry": {
 				"default": "geometry.turret"
@@ -30,11 +32,13 @@
 			"particle_effects": {
 				"smoke": "home:turret_smoke"
 			},
+			"sound_effects": {
+				"place": "step.wood"
+			},
 			"render_controllers": [
-				"controller.render.default"
+				"controller.render.turret"
 			],
 			"spawn_egg": {
-				"texture": "spawn_egg",
 				"base_color": "#FFFFFF",
 				"overlay_color": "#FFFFFF"
 			}

@@ -1,0 +1,21 @@
+{
+	"format_version": "1.8.0",
+	"render_controllers": {
+		"controller.render.turret": {
+			"arrays": {
+				"textures": {
+					"Array.rustState": [
+						"Texture.rusted",
+						"Texture.rusting",
+						"Texture.default"
+					]
+				}
+			},
+			"textures": [
+				"Array.rustState[math.clamp(query.health / 15, 0, 2)]"
+			],
+			"materials": [{"*": "Material.default"}],
+			"geometry": "Geometry.default"
+		}
+	}
+}
