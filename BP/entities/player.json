@@ -113,6 +113,17 @@
 							}
 						},
 						"deals_damage": false
+					},
+					{
+						"cause": "all",
+						"on_damage": {
+							"filters": {
+								"test": "is_family",
+								"subject": "other",
+								"value": "turret"
+							}
+						},
+						"deals_damage": false
 					}
 				]
 			},

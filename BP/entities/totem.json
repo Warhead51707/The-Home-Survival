@@ -41,6 +41,12 @@
 					},
 					"swing": true
 				}
+			},
+			"minecraft:type_family": {
+				"family": [
+					"totem",
+					"inanimate"
+				]
 			}
 		},
 		"events": {

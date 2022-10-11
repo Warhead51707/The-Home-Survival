@@ -12,6 +12,11 @@
 						{
 							"default": "query.any_animation_finished"
 						}
+					],
+					"sound_effects": [
+						{
+							"effect": "place"
+						}
 					]
 				},
 				"default": {

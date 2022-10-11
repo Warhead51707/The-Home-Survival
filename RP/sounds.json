@@ -18,7 +18,8 @@
                 "volume": 1.0,
                 "pitch": [ 0.9, 1.1 ],
                 "events": {
-                    "shoot": "random.bow"
+                    "shoot": "random.bow",
+                    "irongolem.repair": "mob.irongolem.repair"
                 }
             }
         }

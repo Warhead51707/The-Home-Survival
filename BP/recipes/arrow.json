@@ -2,26 +2,27 @@
 	"format_version": "1.12",
 	"minecraft:recipe_shaped": {
 		"description": {
-			"identifier": "home:land_mine"
+			"identifier": "home:arrow"
 		},
 		"tags": [
 			"crafting_table"
 		],
 		"key": {
-			"X": {
-				"item": "gunpowder"
-			},
-			"Y": {
+			"I": {
 				"item": "iron_ingot"
+			},
+			"S": {
+				"item": "stick"
 			}
 		},
 		"pattern": [
-			" X ",
-			"YYY"
+			"  I",
+			" S ",
+			"S  "
 		],
 		"result": {
-			"item": "home:land_mine",
-			"count": 3
+			"count": 4,
+			"item": "arrow"
 		}
 	}
 }

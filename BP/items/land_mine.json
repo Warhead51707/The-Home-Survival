@@ -14,7 +14,7 @@
 			"minecraft:entity_placer": {
 				"entity": "home:land_mine"
 			},
-			"minecraft:max_stack_size": 4,
+			"minecraft:max_stack_size": 3,
 			"minecraft:ignores_permission": true
 		},
 		"events": {}

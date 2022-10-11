@@ -11,10 +11,13 @@
 			"home:explode": {
 				"minecraft:explode": {
 					"breaks_blocks": false,
-					"power": 2,
+					"power": 3,
 					"causes_fire": false,
 					"fuse_lit": true
 				}
+			},
+			"home:instant_despawn": {
+				"minecraft:instant_despawn": {}
 			}
 		},
 		"components": {
@@ -37,6 +40,18 @@
 				"height": 0.2,
 				"width": 0.5
 			},
+			"minecraft:interact": {
+				"interactions": {
+					"swing": true,
+					"add_items": {
+						"table": "loot_tables/entities/land_mine.json"
+					},
+					"on_interact": {
+						"event": "home:instant_despawn",
+						"target": "self"
+					}
+				}
+			},
 			"minecraft:damage_sensor": {
 				"triggers": [
 					{
@@ -52,11 +67,15 @@
 			"minecraft:type_family": {
 				"family": [
 					"land_mine",
+					"inanimate",
 					"monsters_cannot_attack"
 				]
 			},
 			"minecraft:health": {
 				"max": 1,
+				"value": 1
+			},
+			"minecraft:knockback_resistance": {
 				"value": 1
 			}
 		},
@@ -65,6 +84,13 @@
 				"add": {
 					"component_groups": [
 						"home:explode"
+					]
+				}
+			},
+			"home:instant_despawn": {
+				"add": {
+					"component_groups": [
+						"home:instant_despawn"
 					]
 				}
 			}

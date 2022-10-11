@@ -1,5 +1,5 @@
 {
-	"format_version": "1.19.20",
+	"format_version": "1.19.30",
 	"minecraft:entity": {
 		"description": {
 			"identifier": "home:turret",
@@ -12,9 +12,23 @@
 				"animate": [
 					"turret"
 				]
+			},
+			"properties": {
+				"home:rust_state": {
+					"client_sync": true,
+					"type": "int",
+					"default": 0,
+					"range": [ 0, 2 ]
+					// 0 - CLEAN
+					// 1 - RUSTING
+					// 2 - RUSTED
+				}
 			}
 		},
 		"component_groups": {
+			"home:instant_despawn": {
+				"minecraft:instant_despawn": {}
+			},
 			"shooter": {
 				"minecraft:shooter": {
 					"def": "minecraft:arrow"
@@ -46,18 +60,66 @@
 		},
 		"components": {
 			"minecraft:health": {
-				"value": 20,
-				"max": 20
+				"value": 45,
+				"max": 45
 			},
 			"minecraft:movement": {
 				"value": 0.0
 			},
 			"minecraft:type_family": {
-				"family": [ "turret" ]
+				"family": [ "turret", "inanimate" ]
 			},
 			"minecraft:collision_box": {
 				"height": 1.4,
 				"width": 0.7
+			},
+			"minecraft:interact": {
+				"interactions": [
+					{
+						"health_amount": 5,
+						"on_interact": {
+							"filters": {
+								"all_of": [
+									{
+										"test": "has_equipment",
+										"subject": "other",
+										"domain": "hand",
+										"value": "minecraft:iron_ingot"
+									},
+									{
+										"test": "is_missing_health",
+										"value": true
+									}
+								]
+							}
+						},
+						"swing": true,
+						"use_item": true,
+						"play_sounds": "irongolem.repair"
+					},
+					{
+						"health_amount": 45,
+						"on_interact": {
+							"filters": {
+								"all_of": [
+									{
+										"test": "has_equipment",
+										"subject": "other",
+										"domain": "hand",
+										"value": "minecraft:iron_block"
+									},
+									{
+										"test": "is_missing_health",
+										"value": true
+									}
+								]
+							}
+						},
+						"swing": true,
+						"use_item": true,
+						"play_sounds": "irongolem.repair"
+					}
+				]
 			},
 			"minecraft:movement.basic": {},
 			"minecraft:navigation.generic": {},
@@ -86,16 +148,15 @@
 							"filters": {
 								"test": "is_family",
 								"subject": "other",
-								"operator": "!=",
-								"value": "player"
+								"value": "monster"
 							}
 						},
 						"cause": "entity_attack",
-						"damage_modifier": -3
+						"damage_multiplier": 0.25
 					},
 					{
 						"cause": "projectile",
-						"damage_modifier": -3
+						"damage_multiplier": 0.25
 					}
 				]
 			},
@@ -120,7 +181,19 @@
 					]
 				}
 			},
-			"on_shoot": {}
+			"on_shoot": {},
+			"add_rust_state": {
+				"set_property": {
+					"home:rust_state": "query.property('home:rust_state') < 2 ? query.property('home:rust_state') + 1 : 0"
+				}
+			},
+			"home:instant_despawn": {
+				"add": {
+					"component_groups": [
+						"home:instant_despawn"
+					]
+				}
+			}
 		}
 	}
 }
