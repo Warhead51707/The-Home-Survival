@@ -83,7 +83,7 @@ function startWave(dimension, round, end) {
     }
 
 
-    const totalMonsters = playerCount * round + 3
+    const totalMonsters = getPlayers(false) * round + 3
     remainingMonsters = totalMonsters
 
     clearRoundProgress()
