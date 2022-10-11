@@ -107,6 +107,10 @@ world.events.playerLeave.subscribe(leave => {
     restart = true
 })
 
+world.events.playerJoin.subscribe(join => {
+    restart = true
+})
+
 export function restartLobby() {
     restart = true
 }
