@@ -1,6 +1,5 @@
 tag @a remove lobby
 tag @a remove ready
-kill @e[type=home:lobby_player]
 gamerule showcoordinates true
 gamerule sendcommandfeedback true
 scoreboard objectives add money dummy
