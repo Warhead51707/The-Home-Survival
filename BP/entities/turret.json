@@ -4,7 +4,7 @@
 		"description": {
 			"identifier": "home:turret",
 			"is_summonable": true,
-			"is_spawnable": true,
+			"is_spawnable": false,
 			"animations": {
 				"turret": "controller.animation.turret"
 			},

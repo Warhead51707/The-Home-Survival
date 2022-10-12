@@ -87,6 +87,18 @@
 				"sounds/mob/fossilhorde/roar/fossilhorde_roar"
 			]
 		},
+		"mob.fossilhorde.stomp": {
+			"category": "hostile",
+			"sounds": [
+				"sounds/mob/fossilhorde/stomp/fossilhorde_stomp"
+			]
+		},
+		"mob.fossilhorde.jump": {
+			"category": "hostile",
+			"sounds": [
+				"sounds/mob/fossilhorde/jump/fossilhorde_jump"
+			]
+		},
 		"random.trash_item": {
 			"category": "player",
 			"sounds": [

@@ -8,9 +8,7 @@
                     "ambient": "mob.fossilhorde.ambient",
                     "hurt": "mob.fossilhorde.hurt",
                     "death": "mob.fossilhorde.death",
-                    "roar": "mob.fossilhorde.roar",
                     "step": "mob.fossilhorde.step",
-                    "spawn": "mob.fossilhorde.spawn",
                     "cast.spell": "mob.fossilhorde.cast_spell"
                 }
             },
