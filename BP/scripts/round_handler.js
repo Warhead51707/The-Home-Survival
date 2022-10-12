@@ -1,7 +1,6 @@
 import { world, MolangVariableMap, EntityQueryOptions, BlockLocation } from "mojang-minecraft"
 import { randomInt, randomFloat, getPlayers, weightedRandom } from './utility.js'
 import { spawnPool } from "./spawn_pool.js"
-import { restartLobby } from "./lobby.js"
 
 let progressQuery = {}
 progressQuery.type = 'home:round_progress'
@@ -174,8 +173,6 @@ export function startWave(dimension, round, end) {
             dimension.runCommand("title @a title §eRound End")
         } else {
             dimension.runCommand(`tellraw @a {"rawtext":[{"text":"Game Over! You lasted ${round - 1} ${round === 2 ? "round" : "rounds"}."}]}`)
-
-            restartLobby()
 
             dimension.runCommand("function fail")
 

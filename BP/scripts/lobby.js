@@ -1,6 +1,8 @@
-import { world, Location } from "mojang-minecraft"
+import { world, Location, BlockLocation } from "mojang-minecraft"
 
-let restart = false
+let worldLobby
+
+let worldReady = false
 
 let lobbySlots = [
     {
@@ -9,7 +11,8 @@ let lobbySlots = [
             x: -142,
             y: -34,
             z: 40
-        }
+        },
+        entity: null
     },
     {
         owner: null,
@@ -17,7 +20,8 @@ let lobbySlots = [
             x: -143,
             y: -34,
             z: 38
-        }
+        },
+        entity: null
     },
     {
         owner: null,
@@ -25,7 +29,8 @@ let lobbySlots = [
             x: -142,
             y: -34,
             z: 36
-        }
+        },
+        entity: null
     },
     {
         owner: null,
@@ -33,7 +38,8 @@ let lobbySlots = [
             x: -143,
             y: -34,
             z: 34
-        }
+        },
+        entity: null
     },
     {
         owner: null,
@@ -41,7 +47,8 @@ let lobbySlots = [
             x: -145,
             y: -34,
             z: 35
-        }
+        },
+        entity: null
     },
     {
         owner: null,
@@ -49,69 +56,73 @@ let lobbySlots = [
             x: -145,
             y: -34,
             z: 39
-        }
+        },
+        entity: null
     }
 ]
 
-//Handles all lobby updates
-world.events.tick.subscribe(tick => {
-    const players = world.getPlayers()
+let needsRerender = false
 
+export function createLobby() {
+    worldLobby = new Lobby()
+}
 
-
-    for (const player of players) {
-        const dimension = world.getDimension(player.dimension.id)
-
-        if (restart) {
+class Lobby {
+    constructor() {
+        world.events.playerJoin.subscribe(event => {
             for (const slot of lobbySlots) {
-                slot.owner = null
+                if (slot.owner != null) continue
+
+                slot.owner = event.player.name
+
+                needsRerender = true
+
+                break
+            }
+        })
+
+        world.events.playerLeave.subscribe(event => {
+            const slot = lobbySlots.find(s => s.owner == event.player.name)
+
+            slot.owner = null
+            if (slot.entity != null) slot.entity.triggerEvent('despawn')
+        })
+
+        world.events.tick.subscribe(event => {
+            const dimension = world.getDimension('overworld')
+
+            // Prevent the players from spawning in if the world is not ready for spawning
+            if (!worldReady) {
+                try {
+                    dimension.runCommand('testfor @e')
+
+                    worldReady = true
+
+                    console.warn('World Ready!')
+                } catch { }
             }
 
-            const lobbyPlayers = dimension.getEntities(
-                {
-                    type: "home:lobby_player"
-                }
-            )
+            if (!worldReady) return
 
-            for (const lobbyPlayer of lobbyPlayers) {
+            // No reason to update if no players have joined, leaving is handled in the event not here
+            if (!needsRerender) return
+
+            // In case there is any entities left over from the last time
+            for (const lobbyPlayer of dimension.getEntities({ type: 'home:lobby_player' })) {
                 lobbyPlayer.triggerEvent('despawn')
             }
 
-            restart = false
-        }
+            // Render all the players
+            for (const slot of lobbySlots) {
+                if (slot.owner == null) continue
 
-        const slotData = lobbySlots.find(slot => slot.owner === player.name)
+                slot.entity = dimension.spawnEntity('home:lobby_player', new Location(slot.coords.x + 0.5, slot.coords.y, slot.coords.z + 0.5))
 
-        if (slotData !== undefined) continue
+                slot.entity.nameTag = slot.owner
+                slot.entity.runCommand('tp @s ~ ~ ~ 270')
+            }
 
-        let openSlot
-
-        for (const slot of lobbySlots) {
-            if (slot.owner !== null) continue
-
-            openSlot = lobbySlots.findIndex(s => s === slot)
-            break
-        }
-
-        lobbySlots[openSlot].owner = player.name
-
-        const spawnLocation = new Location(lobbySlots[openSlot].coords.x, lobbySlots[openSlot].coords.y, lobbySlots[openSlot].coords.z)
-
-        let lobbyPlayer = dimension.spawnEntity("home:lobby_player", spawnLocation)
-        lobbyPlayer.nameTag = player.name
-        lobbyPlayer.runCommand("tp @s ~ ~ ~ 270")
-        lobbyPlayer.runCommand(`tp @s ${lobbySlots[openSlot].coords.x} ${lobbySlots[openSlot].coords.y} ${lobbySlots[openSlot].coords.z}`)
+            needsRerender = false
+        })
     }
-})
-
-world.events.playerLeave.subscribe(leave => {
-    restart = true
-})
-
-world.events.playerJoin.subscribe(join => {
-    restart = true
-})
-
-export function restartLobby() {
-    restart = true
 }

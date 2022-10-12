@@ -1,7 +1,6 @@
 import { world } from "mojang-minecraft"
 import { getPlayers } from './utility.js'
 import { startWave } from './round_handler.js'
-import { restartLobby } from './lobby.js'
 
 let playersReady = 0
 
@@ -95,8 +94,6 @@ world.events.beforeChat.subscribe(data => {
                 player.removeTag('debug')
                 player.removeTag('joined')
             }
-
-            restartLobby()
 
             break
         default:
