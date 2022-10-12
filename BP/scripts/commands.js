@@ -1,6 +1,7 @@
 import { world } from "mojang-minecraft"
 import { getPlayers } from './utility.js'
 import { startWave } from './round_handler.js'
+import { restartLobby } from './lobby.js'
 
 let playersReady = 0
 
@@ -12,7 +13,7 @@ world.events.beforeChat.subscribe(data => {
     switch (message) {
         case '!start':
             data.cancel = true
-            if (source.hasTag('debug')) {
+            if (!source.hasTag('debug')) {
                 dimension.runCommand('say Debug mode must be enabled for this.')
                 break
             }
@@ -21,7 +22,7 @@ world.events.beforeChat.subscribe(data => {
             break
         case '!removeProperties':
             data.cancel = true
-            if (source.hasTag('debug')) {
+            if (!source.hasTag('debug')) {
                 dimension.runCommand('say Debug mode must be enabled for this.')
                 break
             }
@@ -31,7 +32,7 @@ world.events.beforeChat.subscribe(data => {
             break
         case '!properties':
             data.cancel = true
-            if (source.hasTag('debug')) {
+            if (!source.hasTag('debug')) {
                 dimension.runCommand('say Debug mode must be enabled for this.')
                 break
             }
@@ -40,7 +41,7 @@ world.events.beforeChat.subscribe(data => {
             break
         case '!end':
             data.cancel = true
-            if (source.hasTag('debug')) {
+            if (!source.hasTag('debug')) {
                 dimension.runCommand('say Debug mode must be enabled for this.')
                 break
             }
@@ -83,7 +84,21 @@ world.events.beforeChat.subscribe(data => {
             source.addTag('debug')
             source.runCommand('function remove_lobby')
             break
+        case '!lobby':
+            data.cancel = true
+            if (!source.hasTag('debug')) {
+                dimension.runCommand('say Debug mode must be enabled for this.')
+                break
+            }
 
+            for (const player of world.getPlayers()) {
+                player.removeTag('debug')
+                player.removeTag('joined')
+            }
+
+            restartLobby()
+
+            break
         default:
             break
     }

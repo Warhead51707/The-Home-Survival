@@ -21,7 +21,7 @@ world.events.dataDrivenEntityTriggerEvent.subscribe(entityTriggerEvent => {
                 .title(vendorName)
                 .body("Get quick! Buy some Speed For U and increase your speed by 60 percent!")
 
-                .button("Upgrade Speed ($2500)", "textures/ui/speed_effect")
+                .button("Upgrade Speed ($1500)", "textures/ui/speed_effect")
                 .button("Not Now")
 
             speedForm.show(player).then(formData => {
@@ -30,7 +30,7 @@ world.events.dataDrivenEntityTriggerEvent.subscribe(entityTriggerEvent => {
                         particleColor: [124, 175, 198]
                     }
 
-                    purchasePowerup(player, vendor, 2500, 'Speed For U', purchaseOptions)
+                    purchasePowerup(player, vendor, 1500, 'Speed For U', purchaseOptions)
                 }
             })
         }
@@ -59,7 +59,7 @@ world.events.dataDrivenEntityTriggerEvent.subscribe(entityTriggerEvent => {
 
                     .body("Stay up against those monsters! Buy some Health For U and double your maximum health!")
 
-                    .button("Upgrade Health ($3500)", "textures/ui/health_boost_effect")
+                    .button("Upgrade Health ($2000)", "textures/ui/health_boost_effect")
                     .button("Not Now")
             } else if (formOptions.includes("heal") && !formOptions.includes("heal_teammates")) {
                 healthForm = new ActionFormData()
@@ -69,7 +69,7 @@ world.events.dataDrivenEntityTriggerEvent.subscribe(entityTriggerEvent => {
                     .body("Stay up against those monsters! Buy some Health For U!")
 
                     .button(`Heal ${healthToHeal} (\$${healthToHeal * 50})`, "textures/ui/regeneration_effect")
-                    .button("Upgrade ($3500)", "textures/ui/health_boost_effect")
+                    .button("Upgrade ($2000)", "textures/ui/health_boost_effect")
                     .button("Not Now")
             } else if (!formOptions.includes("heal") && formOptions.includes("heal_teammates")) {
                 healthForm = new ActionFormData()
@@ -78,7 +78,7 @@ world.events.dataDrivenEntityTriggerEvent.subscribe(entityTriggerEvent => {
 
                     .body("Stay up against those monsters! Buy some Health For U!")
 
-                    .button("Upgrade ($3500)", "textures/ui/health_boost_effect")
+                    .button("Upgrade ($2000)", "textures/ui/health_boost_effect")
                     .button(`Heal Teammates (\$${teammatesHealth * 25})`, "textures/ui/absorption_effect")
                     .button("Not Now")
             } else if (formOptions.includes("heal") && formOptions.includes("heal_teammates")) {
@@ -89,7 +89,7 @@ world.events.dataDrivenEntityTriggerEvent.subscribe(entityTriggerEvent => {
                     .body("Stay up against those monsters! Buy some Health For U!")
 
                     .button(`Heal ${healthToHeal} (\$${healthToHeal * 50})`, "textures/ui/regeneration_effect")
-                    .button("Upgrade ($3500)", "textures/ui/health_boost_effect")
+                    .button("Upgrade ($2000)", "textures/ui/health_boost_effect")
                     .button(`Heal Teammates (\$${teammatesHealth * 25})`, "textures/ui/absorption_effect")
                     .button("Not Now")
             }
@@ -99,7 +99,7 @@ world.events.dataDrivenEntityTriggerEvent.subscribe(entityTriggerEvent => {
                     const purchaseOptions = {
                         particleColor: [248, 125, 35]
                     }
-                    const purchaseSuccess = purchasePowerup(player, vendor, 3500, 'Health For U', purchaseOptions)
+                    const purchaseSuccess = purchasePowerup(player, vendor, 2000, 'Health For U', purchaseOptions)
 
                     if (purchaseSuccess) {
                         health.setCurrent(40)
@@ -118,8 +118,6 @@ world.events.dataDrivenEntityTriggerEvent.subscribe(entityTriggerEvent => {
                         health.setCurrent(health.current + healthToHeal)
                     }
                 } else if (formOptions[formData.selection] === "heal_teammates") {
-                    console.warn("Hello world!")
-
                     teammatesHealth = getMissingHealth(teammates, true)
                     const purchaseOptions = {
                         assignTag: false,

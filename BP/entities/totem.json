@@ -27,7 +27,10 @@
 			},
 			"minecraft:timer": {
 				"looping": false,
-				"time": 30,
+				"time": [
+					30,
+					30
+				],
 				"time_down_event": {
 					"event": "home:totem_expired",
 					"target": "self"
@@ -57,13 +60,7 @@
 					]
 				}
 			},
-			"home:totem_expired": {
-				"run_command": {
-					"command": [
-						"tag @s add expired"
-					]
-				}
-			},
+			"home:totem_expired": {},
 			"home:respawn_player": {}
 		}
 	}

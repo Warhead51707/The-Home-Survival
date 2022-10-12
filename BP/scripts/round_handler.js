@@ -1,5 +1,5 @@
 import { world, MolangVariableMap, EntityQueryOptions, BlockLocation } from "mojang-minecraft"
-import { randomInt, randomFloat, getPlayers } from './utility.js'
+import { randomInt, randomFloat, getPlayers, weightedRandom } from './utility.js'
 import { spawnPool } from "./spawn_pool.js"
 import { restartLobby } from "./lobby.js"
 
@@ -68,13 +68,13 @@ export function startWave(dimension, round, end) {
     let spawnsFinished = 0
     let endTicks = 0
 
-    let remainingSpawnLocations = 6
+    let remainingSpawnLocations = Object.keys(spawnLocations).length
     let remainingTotalMonsters = totalMonsters
 
     for (let spawnLocation in spawnLocations) {
         spawnLocation = spawnLocations[spawnLocation]
         spawnLocation.remaining_zombies = 0
-        spawnLocation.remaining_zombies = weightedRound(remainingTotalMonsters / remainingSpawnLocations)
+        spawnLocation.remaining_zombies = Math.round(remainingTotalMonsters / remainingSpawnLocations)
 
         remainingSpawnLocations--
         remainingTotalMonsters -= spawnLocation.remaining_zombies
@@ -193,28 +193,15 @@ export function startWave(dimension, round, end) {
     function randomMonster() {
         let spawnGroup = []
 
-        for (let i = 0; i < spawnPool.length; i++) {
-            if (round < spawnPool[i].min || round > spawnPool[i].max) continue
+        for (const spawn of spawnPool) {
+            if (round < spawn.min || round > spawn.max) continue
 
-            for (let j = 0; j < spawnPool[i].weight; j++) spawnGroup.push(spawnPool[i].identifier)
+            spawnGroup.push(spawn)
         }
 
-        return spawnGroup[randomInt(0, spawnGroup.length - 1)]
-    }
+        const weightedPick = weightedRandom(spawnGroup)
 
-    /**
-    * @remarks Determines whether to round up or down if the total number of monsters / spawnlocations isn't a whole number
-    */
-    function weightedRound(x) {
-        let result = x
-
-        if (x - Math.floor(x) < Math.random()) {
-            result = Math.floor(result)
-        } else {
-            result = Math.ceil(result)
-        }
-
-        return result
+        return weightedPick.identifier
     }
 
     //Progress Bar 
