@@ -1,0 +1,49 @@
+{
+	"format_version": "1.10.0",
+	"animation_controllers": {
+		"controller.animation.fossilhorde": {
+			"initial_state": "default",
+			"states": {
+				"default": {
+					"animations": [
+						"emerge"
+					],
+					"transitions": [
+						{
+							"emerged": "query.any_animation_finished"
+						}
+					]
+				},
+				"emerged": {
+					"animations": [
+						"move.arms",
+						"move.legs",
+						"cast_controller"
+					]
+				}
+			}
+		},
+		"controller.animation.fossilhorde.roar": {
+			"initial_state": "default",
+			"states": {
+				"default": {
+					"transitions": [
+						{
+							"casting": "query.is_roaring"
+						}
+					]
+				},
+				"casting": {
+					"animations": [
+						"stomp"
+					],
+					"transitions": [
+						{
+							"default": "!query.is_roaring"
+						}
+					]
+				}
+			}
+		}
+	}
+}
