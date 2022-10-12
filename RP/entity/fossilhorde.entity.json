@@ -17,8 +17,10 @@
 				"move.legs": "animation.player.move.legs",
 				"stomp": "animation.fossilhorde.stomp",
 				"emerge": "animation.fossilhorde.emerge",
+				"knockback_stomp": "animation.fossilhorde.knockback_stomp",
 				"controller": "controller.animation.fossilhorde",
-				"cast_controller": "controller.animation.fossilhorde.roar"
+				"knockback_stomp_controller": "controller.animation.fossilhorde.knockback_stomp",
+				"cast_stomp_controller": "controller.animation.fossilhorde.cast.stomp"
 			},
 			"sound_effects": {
 				"jump": "mob.fossilhorde.jump",
@@ -36,7 +38,11 @@
 			},
 			"render_controllers": [
 				"controller.render.default"
-			]
+			],
+			"spawn_egg": {
+				"base_color": "#421f11",
+				"overlay_color": "#ebf5ef"
+			}
 		}
 	}
 }

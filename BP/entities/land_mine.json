@@ -57,10 +57,6 @@
 					{
 						"cause": "entity_explosion",
 						"deals_damage": false
-					},
-					{
-						"cause": "entity_attack",
-						"deals_damage": false
 					}
 				]
 			},

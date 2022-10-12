@@ -18,12 +18,13 @@
 					"animations": [
 						"move.arms",
 						"move.legs",
-						"cast_controller"
+						"knockback_stomp_controller",
+						"cast_stomp_controller"
 					]
 				}
 			}
 		},
-		"controller.animation.fossilhorde.roar": {
+		"controller.animation.fossilhorde.knockback_stomp": {
 			"initial_state": "default",
 			"states": {
 				"default": {
@@ -35,11 +36,33 @@
 				},
 				"casting": {
 					"animations": [
-						"stomp"
+						"knockback_stomp"
 					],
 					"transitions": [
 						{
 							"default": "!query.is_roaring"
+						}
+					]
+				}
+			}
+		},
+		"controller.animation.fossilhorde.cast.stomp": {
+			"initial_state": "default",
+			"states": {
+				"default": {
+					"transitions": [
+						{
+							"casting": "query.is_casting"
+						}
+					]
+				},
+				"casting": {
+					"animations": [
+						"knockback_stomp"
+					],
+					"transitions": [
+						{
+							"default": "!query.is_casting"
 						}
 					]
 				}
