@@ -4,6 +4,8 @@ import { ActionFormData } from 'mojang-minecraft-ui'
 let customers = {}
 customers.tags = ['beacon_purchase']
 
+
+//Powerup purchase detection
 world.events.dataDrivenEntityTriggerEvent.subscribe(entityTriggerEvent => {
     if (entityTriggerEvent.id !== "home:purchase_powerup") return
 

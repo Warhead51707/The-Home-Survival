@@ -1,5 +1,7 @@
 import { world, MolangVariableMap } from "mojang-minecraft"
 
+
+//Handles Totem summoning and Totem activation and Totem expiration 
 world.events.dataDrivenEntityTriggerEvent.subscribe(entityTriggerEvent => {
     const totem = entityTriggerEvent.entity
 

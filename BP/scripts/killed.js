@@ -1,5 +1,6 @@
 import { world, Location } from 'mojang-minecraft'
 
+//Money giving & Fossilhorde phase 2 switch & Fossilhorde T bag drop
 world.events.entityHurt.subscribe(hurt => {
     const entity = hurt.hurtEntity
     const dimension = world.getDimension(entity.dimension.id)
@@ -28,9 +29,15 @@ world.events.entityHurt.subscribe(hurt => {
     }
 })
 
+
+//Stores last position from all player 
 let lastPosition = []
+
+//Stores all currently placed Totems
 let totemPlaced = []
 
+
+//Handles Totem Placement & Removal
 world.events.tick.subscribe(death => {
     const players = world.getPlayers()
 

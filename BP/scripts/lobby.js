@@ -53,6 +53,7 @@ let lobbySlots = [
     }
 ]
 
+//Handles all lobby updates
 world.events.tick.subscribe(tick => {
     const players = world.getPlayers()
 

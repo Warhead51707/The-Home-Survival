@@ -7,99 +7,10 @@ let progressQuery = {}
 progressQuery.type = 'home:round_progress'
 
 let remainingMonsters = 0
-let playersReady = 0
-
-
-//Commands
-world.events.beforeChat.subscribe(data => {
-    const message = data.message
-    const source = data.sender
-    const dimension = world.getDimension(data.sender.dimension.id)
-
-    switch (message) {
-        case '!start':
-            data.cancel = true
-            if (source.hasTag('debug')) {
-                dimension.runCommand('say Debug mode must be enabled for this.')
-                break
-            }
-
-            startWave(dimension, 1)
-            break
-        case '!removeProperties':
-            data.cancel = true
-            if (source.hasTag('debug')) {
-                dimension.runCommand('say Debug mode must be enabled for this.')
-                break
-            }
-
-            world.setDynamicProperty("SpawnLocationData", "false")
-            dimension.runCommand('say Removed Properties')
-            break
-        case '!properties':
-            data.cancel = true
-            if (source.hasTag('debug')) {
-                dimension.runCommand('say Debug mode must be enabled for this.')
-                break
-            }
-
-            dimension.runCommand(`say ${world.getDynamicProperty("SpawnLocationData")}`)
-            break
-        case '!end':
-            data.cancel = true
-            if (source.hasTag('debug')) {
-                dimension.runCommand('say Debug mode must be enabled for this.')
-                break
-            }
-
-            startWave(dimension, 1, true)
-            break
-        case '!ready':
-            data.cancel = true
-
-            if (!source.hasTag('lobby')) {
-                dimension.runCommand('say The game has already begun!')
-                break
-            }
-
-            if (source.hasTag('ready')) {
-                dimension.runCommand('say You are already ready!')
-                break
-            }
-
-            playersReady++
-
-            source.addTag('ready')
-
-            dimension.runCommand(`tellraw @a {"rawtext":[{"text":"§a${source.name} is Ready!"}]}`)
-
-            if (playersReady === getPlayers(false)) {
-                dimension.runCommand(`tellraw @a {"rawtext":[{"text":"§dEveryone is ready, game start!"}]}`)
-
-                dimension.runCommand(`function remove_lobby`)
-                playersReady = 0
-
-                startWave(dimension, 1)
-            }
-
-            break
-        case '!debug':
-            data.cancel = true
-            dimension.runCommand('say Debug mode enabled.')
-            source.removeTag('lobby')
-            source.addTag('debug')
-            source.runCommand('function remove_lobby')
-            break
-
-        default:
-            break
-    }
-})
 
 function calculateSpawnDelay(round) {
     return 1 / (((round - 1) / 9) + 1)
 }
-
 
 /**
  * @remarks Starts a new round.
@@ -107,10 +18,17 @@ function calculateSpawnDelay(round) {
  * @param {round} integer The start round
  * @param {boolean} boolean Should it be an automatic end?
  * */
-function startWave(dimension, round, end) {
+export function startWave(dimension, round, end) {
+    //Spawning has stopped
     let spawnEnd = false
+
+    //All monsters are killed
     let roundEndA = false
+
+    //The 30 second timer between rounds has ended
     let roundEndB = false
+
+    //The game has ended
     let ended = false
 
     if (end) {
@@ -194,6 +112,7 @@ function startWave(dimension, round, end) {
             return
         }
 
+        //Spawning Logic
         if (!spawnEnd) {
             for (let spawnLocation in spawnLocations) {
                 spawnLocation = spawnLocations[spawnLocation]
@@ -224,18 +143,9 @@ function startWave(dimension, round, end) {
         }
     }
 
-    function weightedRound(x) {
-        let result = x
-
-        if (x - Math.floor(x) < Math.random()) {
-            result = Math.floor(result)
-        } else {
-            result = Math.ceil(result)
-        }
-
-        return result
-    }
-
+    /**
+     * @remarks If all monsters are dead, end the round (runs constantly)
+     */
     function checkZombs() {
         setRoundProgress(remainingMonsters, totalMonsters, false, "monsters")
 
@@ -278,6 +188,38 @@ function startWave(dimension, round, end) {
     }
 
     /**
+     * @remarks Returns a mob to spawn in (reads spawn_pool.js)
+     */
+    function randomMonster() {
+        let spawnGroup = []
+
+        for (let i = 0; i < spawnPool.length; i++) {
+            if (round < spawnPool[i].min || round > spawnPool[i].max) continue
+
+            for (let j = 0; j < spawnPool[i].weight; j++) spawnGroup.push(spawnPool[i].identifier)
+        }
+
+        return spawnGroup[randomInt(0, spawnGroup.length - 1)]
+    }
+
+    /**
+    * @remarks Determines whether to round up or down if the total number of monsters / spawnlocations isn't a whole number
+    */
+    function weightedRound(x) {
+        let result = x
+
+        if (x - Math.floor(x) < Math.random()) {
+            result = Math.floor(result)
+        } else {
+            result = Math.ceil(result)
+        }
+
+        return result
+    }
+
+    //Progress Bar 
+
+    /**
      * @remarks Kills all round progress entities that don't share the specified name tag.
      * @param {string} nameTag Optional name tag that will be checked.
      * @returns {boolean} Returns true if any entities were killed.
@@ -295,17 +237,6 @@ function startWave(dimension, round, end) {
         return result
     }
 
-    function randomMonster() {
-        let spawnGroup = []
-
-        for (let i = 0; i < spawnPool.length; i++) {
-            if (round < spawnPool[i].min || round > spawnPool[i].max) continue
-
-            for (let j = 0; j < spawnPool[i].weight; j++) spawnGroup.push(spawnPool[i].identifier)
-        }
-
-        return spawnGroup[randomInt(0, spawnGroup.length - 1)]
-    }
 
     /**
      * @remarks Summons a new round progress entity, then sets its health and name tag accordingly.
