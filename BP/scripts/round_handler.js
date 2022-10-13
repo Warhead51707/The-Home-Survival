@@ -1,273 +1,253 @@
-import { world, MolangVariableMap, EntityQueryOptions, BlockLocation } from "mojang-minecraft"
-import { randomInt, randomFloat, getPlayers, weightedRandom } from './utility.js'
-import { spawnPool } from "./spawn_pool.js"
-import { restartLobby } from "./lobby.js"
+import { world, MolangVariableMap, BlockLocation, Location } from 'mojang-minecraft'
+import { randomFloat, getAlivePlayerCount } from './utility.js'
+import { randomMonster } from './spawn_pool.js'
+import { rerender } from './lobby.js'
 
-let progressQuery = {}
-progressQuery.type = 'home:round_progress'
+let currentRound = 1
 
-let remainingMonsters = 0
+let roundProgressEntity = null
+let lastRoundProgressName = ''
 
-function calculateSpawnDelay(round) {
-    return 1 / (((round - 1) / 9) + 1)
+/**
+ * @remarks Kills all round progress entities
+ */
+function clearRoundProgress() {
+    if (roundProgressEntity != null) roundProgressEntity.triggerEvent('home:instant_despawn')
+
+    lastRoundProgressName = ''
 }
 
 /**
- * @remarks Starts a new round.
- * @param {dimension} dimension.
- * @param {round} integer The start round
- * @param {boolean} boolean Should it be an automatic end?
- * */
-export function startWave(dimension, round, end) {
-    //Spawning has stopped
-    let spawnEnd = false
+ * @remarks Creates a new progress entity if there is none and updates it's data for when a round is in progress
+ * @param {number} value The number of monsters remaining.
+ * @param {number} max The maximum number of monsters that may remain.
+ */
+function setRoundProgress(value, max) {
+    const dimension = world.getDimension('overworld')
 
-    //All monsters are killed
-    let roundEndA = false
+    let name = `Round ${currentRound}`
 
-    //The 30 second timer between rounds has ended
-    let roundEndB = false
+    if (value < 3) name = `Monsters Remaining: ${value}`
 
-    //The game has ended
-    let ended = false
+    if (!roundProgressEntity || lastRoundProgressName != name) {
+        for (let entity of dimension.getEntities({ type: 'home:round_progress' })) {
+            entity.triggerEvent("home:instant_despawn")
+        }
 
-    if (end) {
-        endRound(false)
-        return
+        dimension.runCommand(`summon home:round_progress "${name}" -168 -48 37`)
+
+        for (let entity of dimension.getEntities({ type: 'home:round_progress' })) {
+            roundProgressEntity = entity
+        }
+
+        lastRoundProgressName = name
     }
 
+    if (roundProgressEntity.getComponent('minecraft:health')) roundProgressEntity.getComponent('minecraft:health').setCurrent(value / max * 500)
+}
 
-    const totalMonsters = getPlayers(false) * round + 3
-    remainingMonsters = totalMonsters
+/**
+ * @remarks Creates a new progress entity if there is none and updates it's data for when a round is in an intermission
+ * @param {number} value The number of time remaining.
+ * @param {number} max The maximum number of time that may remain.
+ */
+function setRoundIntermissionProgress(value, max) {
+    const dimension = world.getDimension('overworld')
+
+    let name = `Round ${currentRound + 1}`
+
+    if (!roundProgressEntity || lastRoundProgressName != name) {
+        for (let entity of dimension.getEntities({ type: 'home:round_progress' })) {
+            entity.triggerEvent("home:instant_despawn")
+        }
+
+        dimension.runCommand(`summon home:round_progress "${name}" -168 -48 37`)
+
+        for (let entity of dimension.getEntities({ type: 'home:round_progress' })) {
+            roundProgressEntity = entity
+        }
+
+        lastRoundProgressName = name
+    }
+
+    if (roundProgressEntity.getComponent('minecraft:health')) roundProgressEntity.getComponent('minecraft:health').setCurrent(value / max * 500)
+}
+
+// Returns a random tick amount which spawners will wait for between spawns
+function calculateSpawnRate(round) {
+    const factor = 1 / (((round - 1) / 9) + 1)
+
+    return Math.floor(randomFloat(4 * factor, 9 * factor) * 20)
+}
+
+let monstersThisRound = 0
+let monstersRemaining = 0
+
+let gameInProgress = false
+
+export function beginGame() {
+    if (gameInProgress) endGame()
+
+    currentRound = 1
+
+    beginRound()
+}
+
+let spawners = []
+
+/**
+ * @remarks Starts a new round
+ * */
+export function beginRound() {
+    const dimension = world.getDimension('overworld')
+
+    inIntermission = false
+
+    gameInProgress = true
+
+    stillSpawning = true
+
+    ticksTillIntermissionFinished = 0
+
+    monstersThisRound = getAlivePlayerCount() * currentRound + 3
+    let monstersToDistribute = monstersThisRound
+
+    monstersRemaining = monstersThisRound
+
+    setRoundProgress(monstersThisRound, monstersThisRound)
+
+    dimension.runCommand(`function expired`)
+    dimension.runCommand(`title @a title §4Round ${currentRound}`)
+    dimension.runCommand(`tellraw @a {"rawtext":[{"text":"Zombies this round: §c${monstersThisRound}"}]}`)
+
+    spawners = []
+
+    const loadedData = JSON.parse(world.getDynamicProperty('SpawnLocationData'))
+
+    for (const key of Object.keys(loadedData)) {
+        const data = loadedData[key]
+
+        spawners.push({
+            x: data.x,
+            y: data.y,
+            z: data.z,
+            currentTick: 0,
+            spawnRate: calculateSpawnRate(currentRound)
+        })
+    }
+
+    let remainingSpawners = spawners.length
+
+    for (let spawner of spawners) {
+        spawner.remainingMonsters = Math.round(monstersToDistribute / remainingSpawners)
+
+        remainingSpawners--
+        monstersToDistribute -= spawner.remainingMonsters
+    }
+
+    spawners = spawners.filter(spawner => spawner.remainingMonsters > 0)
+}
+
+export function endGame() {
+    const dimension = world.getDimension('overworld')
 
     clearRoundProgress()
 
-    setRoundProgress(remainingMonsters, totalMonsters, true, "monsters")
+    dimension.runCommand(`tellraw @a {"rawtext":[{"text":"ame Over! You lasted ${currentRound - 1} ${currentRound == 2 ? 'round' : 'rounds'}."}]}`)
 
-    dimension.runCommand(`function expired`)
-    dimension.runCommand(`title @a title §4Round ${round}`)
-    dimension.runCommand(`tellraw @a {"rawtext":[{"text":"Zombies this round: §c${totalMonsters}"}]}`)
+    dimension.runCommand('function fail')
 
-    let spawnLocationsObject = JSON.parse(world.getDynamicProperty("SpawnLocationData"))
+    rerender()
 
-    let spawnLocations = {}
-
-    for (let spawnData in spawnLocationsObject) {
-        const foundData = spawnLocationsObject[spawnData]
-
-        spawnLocations[spawnData] = {
-            x: foundData.x,
-            y: foundData.y,
-            z: foundData.z,
-            remaining_zombies: 0,
-            current_second: 0,
-            spawn_rate: randomFloat(4 * calculateSpawnDelay(round), 9 * calculateSpawnDelay(round))
-        }
-    }
-
-    let spawnsFinished = 0
-    let endTicks = 0
-
-    let remainingSpawnLocations = Object.keys(spawnLocations).length
-    let remainingTotalMonsters = totalMonsters
-
-    for (let spawnLocation in spawnLocations) {
-        spawnLocation = spawnLocations[spawnLocation]
-        spawnLocation.remaining_zombies = 0
-        spawnLocation.remaining_zombies = Math.round(remainingTotalMonsters / remainingSpawnLocations)
-
-        remainingSpawnLocations--
-        remainingTotalMonsters -= spawnLocation.remaining_zombies
-    }
-
-    function spawnZombs() {
-        const alivePlayers = getPlayers(false)
-
-        if ((alivePlayers <= 0 || alivePlayers === undefined) && !ended) {
-            endRound(false)
-        }
-
-        if (!roundEndA) {
-            checkZombs()
-        }
-
-        if (roundEndA && !roundEndB) {
-            endTicks++
-
-            setRoundProgress(endTicks, 600, endTicks === 1, "timer")
-
-            if (endTicks === 600) {
-                clearRoundProgress()
-
-                roundEndB = true
-            }
-        }
-
-        if (spawnEnd && roundEndB && !ended) {
-            world.events.tick.unsubscribe(spawnZombs)
-
-            ended = true
-            startWave(dimension, round + 1)
-
-            return
-        }
-
-        //Spawning Logic
-        if (!spawnEnd) {
-            for (let spawnLocation in spawnLocations) {
-                spawnLocation = spawnLocations[spawnLocation]
-
-                spawnLocation.current_second += 1 / 20
-
-                if (spawnLocation.current_second >= spawnLocation.spawn_rate) {
-                    spawnLocation.current_second = 0
-
-                    if (spawnLocation.remaining_zombies <= 0) {
-                        spawnsFinished++
-
-                        if (spawnsFinished >= 6) {
-                            spawnEnd = true
-                        }
-                    } else {
-                        let spawnLocationZ = new BlockLocation(spawnLocation.x, spawnLocation.y, spawnLocation.z)
-
-                        const identifier = randomMonster()
-                        const monster = dimension.spawnEntity(identifier, spawnLocationZ)
-                        dimension.spawnParticle("home:spawn_explosion_particle", monster.location, new MolangVariableMap())
-
-                        spawnLocation.remaining_zombies--
-                        spawnLocation.spawn_rate = randomFloat(4 * calculateSpawnDelay(round), 9 * calculateSpawnDelay(round))
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * @remarks If all monsters are dead, end the round (runs constantly)
-     */
-    function checkZombs() {
-        setRoundProgress(remainingMonsters, totalMonsters, false, "monsters")
-
-        if (spawnEnd) {
-            let monsterQuery = {}
-            monsterQuery.families = ['monster']
-            const monsters = dimension.getEntities(monsterQuery)
-
-            if (Array.from(monsters).length === 0) {
-                endRound(true)
-            }
-        }
-    }
-
-    /**
-     * @remarks Ends the current round.
-     * @param {boolean} victory If true, the players won the round.
-     * @throws This function can throw errors.
-     */
-    function endRound(victory) {
-        clearRoundProgress()
-
-        roundEndA = true
-
-        if (victory) {
-            dimension.runCommand("title @a title §eRound End")
-        } else {
-            dimension.runCommand(`tellraw @a {"rawtext":[{"text":"Game Over! You lasted ${round - 1} ${round === 2 ? "round" : "rounds"}."}]}`)
-
-            restartLobby()
-
-            dimension.runCommand("function fail")
-
-            world.events.tick.unsubscribe(spawnZombs)
-
-            ended = true
-            spawnEnd = true
-            roundEndB = true
-        }
-    }
-
-    /**
-     * @remarks Returns a mob to spawn in (reads spawn_pool.js)
-     */
-    function randomMonster() {
-        let spawnGroup = []
-
-        for (const spawn of spawnPool) {
-            if (round < spawn.min || round > spawn.max) continue
-
-            spawnGroup.push(spawn)
-        }
-
-        const weightedPick = weightedRandom(spawnGroup)
-
-        return weightedPick.identifier
-    }
-
-    //Progress Bar 
-
-    /**
-     * @remarks Kills all round progress entities that don't share the specified name tag.
-     * @param {string} nameTag Optional name tag that will be checked.
-     * @returns {boolean} Returns true if any entities were killed.
-     */
-    function clearRoundProgress(nameTag = "") {
-        let result = false
-
-        for (let entity of dimension.getEntities(progressQuery)) {
-            if (entity.nameTag !== nameTag || nameTag === "") {
-                entity.triggerEvent("home:instant_despawn")
-                result = true
-            }
-        }
-
-        return result
-    }
-
-
-    /**
-     * @remarks Summons a new round progress entity, then sets its health and name tag accordingly.
-     * @param {number} value The number of monsters or time remaining.
-     * @param {number} max The maximum number of monsters or time that may remain.
-     * @param {boolean} override If true, a new entity will be summoned and older entities will be despawned regardless of other conditions.
-     * @param {string} mode Optional parameter that sets hardcoded properties for the round progress.
-     * @throws This function can throw errors.
-     */
-    function setRoundProgress(value, max, override = false, mode = "monsters") {
-        let progressTitle = "Round " + (round + (mode === "timer" ? 1 : 0))
-
-        if (value < 3 && mode === "monsters") {
-            progressTitle = "Monsters Remaining: " + value
-        }
-
-        if (override) {
-            clearRoundProgress()
-
-            dimension.runCommand(`summon home:round_progress "${progressTitle}" -168 -48 37`)
-        } else {
-            const newProgress = clearRoundProgress(progressTitle)
-
-            if (newProgress) {
-                dimension.runCommand(`summon home:round_progress "${progressTitle}" -168 -48 37`)
-            }
-        }
-
-        for (let progress of dimension.getEntities(progressQuery)) {
-            progress.getComponent("minecraft:health").setCurrent(value / max * 500)
-
-            if (progress.getComponent("minecraft:health").current <= 0) {
-                progress.triggerEvent("home:instant_despawn")
-            }
-        }
-    }
-
-    world.events.tick.subscribe(spawnZombs)
+    gameInProgress = false
+    inIntermission = false
+    stillSpawning = false
 }
 
-world.events.entityHurt.subscribe(entityHurt => {
-    const entity = entityHurt.hurtEntity
+let inIntermission = false
 
-    if (entity.getComponent("minecraft:health").current <= 0 && entity.hasTag("monster")) {
-        remainingMonsters--
+let stillSpawning = false
+
+let ticksTillIntermissionFinished = 0
+
+world.events.tick.subscribe(() => {
+    const dimension = world.getDimension('overworld')
+
+    if (!gameInProgress) return
+
+    if (getAlivePlayerCount() == 0) {
+        endGame()
+
+        return
     }
+
+    if (!inIntermission) {
+        // round in progress
+
+        if (stillSpawning) {
+            // there are still spawners that need to spawn
+
+            // handle spawning here  ||
+            //                       \/
+
+            for (let i = 0; i < spawners.length; i++) {
+                const spawner = spawners[i]
+
+                if (spawner.remainingMonsters <= 0) continue
+
+                spawner.currentTick++
+
+                if (spawner.currentTick < spawner.spawnRate) continue
+
+                spawner.currentTick = 0
+
+                let spawnLocation = new BlockLocation(spawner.x, spawner.y, spawner.z)
+
+                const identifier = randomMonster(currentRound)
+                const monster = dimension.spawnEntity(identifier, spawnLocation)
+                dimension.spawnParticle('home:spawn_explosion_particle', monster.location, new MolangVariableMap())
+
+                spawner.remainingMonsters--
+                spawner.spawnRate = calculateSpawnRate(currentRound)
+
+                if (spawner.remainingMonsters > 0) continue
+
+                spawners.splice(i, 1)
+                i--
+
+                if (spawners.length == 0) stillSpawning = false
+            }
+        } else {
+            if (monstersRemaining <= 0) {
+                // spawners are done spawning and no more monsters
+
+                inIntermission = true
+                ticksTillIntermissionFinished = 0
+
+                dimension.runCommand('title @a title §eRound End')
+            }
+        }
+    } else {
+        // in intermission
+
+        ticksTillIntermissionFinished++
+
+        setRoundIntermissionProgress(ticksTillIntermissionFinished, 600)
+
+        if (ticksTillIntermissionFinished == 600) {
+            currentRound++
+
+            beginRound()
+        }
+    }
+})
+
+world.events.entityHurt.subscribe(event => {
+    if (!event.hurtEntity.hasTag('monster')) return
+
+    if (event.hurtEntity.getComponent('minecraft:health').current > 0) return
+
+    monstersRemaining--
+
+    if (monstersRemaining > 0) setRoundProgress(monstersRemaining, monstersThisRound)
 })

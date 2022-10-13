@@ -1,3 +1,5 @@
+import { world } from "mojang-minecraft"
+
 import './properties.js'
 import './round_handler.js'
 import './set_location_item.js'
@@ -8,5 +10,5 @@ import './totem.js'
 import './katana.js'
 import './turret.js'
 import './trash_can.js'
-import './lobby.js'
 import './commands.js'
+import './lobby.js'
