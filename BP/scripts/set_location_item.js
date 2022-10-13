@@ -12,7 +12,7 @@ world.events.beforeItemUseOn.subscribe(use => {
 
     const locationData = {
         x: location.x,
-        y: location.y,
+        y: location.y + 1,
         z: location.z
     }
 
