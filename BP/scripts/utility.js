@@ -25,9 +25,6 @@ export function weightedRandom(options) {
     return options[i]
 }
 
-/**
- * @param {ItemStack} itemStack
- */
 export function dealDurabilityDamage(itemStack) {
     const enchantments = itemStack.getComponent('minecraft:enchantments').enchantments
     const damageChance = 1 / (enchantments.hasEnchantment(MinecraftEnchantmentTypes.unbreaking) + 1)
@@ -35,25 +32,25 @@ export function dealDurabilityDamage(itemStack) {
     return Math.random() < damageChance
 }
 
-/**
- * @param {boolean} dead Should it return number of dead players?
- */
-export function getPlayers(dead) {
-    let chosenPlayers = 0
+export function getAlivePlayerCount() {
+    let foundPlayers = 0
 
     for (let player of world.getPlayers()) {
 
-        if (dead) {
-            if (player.hasTag("dead")) {
-                chosenPlayers++
-                continue
-            }
-        }
+        if (player.hasTag('dead')) continue
 
-        if (player.hasTag("dead")) continue
-
-        chosenPlayers++
+        foundPlayers++
     }
 
-    return chosenPlayers
+    return foundPlayers
+}
+
+export function getPlayerCount() {
+    let foundPlayers = 0
+
+    for (let player of world.getPlayers()) {
+        foundPlayers++
+    }
+
+    return foundPlayers
 }

@@ -1,30 +1,55 @@
 {
-  "format_version": 2,
-  "metadata": {
-    "authors": ["Chikorita Lover", "KekeCreations", "Outer Cloud Studio", "Warhead"],
-    "generated_with": {
-      "bridge": ["2.3.3"],
-      "dash": ["0.9.29"]
-    }
-  },
-  "header": {
-    "name": "The Home: Survival Resource Pack",
-    "description": "A multiplayer survival map by The Home where players defend themselves from incoming monsters, while upgrading and unlocking new weapons and machines!",
-    "min_engine_version": [1, 19, 20],
-    "uuid": "dcef0752-2f84-4737-99e7-e86a0621cef0",
-    "version": [1, 0, 0]
-  },
-  "modules": [
-    {
-      "type": "resources",
-      "uuid": "ea8872cf-1701-4432-8a1d-eb6ae7535f13",
-      "version": [1, 0, 0]
-    }
-  ],
-  "dependencies": [
-    {
-      "uuid": "c0607fa4-d3b2-4d93-8cd9-cc3df78364cf",
-      "version": [1, 0, 0]
-    }
-  ]
+	"format_version": 2,
+	"metadata": {
+		"authors": [
+			"Chikorita Lover",
+			"KekeCreations",
+			"Outer Cloud Studio",
+			"Warhead"
+		],
+		"generated_with": {
+			"bridge": [
+				"2.3.3"
+			],
+			"dash": [
+				"0.10.5"
+			]
+		}
+	},
+	"header": {
+		"name": "The Home: Survival Resource Pack",
+		"description": "A multiplayer survival map by The Home where players defend themselves from incoming monsters, while upgrading and unlocking new weapons and machines!",
+		"min_engine_version": [
+			1,
+			19,
+			20
+		],
+		"uuid": "dcef0752-2f84-4737-99e7-e86a0621cef0",
+		"version": [
+			1,
+			0,
+			0
+		]
+	},
+	"modules": [
+		{
+			"type": "resources",
+			"uuid": "ea8872cf-1701-4432-8a1d-eb6ae7535f13",
+			"version": [
+				1,
+				0,
+				0
+			]
+		}
+	],
+	"dependencies": [
+		{
+			"uuid": "c0607fa4-d3b2-4d93-8cd9-cc3df78364cf",
+			"version": [
+				1,
+				0,
+				0
+			]
+		}
+	]
 }

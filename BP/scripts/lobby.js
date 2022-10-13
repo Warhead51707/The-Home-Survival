@@ -1,5 +1,5 @@
-import { world, Location, BlockLocation } from "mojang-minecraft"
-import { startWave } from './round_handler.js'
+import { world, Location } from 'mojang-minecraft'
+import { beginGame } from './round_handler.js'
 
 let lobbySlots = [
     {
@@ -63,8 +63,30 @@ let playerCount = 0
 
 let worldReady = false
 
-let needsRerender = false
+let needsRerender = true
 
+// tells lobby to rerender players
+export function rerender() {
+    needsRerender = true
+}
+
+// forces the game to start
+export function allReady(player) {
+    const dimension = player.dimension
+
+    dimension.runCommand(`tellraw @a {"rawtext":[{"text":"§dEveryone is ready, game start!"}]}`)
+
+    dimension.runCommand(`say removing lobby!`)
+    dimension.runCommand(`function remove_lobby`)
+    playersReady = 0
+
+    beginGame()
+}
+
+/**
+ * @remarks marks a player as ready
+ * @param {player} player object to mark
+ * */
 export function playerReady(player) {
     const dimension = player.dimension
 
@@ -90,10 +112,11 @@ export function playerReady(player) {
     if (playersReady == playerCount) {
         dimension.runCommand(`tellraw @a {"rawtext":[{"text":"§dEveryone is ready, game start!"}]}`)
 
+        dimension.runCommand(`say removing lobby!`)
         dimension.runCommand(`function remove_lobby`)
         playersReady = 0
 
-        startWave(dimension, 1)
+        beginGame()
     }
 }
 
@@ -129,8 +152,6 @@ world.events.tick.subscribe(event => {
             dimension.runCommand('testfor @e')
 
             worldReady = true
-
-            console.warn('World Ready!')
         } catch { }
     }
 
@@ -144,6 +165,8 @@ world.events.tick.subscribe(event => {
         lobbyPlayer.triggerEvent('despawn')
     }
 
+    let found = false
+
     // Render all the players
     for (const slot of lobbySlots) {
         if (slot.owner == null) continue
@@ -152,7 +175,26 @@ world.events.tick.subscribe(event => {
 
         slot.entity.nameTag = slot.owner
         slot.entity.runCommand('tp @s ~ ~ ~ 270')
+
+        found = true
     }
 
     needsRerender = false
+
+    if (found) return
+
+    // No players found must have reloaded mid game so rerender!
+    for (const player of world.getPlayers()) {
+        for (const slot of lobbySlots) {
+            if (slot.owner != null) continue
+
+            slot.owner = player.name
+
+            needsRerender = true
+
+            playerCount++
+
+            break
+        }
+    }
 })
