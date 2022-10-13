@@ -11,9 +11,4 @@ import './katana.js'
 import './turret.js'
 import './trash_can.js'
 import './commands.js'
-
-import { createLobby } from './lobby.js'
-
-world.events.worldInitialize.subscribe(event => {
-    createLobby()
-})
+import './lobby.js'
