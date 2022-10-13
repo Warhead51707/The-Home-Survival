@@ -12,6 +12,16 @@
                     "cast.spell": "mob.fossilhorde.cast_spell"
                 }
             },
+            "home:fossilite": {
+                "volume": 1.0,
+                "pitch": [ 0.9, 1.1 ],
+                "events": {
+                    "ambient": "mob.fossilite.ambient",
+                    "hurt": "mob.fossilite.hurt",
+                    "death": "mob.fossilite.death",
+                    "step": "mob.skeleton.step"
+                }
+            },
             "home:turret": {
                 "volume": 1.0,
                 "pitch": [ 0.9, 1.1 ],

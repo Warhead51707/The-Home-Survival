@@ -1,0 +1,40 @@
+{
+	"format_version": "1.10.0",
+	"minecraft:client_entity": {
+		"description": {
+			"identifier": "home:fossilite",
+			"materials": {
+				"default": "entity_alphatest"
+			},
+			"textures": {
+				"default": "textures/entity/fossilite"
+			},
+			"geometry": {
+				"default": "geometry.fossilite"
+			},
+			"animations": {
+				"move.arms": "animation.player.move.arms",
+				"move.legs": "animation.player.move.legs",
+				"emerge": "animation.fossilite.emerge",
+				"hold_bone": "animation.fossilite.hold_bone",
+				"controller": "controller.animation.fossilite"
+			},
+			"scripts": {
+				"pre_animation": [
+					"variable.tcos0 = (math.cos(query.modified_distance_moved * 38.17) * query.modified_move_speed / variable.gliding_speed_value) * 57.3;",
+				],
+				"animate": [
+					"controller",
+					"hold_bone"
+				]
+			},
+			"render_controllers": [
+				"controller.render.default"
+			],
+			"spawn_egg": {
+				"base_color": "#ebf5ef",
+				"overlay_color": "#421f11" 
+			}
+		}
+	}
+}
