@@ -1,0 +1,20 @@
+{
+	"format_version": "1.10.0",
+	"minecraft:client_entity": {
+		"description": {
+			"identifier": "home:desert_spike",
+			"materials": {
+				"default": "entity"
+			},
+			"textures": {
+				"default": "textures/items/katana"
+			},
+			"geometry": {
+				"default": "geometry.item_mesh"
+			},
+			"render_controllers": [
+				"controller.render.totem"
+			]
+		}
+	}
+}

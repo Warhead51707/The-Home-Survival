@@ -58,7 +58,7 @@
 				},
 				"casting": {
 					"animations": [
-						"knockback_stomp"
+						"stomp"
 					],
 					"transitions": [
 						{
