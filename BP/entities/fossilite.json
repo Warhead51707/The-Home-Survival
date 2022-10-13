@@ -1,0 +1,79 @@
+{
+	"format_version": "1.19.20",
+	"minecraft:entity": {
+		"description": {
+			"identifier": "home:fossilite",
+			"is_summonable": true,
+			"is_spawnable": true
+		},
+		"component_groups": {
+			"home:instant_despawn": {
+				"minecraft:instant_despawn": {}
+			},
+			"emerging": {
+				"minecraft:behavior.emerge": {
+					"priority": 0,
+					"duration": 1,
+					"on_done": {
+						"event": "remove_emerging",
+						"target": "self"
+					}
+				}
+			}
+		},
+		"components": {
+			"minecraft:health": {
+				"value": 20,
+				"max": 20
+			},
+			"minecraft:navigation.generic": {},
+			"minecraft:movement.generic": {},
+			"minecraft:behavior.random_stroll": {
+				"priority": 1
+			},
+			"minecraft:movement": {
+				"value": 0.2
+			},
+			"minecraft:behavior.random_look_around": {
+				"priority": 2,
+				"look_distance": 4
+			},
+			"minecraft:collision_box": {
+				"height": 1.6,
+				"width": 0.6
+			},
+			"minecraft:type_family": {
+				"family": [
+					"fossilite",
+					"monster",
+					"mob"
+				]
+			},
+			"minecraft:physics": {},
+			"minecraft:pushable": {}
+		},
+		"events": {
+			"minecraft:spawn_emerging": {
+				"add": {
+					"component_groups": [
+						"emerging"
+					]
+				}
+			},
+			"home:instant_despawn": {
+				"add": {
+					"component_groups": [
+						"home:instant_despawn"
+					]
+				}
+			},
+			"remove_emerging": {
+				"remove": {
+					"component_groups": [
+						"emerging"
+					]
+				}
+			}
+		}
+	}
+}
