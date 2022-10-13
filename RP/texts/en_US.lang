@@ -5,16 +5,16 @@ entity.home:speed_beacon.name=Swiftness Beacon
 entity.home:totem.name=Totem
 entity.home:weapons_for_u.name=Weapons For U
 entity.home:turret=Turret
+entity.home:fossilhorde.name=Fossilhorde
 
 item.banner_pattern.flower=Speed Charge
 item.banner_pattern.skull=Heart
 item.banner_pattern.thing=Home
 item.home:katana=Katana
 item.spawn_egg.entity.home:health_beacon.name=Healing Beacon
-item.spawn_egg.entity.home:land_mine.name=Spawn Land Mine
 item.spawn_egg.entity.home:speed_beacon.name=Swiftness Beacon
 item.spawn_egg.entity.home:weapons_for_u.name=Weapons For U
-item.spawn_egg.entity.home:turret.name=Turret
+item.spawn_egg.entity.home:fossilhorde.name=Spawn Fossilhorde
 
 tile.home:trash_can.name=Trash Can
 

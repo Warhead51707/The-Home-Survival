@@ -1,0 +1,26 @@
+{
+	"format_version": "1.10.0",
+	"animation_controllers": {
+		"controller.animation.fossilite": {
+			"initial_state": "default",
+			"states": {
+				"default": {
+					"animations": [
+						"emerge"
+					],
+					"transitions": [
+						{
+							"emerged": "query.any_animation_finished"
+						}
+					]
+				},
+				"emerged": {
+					"animations": [
+						"move.arms",
+						"move.legs"
+					]
+				}
+			}
+		}
+	}
+}

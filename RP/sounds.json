@@ -8,10 +8,18 @@
                     "ambient": "mob.fossilhorde.ambient",
                     "hurt": "mob.fossilhorde.hurt",
                     "death": "mob.fossilhorde.death",
-                    "roar": "mob.fossilhorde.roar",
                     "step": "mob.fossilhorde.step",
-                    "spawn": "mob.fossilhorde.spawn",
                     "cast.spell": "mob.fossilhorde.cast_spell"
+                }
+            },
+            "home:fossilite": {
+                "volume": 1.0,
+                "pitch": [ 0.9, 1.1 ],
+                "events": {
+                    "ambient": "mob.fossilite.ambient",
+                    "hurt": "mob.fossilite.hurt",
+                    "death": "mob.fossilite.death",
+                    "step": "mob.skeleton.step"
                 }
             },
             "home:turret": {

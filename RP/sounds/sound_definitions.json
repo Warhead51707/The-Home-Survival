@@ -87,6 +87,39 @@
 				"sounds/mob/fossilhorde/roar/fossilhorde_roar"
 			]
 		},
+		"mob.fossilhorde.stomp": {
+			"category": "hostile",
+			"sounds": [
+				"sounds/mob/fossilhorde/stomp/fossilhorde_stomp"
+			]
+		},
+		"mob.fossilhorde.jump": {
+			"category": "hostile",
+			"sounds": [
+				"sounds/mob/fossilhorde/jump/fossilhorde_jump"
+			]
+		},
+		"mob.fossilite.ambient": {
+			"category": "hostile",
+			"sounds": [
+				"sounds/mob/fossilite/ambient/say1",
+				"sounds/mob/fossilite/ambient/say2",
+				"sounds/mob/fossilite/ambient/say3"
+			]
+		},
+		"mob.fossilite.hurt": {
+			"category": "hostile",
+			"sounds": [
+				"sounds/mob/fossilite/hurt/hurt1",
+				"sounds/mob/fossilite/hurt/hurt2"
+			]
+		},
+		"mob.fossilite.death": {
+			"category": "hostile",
+			"sounds": [
+				"sounds/mob/fossilite/death"
+			]
+		},
 		"random.trash_item": {
 			"category": "player",
 			"sounds": [

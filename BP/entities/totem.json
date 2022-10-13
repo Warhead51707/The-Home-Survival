@@ -25,6 +25,9 @@
 					"deals_damage": false
 				}
 			},
+			"minecraft:knockback_resistance": {
+				"value": 1
+			},
 			"minecraft:timer": {
 				"looping": false,
 				"time": [
