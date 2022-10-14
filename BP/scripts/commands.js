@@ -1,6 +1,6 @@
 import { world } from 'mojang-minecraft'
 import { playerReady, allReady } from './lobby.js'
-import { endGame, titleDebug } from './round_handler.js'
+import { endGame } from './round_handler.js'
 
 world.events.beforeChat.subscribe(data => {
     const message = data.message
