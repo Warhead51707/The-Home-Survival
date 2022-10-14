@@ -1,0 +1,27 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.desert_spike.rise": {
+			"animation_length": 10,
+			"loop": true,
+			"bones": {
+				"mesh": {
+					"position": {
+						"0.0": {
+							"post": [0, -16, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.24": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"10": {
+							"post": [0, -16, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,23 @@
+{
+	"format_version": "1.19.0",
+	"render_controllers": {
+		"controller.render.ghoul": {
+			"textures": [
+				"Texture.default"
+			],
+			"geometry": "Geometry.default",
+			"materials": [
+				{
+					"*": "Material.default"
+				}
+			],
+			"color": {
+				"r": "0.0f",
+				"g": "0.0f",
+				"b": "0.0f",
+				"a": "0.0f" 
+			},
+			"filter_lighting": true
+		}
+	}
+}

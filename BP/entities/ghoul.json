@@ -1,0 +1,29 @@
+{
+	"format_version": "1.19.20",
+	"minecraft:entity": {
+		"description": {
+			"identifier": "home:ghoul",
+			"is_summonable": true,
+			"is_spawnable": true
+		},
+		"component_groups": {},
+		"components": {
+			"minecraft:health": {
+				"value": 15,
+				"max": 15
+			},
+			"minecraft:physics": {},
+			"minecraft:behavior.nearest_attackable_target": {
+				"priority": 0,
+				"entity_types": {
+					"filters": {
+						"test": "is_family",
+						"subject": "other",
+						"value": "player"
+					}
+				}
+			}
+		},
+		"events": {}
+	}
+}

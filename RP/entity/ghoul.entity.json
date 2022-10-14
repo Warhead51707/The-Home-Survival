@@ -1,0 +1,32 @@
+{
+	"format_version": "1.10.0",
+	"minecraft:client_entity": {
+		"description": {
+			"identifier": "home:ghoul",
+			"materials": {
+				"default": "player_spectator"
+			},
+			"textures": {
+				"default": "textures/entity/ghoul"
+			},
+			"geometry": {
+				"default": "geometry.ghoul"
+			},
+			"animations": {
+				"setup": "animation.zombie.attack_bare_hand"
+			},
+			"scripts": {
+				"animate": [
+					"setup"
+				]
+			},
+			"render_controllers": [
+				"controller.render.ghoul"
+			],
+			"spawn_egg": {
+				"base_color": "#FFFFFF",
+				"overlay_color": "#99F0F0"
+			}
+		}
+	}
+}
