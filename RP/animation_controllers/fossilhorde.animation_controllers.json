@@ -10,7 +10,7 @@
 					],
 					"transitions": [
 						{
-							"emerged": "query.any_animation_finished"
+							"emerged": "!query.is_emerging"
 						}
 					]
 				},

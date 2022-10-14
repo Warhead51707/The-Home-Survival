@@ -7,10 +7,16 @@
 				"default": "entity"
 			},
 			"textures": {
-				"default": "textures/items/katana"
+				"default": "textures/entity/desert_spike"
 			},
 			"geometry": {
 				"default": "geometry.item_mesh"
+			},
+			"animations": {
+				"rise": "animation.desert_spike.rise"
+			},
+			"scripts": {
+				"animate": [ "rise" ]
 			},
 			"render_controllers": [
 				"controller.render.totem"

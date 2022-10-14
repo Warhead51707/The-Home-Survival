@@ -1,0 +1,52 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.ghoul",
+				"texture_width": 64,
+				"texture_height": 64,
+				"visible_bounds_width": 2,
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
+			},
+			"bones": [
+				{
+					"name": "body",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{"origin": [-5, 0, -3], "size": [10, 14, 6], "uv": [0, 0]},
+						{"origin": [-5, -4, -3], "size": [10, 4, 6], "uv": [0, 20]}
+					],
+					"locators": {
+						"locator": [0, 0, 0]
+					}
+				},
+				{
+					"name": "mask",
+					"parent": "body",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{"origin": [-5, 0, -3.1], "size": [10, 14, 0], "uv": [0, 30]}
+					]
+				},
+				{
+					"name": "leftArm",
+					"parent": "body",
+					"pivot": [5, 6, 0],
+					"cubes": [
+						{"origin": [5, -2, -2], "size": [3, 10, 4], "uv": [28, 26], "mirror": true}
+					]
+				},
+				{
+					"name": "rightArm",
+					"parent": "body",
+					"pivot": [-5, 6, 0],
+					"cubes": [
+						{"origin": [-8, -2, -2], "size": [3, 10, 4], "uv": [28, 26]}
+					]
+				}
+			]
+		}
+	]
+}
