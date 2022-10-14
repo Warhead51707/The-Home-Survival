@@ -1,3 +1,4 @@
+##Entities
 entity.home:health_beacon.name=Healing Beacon
 entity.home:land_mine.name=Land Mine
 entity.home:round_progress.name=Round Progress
@@ -7,17 +8,21 @@ entity.home:weapons_for_u.name=Weapons For U
 entity.home:turret=Turret
 entity.home:fossilhorde.name=Fossilhorde
 
+##Items
 item.banner_pattern.flower=Speed Charge
 item.banner_pattern.skull=Heart
 item.banner_pattern.thing=Home
 item.home:katana=Katana
+item.home:set_spawn_location=Create Spawner Location
 item.spawn_egg.entity.home:health_beacon.name=Healing Beacon
 item.spawn_egg.entity.home:speed_beacon.name=Swiftness Beacon
 item.spawn_egg.entity.home:weapons_for_u.name=Weapons For U
 item.spawn_egg.entity.home:fossilhorde.name=Spawn Fossilhorde
 
+##Blocks
 tile.home:trash_can.name=Trash Can
 
+## Banner Patterns (for whatever reason)
 item.banner.flower.black=Black Speed Charge
 item.banner.flower.blue=Blue Speed Charge
 item.banner.flower.brown=Brown Speed Charge
